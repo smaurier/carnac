@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Outlines } from "@react-three/drei";
 import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Ground } from "./Ground";
@@ -64,12 +65,14 @@ export function Scene({
         <mesh key={i} position={[x, 0.4, z]}>
           <dodecahedronGeometry args={[0.6, 0]} />
           <meshToonMaterial color={palette.neutrals.granitMid} gradientMap={getToonGradient(3)} />
+          <Outlines thickness={0.045} color={palette.neutrals.charcoal} />
         </mesh>
       ))}
 
       <mesh position={[6, 1.5, -6]}>
         <coneGeometry args={[1.8, 3, 6]} />
         <meshToonMaterial color={palette.warm.ochreDeep} gradientMap={getToonGradient(3)} />
+        <Outlines thickness={0.06} color={palette.neutrals.charcoal} />
       </mesh>
 
       {showStandingStone && (

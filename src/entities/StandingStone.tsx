@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useFrame, type ThreeEvent } from "@react-three/fiber";
+import { Outlines } from "@react-three/drei";
 import { MathUtils, type Group, type PointLight } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
@@ -92,6 +93,10 @@ export function StandingStone({
           emissive={palette.cool.haloBlue}
           emissiveIntensity={hovered && !placed ? 0.12 : 0}
           gradientMap={getToonGradient(3)}
+        />
+        <Outlines
+          thickness={0.05 * scale}
+          color={palette.neutrals.charcoal}
         />
       </mesh>
       <pointLight
