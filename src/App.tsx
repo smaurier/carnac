@@ -6,6 +6,7 @@ import { defaultCarnacTimeline } from "./ui/timeline/timeline-model";
 import { TitleScreen } from "./ui/title/TitleScreen";
 import { Interlude } from "./ui/interlude/Interlude";
 import { EndScreen } from "./ui/end/EndScreen";
+import { Fresque, type FresqueVariant } from "./ui/fresque/Fresque";
 import { useNarrativeState } from "./narrative/useNarrativeState";
 import type { NarrativeState } from "./narrative/narrative-state";
 import type { DayPhase } from "./palette";
@@ -24,13 +25,30 @@ const interludeTexts: Record<NarrativeState, string | undefined> = {
   end: undefined,
 };
 
+interface FresqueEntry {
+  readonly title: string;
+  readonly variant: FresqueVariant;
+  readonly current: number;
+  readonly total: number;
+}
+
+const fresqueByState: Partial<Record<NarrativeState, FresqueEntry>> = {
+  epilogue: {
+    title: "La premiere pierre",
+    variant: "first-stone",
+    current: 1,
+    total: 1,
+  },
+};
+
 export function App() {
   const { state, dispatch } = useNarrativeState();
   const [phase, setPhase] = useState<DayPhase>("dusk");
   const [showTimeline, setShowTimeline] = useState(true);
 
-  const isInGame = state === "act1" || state === "act2" || state === "act3" || state === "epilogue";
+  const isInGame = state === "act1" || state === "act2" || state === "act3";
   const interludeText = interludeTexts[state];
+  const fresque = fresqueByState[state];
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -86,6 +104,24 @@ export function App() {
           text={interludeText}
           onContinue={() => dispatch("advance")}
         />
+      )}
+
+      {fresque && (
+        <>
+          <Fresque
+            title={fresque.title}
+            variant={fresque.variant}
+            current={fresque.current}
+            total={fresque.total}
+          />
+          <button
+            type="button"
+            className="fresque-continue"
+            onClick={() => dispatch("advance")}
+          >
+            continuer
+          </button>
+        </>
       )}
 
       {state === "end" && (

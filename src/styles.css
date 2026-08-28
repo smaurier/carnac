@@ -49,4 +49,28 @@ canvas {
   z-index: 10;
 }
 
+.fresque-continue {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: transparent;
+  border: none;
+  color: #7c7873;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 200ms ease;
+  outline: none;
+}
+
+.fresque-continue:hover,
+.fresque-continue:focus-visible {
+  color: #e8dfc8;
+}
+
 

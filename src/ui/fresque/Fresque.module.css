@@ -1,0 +1,69 @@
+.fresque {
+  position: fixed;
+  inset: 0;
+  background: #2a1e1a;
+  color: #e8dfc8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  font-family: "EB Garamond", Georgia, serif;
+  z-index: 95;
+  overflow: hidden;
+}
+
+.canvas {
+  position: relative;
+  width: 560px;
+  max-width: 90vw;
+  aspect-ratio: 560 / 380;
+  background: #b5b0a8;
+  overflow: hidden;
+}
+
+.canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(124, 120, 115, 0.18) 0%,
+    rgba(232, 223, 200, 0.22) 38%,
+    rgba(124, 120, 115, 0.14) 71%,
+    rgba(232, 223, 200, 0.18) 100%
+  );
+  pointer-events: none;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.title {
+  font-size: 22px;
+  font-variant: small-caps;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  color: #e8dfc8;
+  margin: 0;
+}
+
+.counter {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7c7873;
+  margin: 0;
+}
