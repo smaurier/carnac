@@ -56,15 +56,20 @@ describe("Fresque", () => {
     );
   });
 
-  it("supports the three MVP variants", () => {
+  it("supports every declared variant", () => {
     const variants: readonly FresqueVariant[] = [
       "first-stone",
       "encounter",
       "death",
+      "alignment-growing",
+      "celts",
+      "romans",
+      "christian-cross",
+      "today",
     ];
     for (const variant of variants) {
       const { unmount } = render(
-        <Fresque title="T" variant={variant} current={1} total={3} />,
+        <Fresque title="T" variant={variant} current={1} total={variants.length} />,
       );
       expect(screen.getByRole("img")).toHaveAttribute("data-variant", variant);
       unmount();
