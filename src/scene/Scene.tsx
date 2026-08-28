@@ -6,6 +6,8 @@ import { Player } from "../entities/Player";
 import { Firepit } from "../entities/Firepit";
 import { StandingStone } from "../entities/StandingStone";
 import { RitualCompanion } from "../entities/RitualCompanion";
+import { TribeWitnesses } from "../entities/TribeWitnesses";
+import { StoneEmbers } from "../entities/StoneEmbers";
 import { palette } from "../palette";
 import type { DayPhase } from "../palette";
 
@@ -69,6 +71,11 @@ export function Scene({
             approachPosition={COMPANION_APPROACH}
             secondStonePosition={SECOND_STONE_POSITION}
             onArrived={onWitnessArrived}
+          />
+          <TribeWitnesses active={standingStonePlaced} />
+          <StoneEmbers
+            origin={[STONE_POSITION[0], STONE_POSITION[1], STONE_POSITION[2]]}
+            trigger={standingStonePlaced}
           />
         </>
       )}
