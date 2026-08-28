@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { PointLight } from "three";
 import { palette } from "../palette";
+import { getToonGradient } from "../shaders/toon-gradient";
 
 interface FirepitProps {
   position?: [number, number, number];
@@ -21,15 +22,15 @@ export function Firepit({ position = [0, 0, 0] }: FirepitProps) {
     <group position={position}>
       <mesh position={[0, 0.15, 0]}>
         <cylinderGeometry args={[0.7, 0.9, 0.3, 12]} />
-        <meshStandardMaterial color={palette.neutrals.granitDark} roughness={1} />
+        <meshToonMaterial color={palette.neutrals.granitDark} gradientMap={getToonGradient(3)} />
       </mesh>
       <mesh position={[0, 0.5, 0]}>
         <coneGeometry args={[0.35, 0.7, 8]} />
-        <meshStandardMaterial
+        <meshToonMaterial
           color={palette.warm.fire}
           emissive={palette.warm.fire}
           emissiveIntensity={0.6}
-          roughness={1}
+          gradientMap={getToonGradient(2)}
         />
       </mesh>
       <pointLight

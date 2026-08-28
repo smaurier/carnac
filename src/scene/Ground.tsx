@@ -1,5 +1,6 @@
 import type { ThreeEvent } from "@react-three/fiber";
 import { palette } from "../palette";
+import { getToonGradient } from "../shaders/toon-gradient";
 
 interface GroundProps {
   onMoveTarget: (x: number, z: number) => void;
@@ -18,7 +19,7 @@ export function Ground({ onMoveTarget }: GroundProps) {
       onClick={handleClick}
     >
       <planeGeometry args={[80, 80]} />
-      <meshStandardMaterial color={palette.warm.ochreWarm} roughness={1} />
+      <meshToonMaterial color={palette.warm.ochreWarm} gradientMap={getToonGradient(3)} />
     </mesh>
   );
 }

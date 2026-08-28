@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import type { Mesh } from "three";
 import { Vector3 } from "three";
 import { palette } from "../palette";
+import { getToonGradient } from "../shaders/toon-gradient";
 
 interface PlayerProps {
   target: [number, number];
@@ -28,7 +29,7 @@ export function Player({ target, speed = 4 }: PlayerProps) {
   return (
     <mesh ref={ref} position={[0, 0.9, 0]} castShadow={false}>
       <capsuleGeometry args={[0.35, 1.0, 4, 12]} />
-      <meshStandardMaterial color={palette.skin.b} roughness={0.9} />
+      <meshToonMaterial color={palette.skin.b} gradientMap={getToonGradient(3)} />
     </mesh>
   );
 }

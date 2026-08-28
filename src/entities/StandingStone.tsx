@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useFrame, type ThreeEvent } from "@react-three/fiber";
 import { MathUtils, type Group, type PointLight } from "three";
 import { palette } from "../palette";
+import { getToonGradient } from "../shaders/toon-gradient";
 
 interface StandingStoneProps {
   position: [number, number, number];
@@ -86,11 +87,11 @@ export function StandingStone({
         onPointerOut={handlePointerOut}
       >
         <cylinderGeometry args={[radius, radius * 1.1, height, 12]} />
-        <meshStandardMaterial
+        <meshToonMaterial
           color={palette.neutrals.granitMid}
           emissive={palette.cool.haloBlue}
           emissiveIntensity={hovered && !placed ? 0.12 : 0}
-          roughness={1}
+          gradientMap={getToonGradient(3)}
         />
       </mesh>
       <pointLight

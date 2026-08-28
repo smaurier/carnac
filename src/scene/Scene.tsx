@@ -9,6 +9,7 @@ import { RitualCompanion } from "../entities/RitualCompanion";
 import { TribeWitnesses } from "../entities/TribeWitnesses";
 import { StoneEmbers } from "../entities/StoneEmbers";
 import { palette } from "../palette";
+import { getToonGradient } from "../shaders/toon-gradient";
 import type { DayPhase } from "../palette";
 
 interface SceneProps {
@@ -62,13 +63,13 @@ export function Scene({
       ].map(([x, z], i) => (
         <mesh key={i} position={[x, 0.4, z]}>
           <dodecahedronGeometry args={[0.6, 0]} />
-          <meshStandardMaterial color={palette.neutrals.granitMid} roughness={1} />
+          <meshToonMaterial color={palette.neutrals.granitMid} gradientMap={getToonGradient(3)} />
         </mesh>
       ))}
 
       <mesh position={[6, 1.5, -6]}>
         <coneGeometry args={[1.8, 3, 6]} />
-        <meshStandardMaterial color={palette.warm.ochreDeep} roughness={1} />
+        <meshToonMaterial color={palette.warm.ochreDeep} gradientMap={getToonGradient(3)} />
       </mesh>
 
       {showStandingStone && (
