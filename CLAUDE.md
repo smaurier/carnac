@@ -40,10 +40,81 @@ Références secondaires :
 
 ## 4. Conventions de code
 
+### Discipline générale · **PRIORITÉ MAXIMALE**
+
+Le dev pratique **TDD, Craftmanship, SOLID, KISS, DRY, Clean Code, design patterns respectés**. Ces principes ne sont pas négociables sur les modules à logique claire. Ils s'assouplissent sur le code purement exploratoire visuel (voir "Périmètre TDD" ci-dessous), jamais ailleurs.
+
+### TDD (Test-Driven Development)
+
+Cycle strict Red → Green → Refactor :
+
+1. **Red** : écrire un test qui échoue AVANT d'écrire le code. Le voir échouer (message d'erreur clair).
+2. **Green** : écrire le code MINIMAL qui fait passer le test. Rien de plus.
+3. **Refactor** : améliorer la structure sans casser les tests. Tous les tests restent verts.
+
+Règle stricte : **ne jamais** écrire du code de production sans avoir un test rouge qui le demande. Aucune exception silencieuse. Si un test est "évident", l'écrire quand même : c'est l'exercice qui structure la pensée.
+
+Expliquer **le pourquoi** de chaque étape (pas juste "j'ajoute ce test"). Le TDD est aussi un outil d'apprentissage et de communication du raisonnement.
+
+#### Périmètre TDD dans ce projet
+
+- ✅ **TDD obligatoire** : logique métier pure (état des actes, transitions narratives, timeline, système de flags mémoire, click-to-move, machines à états PNJ, palette et presets, utilitaires purs).
+- ⚠️ **TDD adapté** : composants React (tests de rendu + interaction avec Vitest + @testing-library/react, sans surtester le DOM).
+- ⚠️ **TDD léger** : composants r3f (test des props et de la logique interne, pas du rendu 3D lui-même).
+- ❌ **TDD non applicable** : shaders GLSL, tuning visuel, animation ressenti, réglages de particules et lumière. Ces zones sont exploratoires par nature. Validation par playtest visuel.
+
+Tests avec **Vitest** (Vite-native, rapide). À installer en devDep : `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`. À configurer dans `vite.config.ts`.
+
+### SOLID
+
+- **S** · Single Responsibility : chaque module, classe, fonction fait une seule chose et la fait bien.
+- **O** · Open/Closed : ouvert à l'extension, fermé à la modification. Ajouter du nouveau sans casser l'existant.
+- **L** · Liskov Substitution : un sous-type doit pouvoir remplacer son parent sans casser le contrat.
+- **I** · Interface Segregation : interfaces petites et ciblées, pas d'interfaces monolithiques que personne n'implémente entièrement.
+- **D** · Dependency Inversion : dépendre d'abstractions, pas de concrétions. Injecter les dépendances plutôt que les instancier.
+
+En pratique React/r3f : props explicites, hooks composables, pas de contexte global qui sait tout, pas d'instances singleton cachées.
+
+### KISS (Keep It Simple, Stupid)
+
+- La solution la plus simple qui résout le problème gagne.
+- Pas d'abstraction prématurée. Trois lignes similaires valent mieux qu'un helper mal ciblé.
+- Pas de configuration si une constante suffit. Pas de plugin si dix lignes suffisent.
+- Si tu doutes entre deux approches, choisis la plus lisible pour un dev qui découvre le code.
+
+### DRY (Don't Repeat Yourself)
+
+- Une information de vérité vit à un seul endroit. Palette dans `src/palette.ts`. Presets dans `src/palette.ts`. Constantes de gameplay dans un module dédié.
+- Ne pas dupliquer un algorithme non trivial : extraire en fonction pure testée.
+- Attention piège : **DRY vaut pour la connaissance, pas pour le code qui se ressemble**. Deux fonctions qui ont la même forme mais évoluent indépendamment doivent rester séparées. Ne pas coupler ce qui ne partage pas de raison de changer.
+
+### Clean Code
+
+- **Noms parlants** : variables et fonctions se lisent comme du langage naturel. `handleClick` OK, `hc` non. `computeStarPosition` OK, `getData` non.
+- **Fonctions courtes** : idéalement moins de 20 lignes. Si plus, extraire.
+- **Un seul niveau d'abstraction par fonction** : ne pas mélanger boucle + calcul + logging dans une même fonction.
+- **Aucun effet de bord caché** : une fonction pure quand possible. Effets isolés dans les hooks et les handlers.
+- **Immutabilité par défaut** : `const` partout, éviter la mutation, préférer les copies (spread, map, filter).
+- **Early return** plutôt qu'imbrication profonde de `if`.
+- **Pas de nombre magique** : `const MAX_HEAD_TURN = 0.4` plutôt que `0.4` dans le code.
+
+### Design patterns
+
+Utiliser quand ils clarifient, pas par principe. Patterns pertinents pour ce projet :
+
+- **Strategy** : phases jour/nuit (déjà appliqué dans `src/palette.ts` avec `dayNightPresets`).
+- **State machine** : progression narrative des actes, états des PNJ.
+- **Observer** : réactions aux triggers narratifs (déjà natif via React state + effects).
+- **Factory** : création des PNJ avec variations par prompt/preset.
+- **Composite** : composition de scènes r3f.
+
+Ne pas forcer un pattern qui n'apporte rien. Un `switch` sur enum vaut mieux qu'un Strategy avec 3 classes vides.
+
 ### Stack et versions
 
 - Vite 6, React 18, TypeScript 5 strict
 - `@react-three/fiber` v8 + `@react-three/drei` v9 + `three` r170
+- Vitest + `@testing-library/react` + `jsdom` pour les tests (à installer)
 - Node LTS (Node 23 vérifié 28/08/2026)
 
 ### Style TypeScript
@@ -52,13 +123,15 @@ Références secondaires :
 - Pas de `any`. Utiliser `unknown` puis narrower si besoin.
 - Imports relatifs pour le code du projet. Pas de barrel `index.ts` sauf nécessité.
 - Interfaces plutôt que types pour les props de composants.
+- Types nommés et exportés quand ils sont partagés entre plusieurs modules.
 
 ### Style React
 
 - Composants fonctionnels uniquement, pas de classes.
 - Hooks en tête, JSX en fin.
 - Pas d'état global (Redux, Zustand) tant qu'une simple prop + useState suffit.
-- Chaque composant est autonome et testable en isolation.
+- Chaque composant est autonome et testable en isolation (React Testing Library).
+- Extraire les hooks personnalisés dès qu'une logique est utilisée à deux endroits ou qu'elle mérite un test unitaire.
 
 ### Style r3f
 
@@ -67,12 +140,14 @@ Références secondaires :
 - Palette et presets dans `src/palette.ts`, source de vérité unique.
 - Utiliser `useFrame` avec parcimonie, mesurer si on ajoute plusieurs par scène.
 - Éviter les allocations dans `useFrame` (réutiliser Vector3 déclarés hors du hook).
+- Séparer clairement la logique testable (déplacement, état) du rendu (materials, lights) pour permettre le TDD sur la partie logique.
 
 ### Nommage
 
 - Fichiers en `kebab-case` pour docs et assets, `PascalCase.tsx` pour composants React, `camelCase.ts` pour utilitaires.
 - Variables et fonctions en `camelCase`, types et interfaces en `PascalCase`.
 - Pas de préfixe `I` pour les interfaces.
+- Tests : `foo.test.ts` ou `foo.test.tsx` à côté du fichier testé.
 
 ### Commentaires
 
@@ -80,6 +155,19 @@ Références secondaires :
 - Commentaire uniquement pour un pourquoi non évident (contrainte cachée, workaround, invariant subtil).
 - Pas de commentaire qui décrit ce que fait le code (le code le dit déjà).
 - Pas de `TODO` sans issue GitHub associée.
+
+### Refactor continu
+
+Après chaque cycle Red-Green-Refactor, prendre 30 secondes pour se demander : ce code est-il propre ? Peut-il être plus lisible ? Y a-t-il une duplication naissante ? Le refactor est une étape à part entière, pas une phase future hypothétique.
+
+### Revue de code (auto ou par le dev)
+
+Avant chaque commit non trivial, se poser :
+1. Tous les tests passent-ils localement ?
+2. Le typecheck passe-t-il ?
+3. Y a-t-il des `console.log`, des `TODO` orphelins, des imports morts ?
+4. Un dev qui découvre ce diff comprend-il le pourquoi ?
+5. Est-ce que je respecte SOLID / KISS / DRY / Clean Code ?
 
 ## 5. Méthode de travail avec le dev
 
