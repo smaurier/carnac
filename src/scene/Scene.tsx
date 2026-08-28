@@ -5,6 +5,7 @@ import { Ground } from "./Ground";
 import { Player } from "../entities/Player";
 import { Firepit } from "../entities/Firepit";
 import { StandingStone } from "../entities/StandingStone";
+import { RitualCompanion } from "../entities/RitualCompanion";
 import { palette } from "../palette";
 import type { DayPhase } from "../palette";
 
@@ -13,13 +14,20 @@ interface SceneProps {
   showStandingStone: boolean;
   standingStonePlaced: boolean;
   onPlaceStone: () => void;
+  onWitnessArrived: () => void;
 }
+
+const STONE_POSITION: [number, number, number] = [4, 0, 3];
+const COMPANION_RESTING: [number, number, number] = [-5, 0, 4];
+const COMPANION_APPROACH: [number, number, number] = [3, 0, 3];
+const SECOND_STONE_POSITION: [number, number, number] = [3, 0, 3];
 
 export function Scene({
   phase,
   showStandingStone,
   standingStonePlaced,
   onPlaceStone,
+  onWitnessArrived,
 }: SceneProps) {
   const [target, setTarget] = useState<[number, number]>([0, 4]);
 
@@ -49,11 +57,20 @@ export function Scene({
       </mesh>
 
       {showStandingStone && (
-        <StandingStone
-          position={[4, 0, 3]}
-          placed={standingStonePlaced}
-          onPlace={onPlaceStone}
-        />
+        <>
+          <StandingStone
+            position={STONE_POSITION}
+            placed={standingStonePlaced}
+            onPlace={onPlaceStone}
+          />
+          <RitualCompanion
+            active={standingStonePlaced}
+            restingPosition={COMPANION_RESTING}
+            approachPosition={COMPANION_APPROACH}
+            secondStonePosition={SECOND_STONE_POSITION}
+            onArrived={onWitnessArrived}
+          />
+        </>
       )}
 
       <Player target={target} />

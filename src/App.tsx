@@ -80,6 +80,7 @@ export function App() {
           showStandingStone={state === "act3"}
           standingStonePlaced={stonePlaced}
           onPlaceStone={() => setFlag("stone-placed", true)}
+          onWitnessArrived={() => setFlag("witness-arrived", true)}
         />
       </Canvas>
 
@@ -107,7 +108,13 @@ export function App() {
         </div>
       )}
 
-      {state === "act3" && stonePlaced && (
+      {state === "act3" && stonePlaced && !flags["witness-arrived"] && (
+        <div className="act-hint">
+          Vann approche...
+        </div>
+      )}
+
+      {state === "act3" && flags["witness-arrived"] && (
         <div className="act-hint">
           la tribu regarde en silence · N pour continuer
         </div>

@@ -7,12 +7,12 @@ interface StandingStoneProps {
   position: [number, number, number];
   placed: boolean;
   onPlace: () => void;
+  scale?: number;
+  interactive?: boolean;
 }
 
-const STONE_RADIUS = 0.4;
-const STONE_HEIGHT = 2.5;
-const Y_LYING = STONE_RADIUS;
-const Y_STANDING = STONE_HEIGHT / 2;
+const BASE_RADIUS = 0.4;
+const BASE_HEIGHT = 2.5;
 const TILT_LYING = Math.PI / 2;
 const TILT_STANDING = 0;
 const LERP_STIFFNESS = 3.5;
@@ -21,17 +21,24 @@ export function StandingStone({
   position,
   placed,
   onPlace,
+  scale = 1,
+  interactive = true,
 }: StandingStoneProps) {
   const groupRef = useRef<Group>(null);
   const haloRef = useRef<PointLight>(null);
   const [hovered, setHovered] = useState(false);
+
+  const radius = BASE_RADIUS * scale;
+  const height = BASE_HEIGHT * scale;
+  const yLying = radius;
+  const yStanding = height / 2;
 
   useFrame((state, delta) => {
     const group = groupRef.current;
     if (!group) return;
     const alpha = 1 - Math.exp(-LERP_STIFFNESS * delta);
 
-    const targetY = placed ? Y_STANDING : Y_LYING;
+    const targetY = placed ? yStanding : yLying;
     const targetTilt = placed ? TILT_STANDING : TILT_LYING;
 
     group.position.y = MathUtils.lerp(group.position.y, targetY, alpha);
@@ -41,17 +48,19 @@ export function StandingStone({
     if (halo) {
       const t = state.clock.elapsedTime;
       const base = placed ? 0.9 : hovered ? 0.55 : 0.25;
-      halo.intensity = base + Math.sin(t * 1.8) * 0.08;
+      halo.intensity = (base + Math.sin(t * 1.8) * 0.08) * scale;
     }
   });
 
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
+    if (!interactive) return;
     event.stopPropagation();
     if (placed) return;
     onPlace();
   };
 
   const handlePointerOver = (event: ThreeEvent<PointerEvent>) => {
+    if (!interactive) return;
     event.stopPropagation();
     if (placed) return;
     setHovered(true);
@@ -59,6 +68,7 @@ export function StandingStone({
   };
 
   const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
+    if (!interactive) return;
     event.stopPropagation();
     setHovered(false);
     document.body.style.cursor = "";
@@ -67,7 +77,7 @@ export function StandingStone({
   return (
     <group
       ref={groupRef}
-      position={[position[0], Y_LYING, position[2]]}
+      position={[position[0], yLying, position[2]]}
       rotation={[TILT_LYING, 0, 0]}
     >
       <mesh
@@ -75,9 +85,7 @@ export function StandingStone({
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
-        <cylinderGeometry
-          args={[STONE_RADIUS, STONE_RADIUS * 1.1, STONE_HEIGHT, 12]}
-        />
+        <cylinderGeometry args={[radius, radius * 1.1, height, 12]} />
         <meshStandardMaterial
           color={palette.neutrals.granitMid}
           emissive={palette.cool.haloBlue}
@@ -88,10 +96,10 @@ export function StandingStone({
       <pointLight
         ref={haloRef}
         color={palette.cool.haloBlue}
-        distance={6}
+        distance={6 * scale}
         decay={2}
         intensity={0.25}
-        position={[0, STONE_HEIGHT / 2, 0]}
+        position={[0, height / 2, 0]}
       />
     </group>
   );
