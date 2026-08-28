@@ -8,17 +8,24 @@ interface IsoCameraProps {
   azimuthDeg?: number;
   elevationDeg?: number;
   distance?: number;
+  lerpStiffness?: number;
 }
+
+const currentTarget = new Vector3();
+const desiredTarget = new Vector3();
+const desiredPosition = new Vector3();
 
 export function IsoCamera({
   target = [0, 0, 0],
-  zoom = 60,
+  zoom = 12,
   azimuthDeg = 45,
   elevationDeg = 30,
   distance = 40,
+  lerpStiffness = 2,
 }: IsoCameraProps) {
   const { size, set } = useThree();
   const cameraRef = useRef<OrthographicCamera | null>(null);
+  const currentZoomRef = useRef(zoom);
 
   useEffect(() => {
     const aspect = size.width / size.height;
@@ -30,6 +37,8 @@ export function IsoCamera({
       0.1,
       1000,
     );
+    currentTarget.set(...target);
+    currentZoomRef.current = zoom;
 
     const az = MathUtils.degToRad(azimuthDeg);
     const el = MathUtils.degToRad(elevationDeg);
@@ -38,25 +47,40 @@ export function IsoCamera({
       target[1] + distance * Math.sin(el),
       target[2] + distance * Math.cos(el) * Math.cos(az),
     );
-    cam.lookAt(new Vector3(...target));
-    cam.zoom = 1;
+    cam.lookAt(currentTarget);
     cam.updateProjectionMatrix();
 
     cameraRef.current = cam;
     set({ camera: cam });
-  }, [size.width, size.height, zoom, azimuthDeg, elevationDeg, distance, target, set]);
+  }, [size.width, size.height, azimuthDeg, elevationDeg, distance, target, zoom, set]);
 
-  useFrame(() => {
-    if (!cameraRef.current) return;
-    const aspect = size.width / size.height;
+  useFrame((_, delta) => {
     const cam = cameraRef.current;
-    if (cam.left !== -aspect * zoom) {
-      cam.left = -aspect * zoom;
-      cam.right = aspect * zoom;
-      cam.top = zoom;
-      cam.bottom = -zoom;
-      cam.updateProjectionMatrix();
-    }
+    if (!cam) return;
+    const aspect = size.width / size.height;
+    const alpha = 1 - Math.exp(-lerpStiffness * delta);
+
+    desiredTarget.set(...target);
+    currentTarget.lerp(desiredTarget, alpha);
+
+    const nextZoom = MathUtils.lerp(currentZoomRef.current, zoom, alpha);
+    currentZoomRef.current = nextZoom;
+
+    const az = MathUtils.degToRad(azimuthDeg);
+    const el = MathUtils.degToRad(elevationDeg);
+    desiredPosition.set(
+      currentTarget.x + distance * Math.cos(el) * Math.sin(az),
+      currentTarget.y + distance * Math.sin(el),
+      currentTarget.z + distance * Math.cos(el) * Math.cos(az),
+    );
+    cam.position.copy(desiredPosition);
+    cam.lookAt(currentTarget);
+
+    cam.left = -aspect * nextZoom;
+    cam.right = aspect * nextZoom;
+    cam.top = nextZoom;
+    cam.bottom = -nextZoom;
+    cam.updateProjectionMatrix();
   });
 
   return null;

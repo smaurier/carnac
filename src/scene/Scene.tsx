@@ -24,6 +24,11 @@ const COMPANION_RESTING: [number, number, number] = [-5, 0, 4];
 const COMPANION_APPROACH: [number, number, number] = [3, 0, 3];
 const SECOND_STONE_POSITION: [number, number, number] = [3, 0, 3];
 
+const WIDE_TARGET: [number, number, number] = [0, 0, 0];
+const WIDE_ZOOM = 12;
+const CLIMAX_TARGET: [number, number, number] = [4, 1.5, 3];
+const CLIMAX_ZOOM = 7;
+
 export function Scene({
   phase,
   showStandingStone,
@@ -32,10 +37,18 @@ export function Scene({
   onWitnessArrived,
 }: SceneProps) {
   const [target, setTarget] = useState<[number, number]>([0, 4]);
+  const cameraTarget = standingStonePlaced ? CLIMAX_TARGET : WIDE_TARGET;
+  const cameraZoom = standingStonePlaced ? CLIMAX_ZOOM : WIDE_ZOOM;
 
   return (
     <>
-      <IsoCamera target={[0, 0, 0]} zoom={12} azimuthDeg={45} elevationDeg={30} distance={40} />
+      <IsoCamera
+        target={cameraTarget}
+        zoom={cameraZoom}
+        azimuthDeg={45}
+        elevationDeg={30}
+        distance={40}
+      />
       <DayNightCycle phase={phase} />
 
       <Ground onMoveTarget={(x, z) => setTarget([x, z])} />
