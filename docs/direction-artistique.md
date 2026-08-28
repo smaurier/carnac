@@ -201,12 +201,41 @@ Le rendu graphique et le rendu audio doivent être pensés ensemble. Rappel des 
 
 ## 13. Pipeline de production
 
-- **Modélisation** : Blender. Export GLTF/GLB. Un rig humain unique versionné.
-- **Textures** : peintes à la main dans Krita ou Procreate. Résolution 256px à 512px. Format PNG.
-- **Animation personnages** : Mixamo pour la base (idle, walk, s'asseoir), retouche Blender pour les gestes spécifiques (imiter, poser la pierre, mourir)
-- **Peintures pariétales** : Procreate ou Krita, export en sprite sheets 10-15 frames
-- **Shaders** : GLSL customs pour cel-shading, halo, outline. Trois shaders principaux : `cel_toon`, `halo_pulse`, `outline_soft`.
-- **Audio** : SFX libres de droit (freesound.org, Zapsplat), vocalises enregistrées maison ou tirées de bibliothèques libres, musique composée soit à la main soit par générateur libre validé.
+Le développeur du projet (Sylvain) ne maîtrise pas Blender. Le pipeline est donc dimensionné pour produire sans modélisation 3D manuelle, en s'appuyant sur trois leviers : mockup 2D pour cadrer, IA générative pour produire les modèles, retouche 2D légère pour aligner sur la charte.
+
+### Modélisation
+
+Aucune modélisation Blender manuelle. Trois sources par ordre de priorité :
+
+1. **IA générative 3D · pipeline Hunyuan local** (déjà opérationnel sur le poste du dev, voir mémoire du projet Dia de los Muertos). Génération de modèles GLB à partir de prompts textuels ou d'images de référence. Prompts alignés sur la charte (silhouette, palette, style low-poly cel-shaded). Alternatives cloud en secours : Meshy.ai (gratuit limité), Rodin, TripoSR (open-source).
+2. **Assets packs gratuits** : Kenney.nl (100% gratuit, low-poly), Sketchfab (filtre CC0 ou CC-BY), itch.io free assets. Personnages, végétation, rochers, huttes. Retexturés dans Krita pour respecter la palette.
+3. **Retouches légères en 2D** dans Krita pour ajuster textures, palettes, silhouettes générées. Aucune manipulation de mesh Blender.
+
+### Textures
+
+Peintes ou retouchées à la main dans Krita. Résolution 256px à 512px. Format PNG. Palette section 3 stricte.
+
+### Animation personnages
+
+- **Mixamo** pour animations de base (idle, walk, s'asseoir, se coucher). Rig auto sur modèles humains générés IA compatible.
+- Gestes spécifiques (imiter, poser la pierre, mourir) : Mixamo si un preset colle, sinon Cascadeur (gratuit) ou animation par IA (Deep Motion, RADiCAL) en fallback.
+- Aucune animation Blender à la main.
+
+### Peintures pariétales
+
+Krita à la main. Sylvain a le background graphique pour ça. Export en sprite sheets 10-15 frames.
+
+### Shaders
+
+GLSL customs pour cel-shading, halo, outline. Trois shaders principaux : `cel_toon`, `halo_pulse`, `outline_soft`. Écrits en direct dans r3f (react-three-fiber accepte shaders inline).
+
+### Audio
+
+SFX libres de droit (freesound.org, Zapsplat), vocalises enregistrées maison ou tirées de bibliothèques libres, musique composée soit à la main soit par générateur libre validé.
+
+### Placeholder dev
+
+Pour le prototype technique (J1, J2), les personnages et props sont des **primitives r3f colorées** (capsules, cubes, cylindres) avec les couleurs de la palette. Cela permet de valider caméra, click-to-move, cycle jour/nuit, interactions, sans dépendre d'assets finis. Remplacement progressif par les vrais assets à partir de J3.
 
 ## 14. Validation du rendu
 
@@ -220,6 +249,24 @@ Le rendu MVP est considéré cohérent avec cette charte quand :
 
 ## 15. Prochaine étape recommandée
 
-Une fois cette charte validée, produire **un mockup statique** (Blender ou Figma, 2 à 4 heures) d'une seule scène (le campement au crépuscule vu en iso), qui applique intégralement les règles ci-dessus. Ce mockup devient la **cible visuelle** que doit atteindre le prototype technique J1.
+Chemin réaliste aligné sur les compétences du dev (2D oui, Blender non) et sur son pipeline existant (Hunyuan local opérationnel) :
 
-Ne pas commencer J1 (prototype r3f) avant d'avoir ce mockup validé.
+### Étape 1 · Mockup 2D iso (Figma ou Krita, 2 à 4 heures)
+
+Produire un mockup statique 2D d'une seule scène : le campement au crépuscule vu en iso, avec Kel, Athro près du feu, Vann, Nia, et le décor (huttes, ajoncs, mer en fond, ciel dégradé). Palette section 3 stricte. Devient la **cible visuelle** que doivent atteindre les étapes suivantes.
+
+### Étape 2 · Prototype technique r3f avec primitives (1 à 2 semaines)
+
+Camera orthographique iso, click-to-move sur navmesh simple, cycle jour/nuit préréglé, un feu qui brûle. Personnages et props = capsules et cubes colorés avec la palette. Objectif : valider que le pipeline r3f donne bien l'ambiance visée avec la charte, même sans assets finis.
+
+### Étape 3 · Assets par IA générative (1 à 2 semaines)
+
+Générer avec Hunyuan (pipeline local déjà en place) les modèles GLB de Kel, Athro, Vann, Nia, un rocher, une hutte. Prompts alignés sur la charte (silhouette, palette, style). Retouches textures dans Krita si nécessaire.
+
+### Étape 4 · Assemblage Acte 1 (2 à 3 semaines)
+
+Remplacer les primitives par les vrais assets. Assembler la scène du campement, brancher les 6 verbes, intégrer les vocalises et SFX. Acte 1 jouable end-to-end.
+
+Total estimé : **6 à 9 semaines soir/weekend** pour un Acte 1 jouable avec vrais assets. Aucune dépendance Blender.
+
+**Ne pas sauter l'étape 1**. Le mockup 2D est la référence contre laquelle sera jugé le reste.
