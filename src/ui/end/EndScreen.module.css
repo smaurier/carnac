@@ -1,0 +1,62 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  background: #0e1520;
+  color: #e8dfc8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  font-family: "EB Garamond", Georgia, serif;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.text {
+  font-size: 30px;
+  font-variant: small-caps;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  color: #e8dfc8;
+  text-align: center;
+  line-height: 2;
+  margin: 0;
+  padding: 0 24px;
+}
+
+.menhirs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 64px;
+  pointer-events: none;
+}
+
+.menhir {
+  background: #1b2432;
+}
+
+.restart {
+  background: transparent;
+  border: none;
+  color: #6d8fa8;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 200ms ease;
+  outline: none;
+}
+
+.restart:hover,
+.restart:focus-visible {
+  color: #e8dfc8;
+}

@@ -4,19 +4,33 @@ import { Scene } from "./scene/Scene";
 import { Timeline } from "./ui/timeline/Timeline";
 import { defaultCarnacTimeline } from "./ui/timeline/timeline-model";
 import { TitleScreen } from "./ui/title/TitleScreen";
+import { Interlude } from "./ui/interlude/Interlude";
+import { EndScreen } from "./ui/end/EndScreen";
 import { useNarrativeState } from "./narrative/useNarrativeState";
+import type { NarrativeState } from "./narrative/narrative-state";
 import type { DayPhase } from "./palette";
 
 const phaseOrder: DayPhase[] = ["dawn", "noon", "dusk", "night"];
 const GAME_START_YEAR = -4500;
+
+const interludeTexts: Record<NarrativeState, string | undefined> = {
+  title: undefined,
+  act1: undefined,
+  interlude1: "Un jour, comme les autres.",
+  act2: undefined,
+  interlude2: "L'etoile, encore.",
+  act3: undefined,
+  epilogue: undefined,
+  end: undefined,
+};
 
 export function App() {
   const { state, dispatch } = useNarrativeState();
   const [phase, setPhase] = useState<DayPhase>("dusk");
   const [showTimeline, setShowTimeline] = useState(true);
 
-  const isInGame = state !== "title" && state !== "end";
-  const isInterlude = state === "interlude1" || state === "interlude2";
+  const isInGame = state === "act1" || state === "act2" || state === "act3" || state === "epilogue";
+  const interludeText = interludeTexts[state];
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -63,34 +77,19 @@ export function App() {
         </div>
       )}
 
-      {isInterlude && (
-        <div className="interlude-overlay">
-          <div className="interlude-text">
-            {state === "interlude1"
-              ? "Un jour, comme les autres."
-              : "L'etoile, encore."}
-          </div>
-          <div className="interlude-hint">appuyez sur N pour continuer</div>
-        </div>
-      )}
-
       {state === "title" && (
         <TitleScreen onStart={() => dispatch("start")} />
       )}
 
+      {interludeText && (
+        <Interlude
+          text={interludeText}
+          onContinue={() => dispatch("advance")}
+        />
+      )}
+
       {state === "end" && (
-        <div className="end-overlay">
-          <div className="end-text">
-            Les pierres sont restees.<br />Nous aussi.
-          </div>
-          <button
-            type="button"
-            className="end-restart"
-            onClick={() => dispatch("restart")}
-          >
-            revenir a la frise
-          </button>
-        </div>
+        <EndScreen onRestart={() => dispatch("restart")} />
       )}
     </>
   );

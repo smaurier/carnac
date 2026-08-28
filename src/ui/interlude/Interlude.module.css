@@ -1,0 +1,46 @@
+.interlude {
+  position: fixed;
+  inset: 0;
+  background: #1b2432;
+  color: #e8dfc8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  font-family: "EB Garamond", Georgia, serif;
+  z-index: 90;
+}
+
+.text {
+  font-size: 26px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: #e8dfc8;
+  opacity: 0.85;
+  text-align: center;
+  max-width: 720px;
+  padding: 0 24px;
+  margin: 0;
+}
+
+.continueButton {
+  background: transparent;
+  border: none;
+  color: #6d8fa8;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 16px;
+  opacity: 0.6;
+  transition: opacity 200ms ease, color 200ms ease;
+  outline: none;
+}
+
+.continueButton:hover,
+.continueButton:focus-visible {
+  color: #e8dfc8;
+  opacity: 1;
+}
