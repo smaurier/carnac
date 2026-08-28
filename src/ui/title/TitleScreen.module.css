@@ -1,0 +1,88 @@
+.screen {
+  position: fixed;
+  inset: 0;
+  background: #2a1e1a;
+  color: #e8dfc8;
+  font-family: "EB Garamond", Georgia, serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.header {
+  padding-top: 22vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {
+  font-size: 64px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-indent: 0.38em;
+  font-variant: small-caps;
+  color: #e8dfc8;
+  margin: 0;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 17px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c89060;
+  margin: 0;
+}
+
+.timelineWrapper {
+  margin-top: 14vh;
+  width: 100%;
+}
+
+.footer {
+  position: absolute;
+  left: 50%;
+  bottom: 10vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.startButton {
+  background: transparent;
+  border: none;
+  color: #e8dfc8;
+  font-family: inherit;
+  font-size: 20px;
+  font-variant: small-caps;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  cursor: pointer;
+  padding: 8px 20px;
+  transition: color 200ms ease;
+  outline: none;
+}
+
+.startButton:hover,
+.startButton:focus-visible {
+  color: #e8a952;
+}
+
+.startUnderline {
+  width: 34px;
+  height: 1px;
+  background: #c89060;
+  transition: background 200ms ease, width 200ms ease;
+}
+
+.startButton:hover + .startUnderline,
+.startButton:focus-visible + .startUnderline {
+  background: #e8a952;
+  width: 60px;
+}
