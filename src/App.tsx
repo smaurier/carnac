@@ -42,13 +42,14 @@ const fresqueByState: Partial<Record<NarrativeState, FresqueEntry>> = {
 };
 
 export function App() {
-  const { state, dispatch } = useNarrativeState();
+  const { state, flags, dispatch, setFlag } = useNarrativeState();
   const [phase, setPhase] = useState<DayPhase>("dusk");
   const [showTimeline, setShowTimeline] = useState(true);
 
   const isInGame = state === "act1" || state === "act2" || state === "act3";
   const interludeText = interludeTexts[state];
   const fresque = fresqueByState[state];
+  const stonePlaced = flags["stone-placed"] === true;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -92,6 +93,22 @@ export function App() {
           <small>
             clic pour deplacer Kel · T phase ({phase}) · F frise · N acte suivant
           </small>
+        </div>
+      )}
+
+      {state === "act3" && !stonePlaced && (
+        <button
+          type="button"
+          className="act-action"
+          onClick={() => setFlag("stone-placed", true)}
+        >
+          poser la premiere pierre
+        </button>
+      )}
+
+      {state === "act3" && stonePlaced && (
+        <div className="act-hint">
+          la tribu regarde en silence · N pour continuer
         </div>
       )}
 
