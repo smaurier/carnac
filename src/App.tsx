@@ -75,7 +75,12 @@ export function App() {
   return (
     <>
       <Canvas dpr={[1, 2]} shadows={false}>
-        <Scene phase={phase} />
+        <Scene
+          phase={phase}
+          showStandingStone={state === "act3"}
+          standingStonePlaced={stonePlaced}
+          onPlaceStone={() => setFlag("stone-placed", true)}
+        />
       </Canvas>
 
       {isInGame && showTimeline && (
@@ -97,13 +102,9 @@ export function App() {
       )}
 
       {state === "act3" && !stonePlaced && (
-        <button
-          type="button"
-          className="act-action"
-          onClick={() => setFlag("stone-placed", true)}
-        >
-          poser la premiere pierre
-        </button>
+        <div className="act-hint">
+          clic sur la pierre pour la poser debout
+        </div>
       )}
 
       {state === "act3" && stonePlaced && (

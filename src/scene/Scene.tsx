@@ -4,14 +4,23 @@ import { DayNightCycle } from "./DayNightCycle";
 import { Ground } from "./Ground";
 import { Player } from "../entities/Player";
 import { Firepit } from "../entities/Firepit";
+import { StandingStone } from "../entities/StandingStone";
 import { palette } from "../palette";
 import type { DayPhase } from "../palette";
 
 interface SceneProps {
   phase: DayPhase;
+  showStandingStone: boolean;
+  standingStonePlaced: boolean;
+  onPlaceStone: () => void;
 }
 
-export function Scene({ phase }: SceneProps) {
+export function Scene({
+  phase,
+  showStandingStone,
+  standingStonePlaced,
+  onPlaceStone,
+}: SceneProps) {
   const [target, setTarget] = useState<[number, number]>([0, 4]);
 
   return (
@@ -38,6 +47,14 @@ export function Scene({ phase }: SceneProps) {
         <coneGeometry args={[1.8, 3, 6]} />
         <meshStandardMaterial color={palette.warm.ochreDeep} roughness={1} />
       </mesh>
+
+      {showStandingStone && (
+        <StandingStone
+          position={[4, 0, 3]}
+          placed={standingStonePlaced}
+          onPlace={onPlaceStone}
+        />
+      )}
 
       <Player target={target} />
     </>
