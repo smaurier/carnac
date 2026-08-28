@@ -4,8 +4,9 @@ Mockups statiques 2D qui servent de **cible visuelle** pour le rendu du jeu. Cha
 
 ## Fichiers
 
-- `act1-camp-dusk.svg` · scène Acte 1, campement au crépuscule (première cible visuelle, référence pour toutes les productions ultérieures)
-- `prompt-image-generation.md` · prompts textuels prêts à coller dans un générateur d'images IA (Nano Banana, Midjourney, DALL-E, Claude design) pour produire des variantes peintes plus riches
+- `act1-camp-dusk.svg` · scène Acte 1, campement au crépuscule (première cible visuelle, référence pour toutes les productions ultérieures 3D)
+- `prompt-image-generation.md` · prompts textuels prêts à coller dans un générateur d'images IA (Nano Banana, Midjourney, DALL-E) pour produire des variantes peintes plus riches des scènes 3D
+- `ui/` · mockups des **écrans UI** du jeu (écran-titre, interlude, fresque, écran final, HUD Observer), produits par Claude Design le 28/08/2026 à partir de la charte du repo. Voir `ui/github.md` pour le mapping écran → docs source.
 
 ## Le mockup SVG · usage
 

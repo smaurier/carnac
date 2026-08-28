@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"><style>body{margin:0;background:#efe9df;font-family:system-ui,sans-serif}a{color:#8C3E28}a:hover{color:#A65F35}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#2A1E1A;color:#E8DFC8;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#2A1E1A}.dv-note{margin:0 0 20px;font:12px/1.5 system-ui,sans-serif;color:rgba(42,30,26,.6);max-width:760px}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(42,30,26,.1);color:#2A1E1A;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(42,30,26,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:6px;overflow:hidden}.dv-opt:target .dv-oid{background:#8C3E28;color:#E8DFC8}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(42,30,26,.5)}</style></helmet>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Carnac — 5 écrans UI + 2 variantes de style (écran-titre)</span></div>
+<p class="dv-note">Basé sur docs/direction-artistique.md et specs-mvp.md : palette stricte de la charte, EB Garamond, flat, zéro chrome, petites capitales espacées. Frise du temps profond commune aux écrans <a class="dv-oid" href="#1a">1a</a>/<a class="dv-oid" href="#1b">1b</a>. 1152×648 (16:9), pensé SVG/2D pour l'implémentation r3f + overlay DOM.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Écran-titre — frise du temps profond, palette ocre-granit (charte §10)</div>
+<div class="dv-card" style="width:1152px"><div style="position:relative;width:1152px;height:648px;background:#2A1E1A;overflow:hidden;font-family:'EB Garamond',serif">
+  <div style="position:absolute;top:150px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:18px">
+    <div style="font-size:64px;font-weight:500;letter-spacing:.38em;text-indent:.38em;color:#E8DFC8;font-variant:small-caps">carnac</div>
+    <div style="font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:#C89060">Bretagne · Néolithique moyen</div>
+  </div>
+  <div style="position:absolute;left:96px;right:96px;top:388px;height:80px">
+    <div style="position:absolute;left:0;right:0;top:0;height:1px;background:#7C7873"></div>
+    <div style="position:absolute;left:6%;top:-7px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px"><div style="width:1px;height:14px;background:#7C7873"></div><div style="font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Paléolithique</div></div>
+    <div style="position:absolute;left:25%;top:-7px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px"><div style="width:1px;height:14px;background:#7C7873"></div><div style="font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Mésolithique</div></div>
+    <div style="position:absolute;left:58%;top:-7px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px"><div style="width:1px;height:14px;background:#7C7873"></div><div style="font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Bronze</div></div>
+    <div style="position:absolute;left:70%;top:-7px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px"><div style="width:1px;height:14px;background:#7C7873"></div><div style="font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Fer</div></div>
+    <div style="position:absolute;left:80%;top:-7px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px"><div style="width:1px;height:14px;background:#7C7873"></div><div style="font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Moyen Âge</div></div>
+    <div style="position:absolute;left:96%;top:-7px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px"><div style="width:1px;height:14px;background:#7C7873"></div><div style="font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#E8DFC8">Aujourd&rsquo;hui</div></div>
+    <div style="position:absolute;left:42%;top:0;transform:translate(-50%,-50%)">
+      <div style="position:absolute;left:50%;top:50%;width:54px;height:54px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(232,169,82,.35) 0%,rgba(232,169,82,0) 68%)"></div>
+      <div style="width:11px;height:11px;background:#E8A952;transform:rotate(45deg)"></div>
+    </div>
+    <div style="position:absolute;left:42%;top:-58px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:15px;letter-spacing:.1em;color:#E8A952">&minus;4500</div>
+      <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C89060">Néolithique moyen</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:532px;display:flex;justify-content:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+      <div style="font-size:20px;font-variant:small-caps;letter-spacing:.3em;text-indent:.3em;color:#E8DFC8">commencer</div>
+      <div style="width:34px;height:1px;background:#C89060"></div>
+    </div>
+  </div>
+</div></div></div>
+
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Interlude d&rsquo;acte — frise réduite en haut, texte discret (nuit tombante)</div>
+<div class="dv-card" style="width:1152px"><div style="position:relative;width:1152px;height:648px;background:#1B2432;overflow:hidden;font-family:'EB Garamond',serif">
+  <div style="position:absolute;left:180px;right:180px;top:72px;height:40px">
+    <div style="position:absolute;left:0;right:0;top:0;height:1px;background:#3D4A55"></div>
+    <div style="position:absolute;left:6%;top:-4px;width:1px;height:9px;background:#3D4A55"></div>
+    <div style="position:absolute;left:25%;top:-4px;width:1px;height:9px;background:#3D4A55"></div>
+    <div style="position:absolute;left:58%;top:-4px;width:1px;height:9px;background:#3D4A55"></div>
+    <div style="position:absolute;left:70%;top:-4px;width:1px;height:9px;background:#3D4A55"></div>
+    <div style="position:absolute;left:80%;top:-4px;width:1px;height:9px;background:#3D4A55"></div>
+    <div style="position:absolute;left:96%;top:-4px;width:1px;height:9px;background:#3D4A55"></div>
+    <div style="position:absolute;left:42%;top:0;transform:translate(-50%,-50%)">
+      <div style="position:absolute;left:50%;top:50%;width:40px;height:40px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(232,169,82,.3) 0%,rgba(232,169,82,0) 68%)"></div>
+      <div style="width:8px;height:8px;background:#E8A952;transform:rotate(45deg)"></div>
+    </div>
+    <div style="position:absolute;left:42%;top:16px;transform:translateX(-50%);font-size:12px;letter-spacing:.14em;color:#6D8FA8">&minus;4500</div>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center">
+    <div style="font-size:26px;font-style:italic;letter-spacing:.06em;color:#E8DFC8;opacity:.85">Un jour, comme les autres.</div>
+  </div>
+</div></div></div>
+
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Fresque pariétale débloquée — &laquo;&nbsp;La première pierre&nbsp;&raquo; (trait tremblé, charbon sur granit clair)</div>
+<div class="dv-card" style="width:1152px"><div style="position:relative;width:1152px;height:648px;background:#2A1E1A;overflow:hidden;font-family:'EB Garamond',serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px">
+  <div style="position:relative;width:560px;height:380px;background:#B5B0A8">
+    <div style="position:absolute;inset:0;background:linear-gradient(115deg,rgba(124,120,115,.18) 0%,rgba(232,223,200,.22) 38%,rgba(124,120,115,.14) 71%,rgba(232,223,200,.18) 100%)"></div>
+    <svg viewBox="0 0 560 380" style="position:absolute;inset:0;width:100%;height:100%">
+      <polyline points="60,300 130,296 200,302 290,297 380,303 470,298 510,301" fill="none" stroke="#2A1E1A" stroke-width="3" stroke-linecap="round" opacity=".75"></polyline>
+      <polyline points="90,318 160,322 240,317 330,323 420,318 480,322" fill="none" stroke="#8C3E28" stroke-width="2.5" stroke-linecap="round" opacity=".55"></polyline>
+      <circle cx="280" cy="138" r="17" fill="none" stroke="#2A1E1A" stroke-width="3.5"></circle>
+      <polyline points="280,156 279,205 281,252 278,298" fill="none" stroke="#2A1E1A" stroke-width="4" stroke-linecap="round"></polyline>
+      <polyline points="280,178 246,206 231,232" fill="none" stroke="#2A1E1A" stroke-width="3.5" stroke-linecap="round"></polyline>
+      <polyline points="280,178 315,200 336,190" fill="none" stroke="#2A1E1A" stroke-width="3.5" stroke-linecap="round"></polyline>
+      <polyline points="352,298 353,214 358,182 366,214 365,298" fill="none" stroke="#A65F35" stroke-width="4" stroke-linecap="round"></polyline>
+      <line x1="364" y1="86" x2="364" y2="104" stroke="#E8DFC8" stroke-width="3" stroke-linecap="round"></line>
+      <line x1="355" y1="95" x2="373" y2="95" stroke="#E8DFC8" stroke-width="3" stroke-linecap="round"></line>
+      <line x1="358" y1="89" x2="370" y2="101" stroke="#E8DFC8" stroke-width="2" stroke-linecap="round" opacity=".8"></line>
+      <line x1="370" y1="89" x2="358" y2="101" stroke="#E8DFC8" stroke-width="2" stroke-linecap="round" opacity=".8"></line>
+    </svg>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div style="font-size:22px;font-variant:small-caps;letter-spacing:.32em;text-indent:.32em;color:#E8DFC8">la première pierre</div>
+    <div style="font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#7C7873">Fresque · 1 / 3</div>
+  </div>
+</div></div></div>
+
+<div class="dv-opt" id="1d"><div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Écran final — phrase unique centrée, bleu profond, silhouettes d&rsquo;alignement</div>
+<div class="dv-card" style="width:1152px"><div style="position:relative;width:1152px;height:648px;background:#0E1520;overflow:hidden;font-family:'EB Garamond',serif">
+  <div style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center">
+    <div style="font-size:30px;font-variant:small-caps;letter-spacing:.28em;text-indent:.28em;color:#E8DFC8;text-align:center;line-height:2">Les pierres sont restées.<br>Nous aussi.</div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:120px;display:flex;align-items:flex-end;justify-content:center;gap:64px">
+    <div style="width:26px;height:58px;background:#1B2432;border-radius:12px 10px 0 0"></div>
+    <div style="width:30px;height:84px;background:#1B2432;border-radius:13px 11px 0 0"></div>
+    <div style="width:34px;height:104px;background:#1B2432;border-radius:15px 12px 0 0"></div>
+    <div style="width:29px;height:78px;background:#1B2432;border-radius:12px 14px 0 0"></div>
+    <div style="width:25px;height:52px;background:#1B2432;border-radius:11px 10px 0 0"></div>
+  </div>
+</div></div></div>
+
+<div class="dv-opt" id="1e"><div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>HUD Observer — œil contextuel bas-droit, halo perceptif, verbe unique (scène crépuscule en aplats)</div>
+<div class="dv-card" style="width:1152px"><div style="position:relative;width:1152px;height:648px;overflow:hidden;font-family:'EB Garamond',serif;background:linear-gradient(#8C3E28 0%,#C07547 34%,#E8A952 52%,#E8A952 54%)">
+  <div style="position:absolute;left:0;right:0;top:54%;height:13%;background:#3D4A55"></div>
+  <div style="position:absolute;left:0;right:0;top:67%;bottom:0;background:#7C7873"></div>
+  <div style="position:absolute;left:0;right:0;top:67%;height:3px;background:#4A4844;opacity:.5"></div>
+  <div style="position:absolute;left:460px;top:308px;width:200px;height:230px">
+    <div style="position:absolute;left:50%;top:50%;width:210px;height:240px;transform:translate(-50%,-50%);border:2px solid rgba(109,143,168,.75);border-radius:44% 40% 30% 32%"></div>
+    <div style="position:absolute;left:50%;top:50%;width:238px;height:268px;transform:translate(-50%,-50%);border:1px solid rgba(109,143,168,.3);border-radius:46% 42% 32% 34%"></div>
+    <div style="position:absolute;left:50%;bottom:6px;width:96px;height:196px;transform:translateX(-50%);background:#4A4844;border-radius:46px 38px 8px 8px"></div>
+    <div style="position:absolute;left:50%;bottom:6px;width:30px;height:196px;transform:translateX(-14px);background:#7C7873;opacity:.35;border-radius:0 38px 8px 0"></div>
+  </div>
+  <div style="position:absolute;left:560px;top:230px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px">
+    <div style="font-size:17px;font-variant:small-caps;letter-spacing:.26em;text-indent:.26em;color:#E8DFC8">regarder</div>
+    <div style="width:7px;height:7px;background:#E8DFC8;transform:rotate(45deg);opacity:.8"></div>
+  </div>
+  <div style="position:absolute;right:36px;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:7px">
+    <div style="width:58px;height:58px;border:1.5px solid rgba(232,223,200,.65);border-radius:50%;display:flex;align-items:center;justify-content:center">
+      <svg width="32" height="20" viewBox="0 0 32 20"><path d="M2 10 Q16 -2 30 10 Q16 22 2 10 Z" fill="none" stroke="#E8DFC8" stroke-width="1.8"></path><circle cx="16" cy="10" r="4.5" fill="#E8DFC8"></circle></svg>
+    </div>
+    <div style="font-size:12px;font-variant:small-caps;letter-spacing:.22em;text-indent:.22em;color:#E8DFC8;opacity:.85">observer</div>
+  </div>
+</div></div></div>
+
+<div class="dv-opt" id="1f"><div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Variante titre — nuit / temps profond (bleu profond, frise ardoise)</div>
+<div class="dv-card" style="width:864px"><div style="position:relative;width:864px;height:486px;background:#0E1520;overflow:hidden;font-family:'EB Garamond',serif">
+  <div style="position:absolute;top:108px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px">
+    <div style="font-size:48px;font-weight:500;letter-spacing:.38em;text-indent:.38em;color:#E8DFC8;font-variant:small-caps">carnac</div>
+    <div style="font-size:13.5px;letter-spacing:.22em;text-transform:uppercase;color:#6D8FA8">Bretagne · Néolithique moyen</div>
+  </div>
+  <div style="position:absolute;left:72px;right:72px;top:288px;height:60px">
+    <div style="position:absolute;left:0;right:0;top:0;height:1px;background:#3D4A55"></div>
+    <div style="position:absolute;left:6%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#3D4A55"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#3D4A55">Paléolithique</div></div>
+    <div style="position:absolute;left:25%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#3D4A55"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#3D4A55">Mésolithique</div></div>
+    <div style="position:absolute;left:58%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#3D4A55"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#3D4A55">Bronze</div></div>
+    <div style="position:absolute;left:70%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#3D4A55"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#3D4A55">Fer</div></div>
+    <div style="position:absolute;left:80%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#3D4A55"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#3D4A55">Moyen Âge</div></div>
+    <div style="position:absolute;left:96%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#3D4A55"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6D8FA8">Aujourd&rsquo;hui</div></div>
+    <div style="position:absolute;left:42%;top:0;transform:translate(-50%,-50%)">
+      <div style="position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(232,169,82,.4) 0%,rgba(232,169,82,0) 68%)"></div>
+      <div style="width:9px;height:9px;background:#E8A952;transform:rotate(45deg)"></div>
+    </div>
+    <div style="position:absolute;left:42%;top:-46px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div style="font-size:12.5px;letter-spacing:.1em;color:#E8A952">&minus;4500</div>
+      <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6D8FA8">Néolithique moyen</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:398px;display:flex;justify-content:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="font-size:16px;font-variant:small-caps;letter-spacing:.3em;text-indent:.3em;color:#E8DFC8">commencer</div>
+      <div style="width:28px;height:1px;background:#E8A952"></div>
+    </div>
+  </div>
+</div></div></div>
+
+<div class="dv-opt" id="1g"><div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>Variante titre — paroi claire (blanc os / granit, pigments pariétaux)</div>
+<div class="dv-card" style="width:864px"><div style="position:relative;width:864px;height:486px;background:#E8DFC8;overflow:hidden;font-family:'EB Garamond',serif">
+  <div style="position:absolute;inset:0;background:linear-gradient(115deg,rgba(181,176,168,.22) 0%,rgba(232,223,200,0) 40%,rgba(181,176,168,.16) 78%)"></div>
+  <div style="position:absolute;top:108px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px">
+    <div style="font-size:48px;font-weight:500;letter-spacing:.38em;text-indent:.38em;color:#2A1E1A;font-variant:small-caps">carnac</div>
+    <div style="font-size:13.5px;letter-spacing:.22em;text-transform:uppercase;color:#A65F35">Bretagne · Néolithique moyen</div>
+  </div>
+  <div style="position:absolute;left:72px;right:72px;top:288px;height:60px">
+    <div style="position:absolute;left:0;right:0;top:0;height:1px;background:#7C7873"></div>
+    <div style="position:absolute;left:6%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#7C7873"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Paléolithique</div></div>
+    <div style="position:absolute;left:25%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#7C7873"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Mésolithique</div></div>
+    <div style="position:absolute;left:58%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#7C7873"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Bronze</div></div>
+    <div style="position:absolute;left:70%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#7C7873"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Fer</div></div>
+    <div style="position:absolute;left:80%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#7C7873"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7C7873">Moyen Âge</div></div>
+    <div style="position:absolute;left:96%;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:1px;height:10px;background:#7C7873"></div><div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#2A1E1A">Aujourd&rsquo;hui</div></div>
+    <div style="position:absolute;left:42%;top:0;transform:translate(-50%,-50%)">
+      <div style="position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(140,62,40,.3) 0%,rgba(140,62,40,0) 68%)"></div>
+      <div style="width:9px;height:9px;background:#8C3E28;transform:rotate(45deg)"></div>
+    </div>
+    <div style="position:absolute;left:42%;top:-46px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px">
+      <div style="font-size:12.5px;letter-spacing:.1em;color:#8C3E28">&minus;4500</div>
+      <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#A65F35">Néolithique moyen</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:398px;display:flex;justify-content:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="font-size:16px;font-variant:small-caps;letter-spacing:.3em;text-indent:.3em;color:#2A1E1A">commencer</div>
+      <div style="width:28px;height:1px;background:#8C3E28"></div>
+    </div>
+  </div>
+</div></div></div>
+
+</div>
+<p class="dv-next">Try next: &laquo;&nbsp;décline l&rsquo;interlude <a class="dv-oid" href="#1b">1b</a> sans texte, étoile de l&rsquo;Est qui pulse&nbsp;&raquo; · &laquo;&nbsp;anime le curseur de la frise de <a class="dv-oid" href="#1a">1a</a>&nbsp;&raquo; · &laquo;&nbsp;version épilogue de la frise avec les 7 vignettes&nbsp;&raquo;</p>
+</section>
+</x-dc>
+</body>
+</html>
