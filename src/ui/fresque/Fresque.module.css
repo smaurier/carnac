@@ -43,6 +43,82 @@
   height: 100%;
 }
 
+@keyframes drawStroke {
+  from {
+    stroke-dashoffset: 800;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.svg polyline,
+.svg line {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: drawStroke 1.6s ease-out forwards;
+}
+
+.svg circle,
+.svg rect {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+  animation-delay: 0.8s;
+}
+
+.svg > *:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.svg > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.svg > *:nth-child(4) {
+  animation-delay: 0.45s;
+}
+.svg > *:nth-child(5) {
+  animation-delay: 0.6s;
+}
+.svg > *:nth-child(6) {
+  animation-delay: 0.75s;
+}
+.svg > *:nth-child(7) {
+  animation-delay: 0.9s;
+}
+.svg > *:nth-child(8) {
+  animation-delay: 1.05s;
+}
+.svg > *:nth-child(9) {
+  animation-delay: 1.2s;
+}
+.svg > *:nth-child(10) {
+  animation-delay: 1.35s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svg polyline,
+  .svg line,
+  .svg circle,
+  .svg rect {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
 .caption {
   display: flex;
   flex-direction: column;
