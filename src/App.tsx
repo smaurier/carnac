@@ -1,20 +1,29 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Scene } from "./scene/Scene";
+import { Timeline } from "./ui/timeline/Timeline";
+import { defaultCarnacTimeline } from "./ui/timeline/timeline-model";
 import type { DayPhase } from "./palette";
 
 const phaseOrder: DayPhase[] = ["dawn", "noon", "dusk", "night"];
+const GAME_START_YEAR = -4500;
 
 export function App() {
   const [phase, setPhase] = useState<DayPhase>("dusk");
+  const [showTimeline, setShowTimeline] = useState(true);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() !== "t") return;
-      setPhase((current) => {
-        const next = (phaseOrder.indexOf(current) + 1) % phaseOrder.length;
-        return phaseOrder[next];
-      });
+      const key = e.key.toLowerCase();
+      if (key === "t") {
+        setPhase((current) => {
+          const next = (phaseOrder.indexOf(current) + 1) % phaseOrder.length;
+          return phaseOrder[next];
+        });
+      }
+      if (key === "f") {
+        setShowTimeline((current) => !current);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -25,9 +34,21 @@ export function App() {
       <Canvas dpr={[1, 2]} shadows={false}>
         <Scene phase={phase} />
       </Canvas>
+
+      {showTimeline && (
+        <div className="timeline-overlay">
+          <Timeline
+            timeline={defaultCarnacTimeline}
+            cursorYear={GAME_START_YEAR}
+          />
+        </div>
+      )}
+
       <div className="hud">
         Carnac · proto J1
-        <small>clic pour deplacer Kel · touche T pour changer la phase du jour ({phase})</small>
+        <small>
+          clic pour deplacer Kel · T pour changer la phase ({phase}) · F pour masquer la frise
+        </small>
       </div>
     </>
   );

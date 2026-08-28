@@ -39,3 +39,13 @@ canvas {
   font-size: 11px;
   margin-top: 4px;
 }
+
+.timeline-overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  pointer-events: none;
+  z-index: 10;
+}
+
