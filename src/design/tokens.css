@@ -1,0 +1,88 @@
+:root {
+  /* Font family */
+  --font-serif: "EB Garamond", Georgia, serif;
+
+  /* Font sizes */
+  --fs-xs: 10px;
+  --fs-sm: 11px;
+  --fs-base: 12px;
+  --fs-md: 13px;
+  --fs-lg: 15px;
+  --fs-xl: 17px;
+  --fs-2xl: 20px;
+  --fs-3xl: 22px;
+  --fs-4xl: 26px;
+  --fs-5xl: 30px;
+  --fs-6xl: 48px;
+  --fs-7xl: 64px;
+
+  /* Letter spacings */
+  --ls-tight: 0.06em;
+  --ls-normal: 0.1em;
+  --ls-wide: 0.14em;
+  --ls-wider: 0.18em;
+  --ls-widest: 0.22em;
+  --ls-huge: 0.28em;
+  --ls-brand: 0.3em;
+  --ls-brand-2: 0.32em;
+  --ls-brand-3: 0.38em;
+
+  /* Spacing scale */
+  --sp-2: 2px;
+  --sp-4: 4px;
+  --sp-6: 6px;
+  --sp-8: 8px;
+  --sp-10: 10px;
+  --sp-12: 12px;
+  --sp-14: 14px;
+  --sp-16: 16px;
+  --sp-18: 18px;
+  --sp-20: 20px;
+  --sp-24: 24px;
+  --sp-28: 28px;
+  --sp-32: 32px;
+  --sp-34: 34px;
+  --sp-40: 40px;
+  --sp-48: 48px;
+  --sp-60: 60px;
+  --sp-64: 64px;
+  --sp-72: 72px;
+  --sp-80: 80px;
+  --sp-96: 96px;
+  --sp-120: 120px;
+
+  /* Radii */
+  --radius-none: 0;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 15px;
+
+  /* Transitions */
+  --trans-fast: 120ms ease;
+  --trans-normal: 200ms ease;
+  --trans-slow: 600ms ease;
+
+  /* Colors · mirror src/palette.ts (source of truth for JS) */
+  --color-charcoal: #2a1e1a;
+  --color-granit-dark: #4a4844;
+  --color-granit-mid: #7c7873;
+  --color-granit-light: #b5b0a8;
+  --color-bone-white: #e8dfc8;
+  --color-ochre-warm: #c89060;
+  --color-ochre-deep: #a65f35;
+  --color-earth-red: #8c3e28;
+  --color-dusk-gold: #e8a952;
+  --color-fire: #f0783c;
+  --color-slate-sea: #3d4a55;
+  --color-night-blue: #1b2432;
+  --color-deep-blue: #0e1520;
+  --color-halo-blue: #6d8fa8;
+
+  /* Z-index layers */
+  --z-timeline: 10;
+  --z-hud: 15;
+  --z-act-hint: 20;
+  --z-interlude: 90;
+  --z-fresque: 95;
+  --z-screen: 100;
+}

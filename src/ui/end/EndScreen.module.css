@@ -1,28 +1,28 @@
 .screen {
   position: fixed;
   inset: 0;
-  background: #0e1520;
-  color: #e8dfc8;
+  background: var(--color-deep-blue);
+  color: var(--color-bone-white);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 60px;
-  font-family: "EB Garamond", Georgia, serif;
-  z-index: 100;
+  gap: var(--sp-60);
+  font-family: var(--font-serif);
+  z-index: var(--z-screen);
   overflow: hidden;
 }
 
 .text {
-  font-size: 30px;
+  font-size: var(--fs-5xl);
   font-variant: small-caps;
-  letter-spacing: 0.28em;
-  text-indent: 0.28em;
-  color: #e8dfc8;
+  letter-spacing: var(--ls-huge);
+  text-indent: var(--ls-huge);
+  color: var(--color-bone-white);
   text-align: center;
   line-height: 2;
   margin: 0;
-  padding: 0 24px;
+  padding: 0 var(--sp-24);
 }
 
 .menhirs {
@@ -30,33 +30,33 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 120px;
+  height: var(--sp-120);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 64px;
+  gap: var(--sp-64);
   pointer-events: none;
 }
 
 .menhir {
-  background: #1b2432;
+  background: var(--color-night-blue);
 }
 
 .restart {
   background: transparent;
   border: none;
-  color: #6d8fa8;
+  color: var(--color-halo-blue);
   font-family: inherit;
-  font-size: 13px;
-  letter-spacing: 0.22em;
+  font-size: var(--fs-md);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   cursor: pointer;
-  padding: 8px 16px;
-  transition: color 200ms ease;
+  padding: var(--sp-8) var(--sp-16);
+  transition: color var(--trans-normal);
   outline: none;
 }
 
 .restart:hover,
 .restart:focus-visible {
-  color: #e8dfc8;
+  color: var(--color-bone-white);
 }

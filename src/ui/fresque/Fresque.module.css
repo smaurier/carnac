@@ -1,15 +1,15 @@
 .fresque {
   position: fixed;
   inset: 0;
-  background: #2a1e1a;
-  color: #e8dfc8;
+  background: var(--color-charcoal);
+  color: var(--color-bone-white);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 34px;
-  font-family: "EB Garamond", Georgia, serif;
-  z-index: 95;
+  gap: var(--sp-34);
+  font-family: var(--font-serif);
+  z-index: var(--z-fresque);
   overflow: hidden;
 }
 
@@ -18,7 +18,7 @@
   width: 560px;
   max-width: 90vw;
   aspect-ratio: 560 / 380;
-  background: #b5b0a8;
+  background: var(--color-granit-light);
   overflow: hidden;
 }
 
@@ -47,23 +47,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: var(--sp-10);
   text-align: center;
 }
 
 .title {
-  font-size: 22px;
+  font-size: var(--fs-3xl);
   font-variant: small-caps;
-  letter-spacing: 0.32em;
-  text-indent: 0.32em;
-  color: #e8dfc8;
+  letter-spacing: var(--ls-brand-2);
+  text-indent: var(--ls-brand-2);
+  color: var(--color-bone-white);
   margin: 0;
 }
 
 .counter {
-  font-size: 13px;
-  letter-spacing: 0.18em;
+  font-size: var(--fs-md);
+  letter-spacing: var(--ls-wider);
   text-transform: uppercase;
-  color: #7c7873;
+  color: var(--color-granit-mid);
   margin: 0;
 }

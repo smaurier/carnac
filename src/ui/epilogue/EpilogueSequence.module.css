@@ -1,11 +1,11 @@
 .epilogue {
   position: fixed;
   inset: 0;
-  background: #2a1e1a;
-  color: #e8dfc8;
-  z-index: 95;
+  background: var(--color-charcoal);
+  color: var(--color-bone-white);
+  z-index: var(--z-fresque);
   overflow: hidden;
-  font-family: "EB Garamond", Georgia, serif;
+  font-family: var(--font-serif);
 }
 
 .stage {
@@ -18,7 +18,7 @@
 }
 
 .fresqueSlot {
-  transition: opacity 600ms ease;
+  transition: opacity var(--trans-slow);
   pointer-events: none;
 }
 
@@ -26,29 +26,29 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 96px;
-  padding: 0 96px;
+  bottom: var(--sp-96);
+  padding: 0 var(--sp-96);
   pointer-events: none;
 }
 
 .skip {
   position: absolute;
-  right: 32px;
-  bottom: 28px;
+  right: var(--sp-32);
+  bottom: var(--sp-28);
   background: transparent;
   border: none;
-  color: #7c7873;
+  color: var(--color-granit-mid);
   font-family: inherit;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   cursor: pointer;
-  padding: 8px 16px;
-  transition: color 200ms ease;
+  padding: var(--sp-8) var(--sp-16);
+  transition: color var(--trans-normal);
   outline: none;
 }
 
 .skip:hover,
 .skip:focus-visible {
-  color: #e8dfc8;
+  color: var(--color-bone-white);
 }

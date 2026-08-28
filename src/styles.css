@@ -1,3 +1,5 @@
+@import "./design/tokens.css";
+
 *,
 *::before,
 *::after {
@@ -12,9 +14,9 @@ body,
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #0e1520;
-  color: #e8dfc8;
-  font-family: "EB Garamond", Georgia, serif;
+  background: var(--color-deep-blue);
+  color: var(--color-bone-white);
+  font-family: var(--font-serif);
 }
 
 canvas {
@@ -24,67 +26,65 @@ canvas {
 
 .hud {
   position: fixed;
-  top: 12px;
-  left: 16px;
-  font-size: 14px;
-  letter-spacing: 0.08em;
-  color: #b5b0a8;
+  top: var(--sp-12);
+  left: var(--sp-16);
+  font-size: var(--fs-md);
+  letter-spacing: var(--ls-tight);
+  color: var(--color-granit-light);
   pointer-events: none;
   user-select: none;
 }
 
 .hud small {
   display: block;
-  color: #7c7873;
-  font-size: 11px;
-  margin-top: 4px;
+  color: var(--color-granit-mid);
+  font-size: var(--fs-sm);
+  margin-top: var(--sp-4);
 }
 
 .timeline-overlay {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 40px;
+  bottom: var(--sp-40);
   pointer-events: none;
-  z-index: 10;
+  z-index: var(--z-timeline);
 }
 
 .fresque-continue {
   position: fixed;
   left: 50%;
-  bottom: 40px;
+  bottom: var(--sp-40);
   transform: translateX(-50%);
-  z-index: 100;
+  z-index: var(--z-screen);
   background: transparent;
   border: none;
-  color: #7c7873;
-  font-family: "EB Garamond", Georgia, serif;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  color: var(--color-granit-mid);
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   cursor: pointer;
-  padding: 8px 16px;
-  transition: color 200ms ease;
+  padding: var(--sp-8) var(--sp-16);
+  transition: color var(--trans-normal);
   outline: none;
 }
 
 .fresque-continue:hover,
 .fresque-continue:focus-visible {
-  color: #e8dfc8;
+  color: var(--color-bone-white);
 }
 
 .act-hint {
   position: fixed;
   left: 50%;
-  bottom: 120px;
+  bottom: var(--sp-120);
   transform: translateX(-50%);
-  z-index: 20;
-  color: #6d8fa8;
-  font-family: "EB Garamond", Georgia, serif;
-  font-size: 12px;
+  z-index: var(--z-act-hint);
+  color: var(--color-halo-blue);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
   font-style: italic;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--ls-wide);
   opacity: 0.75;
 }
-
-
