@@ -1,6 +1,9 @@
 node_modules/
 dist/
 build/
+.tsbuild/
+.tsbuild-node/
+*.tsbuildinfo
 .DS_Store
 Thumbs.db
 *.log

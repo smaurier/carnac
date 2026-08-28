@@ -57,12 +57,51 @@ Base d'expérience réutilisée du projet portfolio Nahual (r3f, pipeline GLB, a
 ```
 carnac/
 ├── README.md                     ce fichier
+├── package.json                  Vite + React + TS + r3f
+├── vite.config.ts
+├── tsconfig.json / tsconfig.node.json
+├── index.html
 ├── docs/
 │   ├── notes-historiques.md      cadre archéo, thèses, sources
-│   ├── specs-mvp.md              specs du premier chapitre jouable (à venir)
-│   └── roadmap.md                vision longue et extensions (à venir)
-└── (src/ à venir)
+│   ├── specs-mvp.md              specs du premier chapitre jouable
+│   ├── direction-artistique.md   charte graphique complète
+│   ├── moodboard.md              références visuelles pour le mockup 2D
+│   └── roadmap.md                vision longue et extensions
+└── src/
+    ├── main.tsx                  entrée React
+    ├── App.tsx                   Canvas r3f + HUD + phase du jour
+    ├── palette.ts                palette de la charte + presets jour/nuit
+    ├── styles.css
+    ├── scene/
+    │   ├── Scene.tsx             assemblage
+    │   ├── IsoCamera.tsx         ortho iso 30° / 45°
+    │   ├── DayNightCycle.tsx     4 phases préréglées
+    │   └── Ground.tsx            sol + click-to-move
+    └── entities/
+        ├── Player.tsx            Kel (capsule placeholder, palette peau B)
+        └── Firepit.tsx           feu (cylindre + cône + point light avec flicker)
 ```
+
+## Démarrage
+
+Prérequis : Node 20+ (testé sur Node 23).
+
+```bash
+npm install
+npm run dev
+```
+
+Ouvre http://localhost:5173 (ou 5174 / 5175 si le port est pris).
+
+**Contrôles proto J1 :**
+- Clic sur le sol : Kel se déplace vers le point cliqué
+- Touche `T` : cycle la phase du jour (dawn → noon → dusk → night)
+
+**Scripts disponibles :**
+- `npm run dev` : serveur de développement (hot reload)
+- `npm run build` : build de production dans `dist/`
+- `npm run preview` : sert le build de production
+- `npm run typecheck` : vérification TypeScript
 
 ## Roadmap
 
