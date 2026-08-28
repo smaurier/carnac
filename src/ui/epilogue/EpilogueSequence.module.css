@@ -1,0 +1,54 @@
+.epilogue {
+  position: fixed;
+  inset: 0;
+  background: #2a1e1a;
+  color: #e8dfc8;
+  z-index: 95;
+  overflow: hidden;
+  font-family: "EB Garamond", Georgia, serif;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.fresqueSlot {
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+
+.frieze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 96px;
+  padding: 0 96px;
+  pointer-events: none;
+}
+
+.skip {
+  position: absolute;
+  right: 32px;
+  bottom: 28px;
+  background: transparent;
+  border: none;
+  color: #7c7873;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 200ms ease;
+  outline: none;
+}
+
+.skip:hover,
+.skip:focus-visible {
+  color: #e8dfc8;
+}
