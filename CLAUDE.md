@@ -65,6 +65,55 @@ Expliquer **le pourquoi** de chaque étape (pas juste "j'ajoute ce test"). Le TD
 
 Tests avec **Vitest** (Vite-native, rapide). À installer en devDep : `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`. À configurer dans `vite.config.ts`.
 
+### Design system + design tokens · **PRIORITÉ MAXIMALE**
+
+Le projet a un **vrai design system**, pas des styles éparpillés. Toute décision visuelle (couleur, espace, typo, radius, transition, shader) passe par un **token centralisé**, jamais en dur dans un composant.
+
+#### Design tokens (source de vérité unique)
+
+Emplacement actuel :
+
+- **Palette (couleurs)** : `src/palette.ts`. Chaque hex y est nommé sémantiquement (`neutrals.granitDark`, `warm.duskGold`, `cool.haloBlue`, `skin.b`). **Jamais** de hex littéral dans un composant, JSX ou CSS.
+- **Presets d'éclairage** : `src/palette.ts` `dayNightPresets` (dawn / noon / dusk / night). Nouveau preset = nouvel entry, aucune modif de composant.
+- **Cel-shading** : `src/shaders/toon-gradient.ts` (`getToonGradient(steps)`), singleton par count. Tout mesh à cel-shading passe par ce helper.
+
+Tokens à consolider au fur et à mesure (à créer quand un même chiffre magique apparaît deux fois) :
+
+- **Espacements** : à extraire dans un futur `src/design/spacing.ts` (échelle 4/8/16/24/32/48/64px).
+- **Typographie** : familles + tailles + letter-spacing dans un futur `src/design/typography.ts`. Actuellement dispersé dans les `.module.css` (EB Garamond partout, mais tailles répétées).
+- **Rayons** : radii utilisés (menhirs EndScreen, boutons) à centraliser si multipliés.
+- **Transitions** : durées et easings (`200ms ease`, `600ms ease`) à centraliser en durations tokens.
+- **Épaisseurs de contour** (Outlines) : `0.04`, `0.045`, `0.05`, `0.06` répartis, à standardiser en `outline.xs / sm / md / lg` dans un futur `src/design/outlines.ts`.
+
+**Règle DRY appliquée** : au deuxième usage d'une même valeur littérale à travers deux fichiers, la valeur devient un token nommé.
+
+#### Design system (composants réutilisables)
+
+Chaque composant UI est **une brique du design system**, pas un one-off :
+
+- **Composants "primitifs"** : `Timeline`, `Villager`, `StandingStone` (paramétrable par scale et interactivité), `Fresque` (paramétrable par variant et counter).
+- **Composants "screens"** : `TitleScreen`, `Interlude`, `Fresque`, `EndScreen`, `EpilogueSequence`. Chacun assemblable, non-couplé à App.tsx.
+- **Composants "sequences"** : `EpilogueSequence` (Fresque + Timeline + timers). Pattern à réutiliser pour futures compositions temporelles.
+- **Convention props** : chaque composant expose ses variantes via props typées, jamais via un `if` interne ni un flag booléen enterré.
+- **Chaque composant UI vit dans son dossier** (`src/ui/<name>/`) avec son `.tsx`, `.module.css`, `.test.tsx` colocalisés. Aucun style global partagé sauf le reset dans `src/styles.css`.
+
+#### Extension du design system
+
+Quand un nouveau besoin visuel apparaît :
+
+1. Vérifier si un token existe déjà (`palette`, `getToonGradient`, `dayNightPresets`). Si oui, l'utiliser.
+2. Si pas de token, vérifier si un composant existant suffit avec de nouvelles props.
+3. Si pas de composant, en créer un nouveau dans son dossier `src/ui/<name>/` ou `src/entities/<name>/`, exposer des props claires.
+4. **Documenter** dans le composant les tokens utilisés (Palette section, gradient steps, layout tokens).
+5. Si le besoin se répète, extraire en token.
+
+#### Interdit
+
+- Hex, tailles, espacements, durées en dur dans les composants.
+- Composants qui hardcodent une variation visuelle au lieu de la prendre en prop.
+- Styles inline dans le JSX sauf pour valeurs dynamiques calculées (positions calculées à partir du modèle, échelles animées, etc.). Tout le statique passe en CSS module.
+- Duplication d'une palette locale à un composant. Toujours importer depuis `src/palette.ts`.
+
 ### SOLID
 
 - **S** · Single Responsibility : chaque module, classe, fonction fait une seule chose et la fait bien.
