@@ -16,6 +16,8 @@ import { StoneEmbers } from "../entities/StoneEmbers";
 import { CampVillagers } from "../entities/CampVillagers";
 import { Hut } from "../entities/Hut";
 import { GraniteBlock } from "../entities/GraniteBlock";
+import { ProximityGreeting } from "../entities/ProximityGreeting";
+import type { VoiceId } from "../audio/vocalizations";
 import type { DayPhase } from "../palette";
 
 interface SceneProps {
@@ -36,6 +38,15 @@ const WIDE_TARGET: [number, number, number] = [0, 0, 0];
 const WIDE_ZOOM = 12;
 const CLIMAX_TARGET: [number, number, number] = [4, 1.5, 3];
 const CLIMAX_ZOOM = 7;
+
+const villagerVoiceBindings: readonly {
+  readonly voice: VoiceId;
+  readonly position: [number, number, number];
+}[] = [
+  { voice: "athro", position: [1.2, 0, -1.4] },
+  { voice: "vann", position: [4.5, 0, -3.8] },
+  { voice: "nia", position: [-3.5, 0, 1.8] },
+];
 
 export function Scene({
   phase,
@@ -98,6 +109,13 @@ export function Scene({
       )}
 
       <CampVillagers visible={showCampVillagers} />
+
+      {showCampVillagers && (
+        <ProximityGreeting
+          bindings={villagerVoiceBindings}
+          playerTarget={target}
+        />
+      )}
 
       <Player target={target} />
     </>

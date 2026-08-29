@@ -30,6 +30,42 @@ Références secondaires :
 
 **⛔ Pas de tiret cadratin (`—`) dans les fichiers publics.** Le dev n'en veut nulle part dans le contenu user-facing. Utiliser `·` `,` `.` selon contexte. Vaut pour `README.md`, `docs/*.md`, tout ce qui serait affiché en jeu ou lu sur GitHub.
 
+**⛔ Zéro anachronisme dans les visuels présentés.** Toute image, modèle 3D, décor, personnage, objet, sprite, screenshot commité, hébergé ou affiché doit être **strictement cohérent avec le Néolithique moyen armoricain (~4500 av. J.-C.)**. Interdits par exemple :
+
+- Animaux domestiques modernes (canard mallard élevé, vache moderne, poule leghorn, chien de compagnie moderne). Autorisé : chèvre néolithique primitive, bœuf sauvage/aurochs, chien loup domestiqué.
+- Objets modernes (téléphone, appareil photo, montre, ordinateur, vélo) SAUF dans l'épilogue final qui traverse jusqu'à aujourd'hui, où ces objets sont narrativement justifiés.
+- Vêtements post-néolithiques (tissage complexe, boutons métal, colorants vifs synthétiques). Autorisé : peaux tannées, fibres végétales tressées, teintures ocres/rouges naturelles.
+- Architecture (arches romaines, colonnes grecques, ogives gothiques, huttes africaines à toits pointus type Zulu). Autorisé : huttes torchis rondes, dolmens, cairns armoricains.
+- Végétation exotique (palmiers, olivier méditerranéen, cactus, bambou). Autorisé : ajoncs, bruyère, herbes rêches, pins bord de mer, chênes locaux.
+
+Cette règle s'applique aussi aux **fichiers de démonstration** et **assets samples** placés dans le repo, même s'ils ne sont pas rendus dans la scène finale. Un `khronos-duck.glb` téléchargé pour tester le pipeline `useGLTF` doit être supprimé après le test, jamais commité, car il pourrait apparaître dans une vue de dev ou un screenshot debug.
+
+En cas de doute sur un élément visuel : demander avant d'ajouter. La rigueur historique est un pilier du jeu (voir `docs/notes-historiques.md`).
+
+**⛔ Exactitude géographique stricte.** Le jeu se déroule dans un lieu réel identifiable : la lande morbihannaise autour du site archéologique de Carnac (~4500 av. J.-C.). Toute représentation du paysage, de la végétation, de la géologie, de la faune, du climat doit être **conforme au Morbihan réel actuel et au probable Morbihan néolithique** (reconstitution paléoenvironnementale des cultures Cerny et Chasséen).
+
+Éléments non-négociables :
+- **Côte** : Atlantique, orientation générale sud/ouest, mer d'ardoise typique, marnage important, pas Méditerranée
+- **Sol** : granit affleurant erratique breton, PAS calcaire jurassien, PAS sable désertique
+- **Végétation** : lande atlantique (ajoncs `Ulex europaeus`, bruyère `Calluna vulgaris`, herbes basses, pins maritimes `Pinus pinaster`, chênes verts sur granit). PAS palmiers, oliviers, cactus, séquoias, bouleaux nordiques.
+- **Faune** : cerf élaphe, sanglier, aurochs (grand bovidé sauvage néolithique, éteint depuis), lièvre, loup, oiseaux marins (goéland, cormoran). Domesticat : chèvre, mouton, bœuf primitif, chien. PAS lion, éléphant, ours brun européen (rare en Bretagne), animaux tropicaux.
+- **Climat** : océanique tempéré, humide, ciels souvent bas, vents forts, brumes fréquentes. PAS canicule méditerranéenne, PAS neige alpine permanente.
+- **Reliefs** : bocage bas, dunes littorales, marais salants, falaises granitiques limitées. PAS montagnes, PAS canyons, PAS plaines infinies.
+
+Références géographiques primaires : Musée de Préhistoire de Carnac, INRAP (Institut National de Recherches Archéologiques Préventives) publications sur Morbihan, cartes IGN 0821O (Auray-Carnac) et 0921ET (Golfe du Morbihan).
+
+**⛔ Tout doit être vérifiable factuellement.** Aucune affirmation historique, géographique, biologique, archéologique dans le jeu (textes, dessins pariétaux, hints, dialogues gestuels transcrits, notes historiques) ne doit être inventée sans source. Toute affirmation doit pouvoir être tracée à :
+
+- Une source académique publiée (revue à comité de lecture, monographie universitaire)
+- Une institution reconnue (musée, INRAP, CNRS, Reich Lab, Natural History Museum)
+- Un consensus archéologique documenté
+
+Les **hypothèses fictionnelles** (par exemple : "le rite mégalithique naît d'un deuil individuel") sont autorisées **si et seulement si** elles sont explicitement présentées comme telles dans `docs/notes-historiques.md` sous "Écarts fictionnels assumés", avec citation de la source qui inspire la spéculation (Renfrew 1976 pour le culte des ancêtres, Schmidt pour Göbekli Tepe, etc).
+
+En cas de doute sur une affirmation : (1) chercher la source, (2) si absente, marquer comme "hypothèse" dans le doc, (3) si contestée, ne pas l'utiliser comme fait acquis.
+
+Cette règle s'applique aussi aux **screenshots** commités, aux **prompts de génération IA d'images**, et aux **maquettes de test** : ne jamais afficher un fait faux, même provisoirement, car un futur contributeur ou lecteur pourrait le prendre pour argent comptant.
+
 **⛔ Pas de dépendance Blender.** Le dev ne le maîtrise pas. Pipeline actuel : mockup 2D → génération IA (Hunyuan local) → assets packs gratuits (Kenney) → placeholder r3f primitives. Ne jamais proposer "ouvre Blender et fais ça". Détail : `docs/direction-artistique.md` section 13.
 
 **⛔ Pas de PBR, pas de matériaux métalliques, pas de post-process lourd.** Cohérent avec le Néolithique et avec le style low-poly cel-shaded. Détail : `docs/direction-artistique.md` section 12.
