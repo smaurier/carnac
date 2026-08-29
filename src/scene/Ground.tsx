@@ -8,12 +8,12 @@ interface GroundProps {
   onMoveTarget: (x: number, z: number) => void;
 }
 
-const GROUND_SIZE = 120;
-const GROUND_SEGMENTS = 128;
+const GROUND_SIZE = 180;
+const GROUND_SEGMENTS = 160;
 const CAMP_FLAT_RADIUS = 8.0;
 const CAMP_FLAT_FADE = 14.0;
-const FAR_FLAT_START = 34.0;
-const FAR_FLAT_END = 48.0;
+const FAR_FLAT_START = 55.0;
+const FAR_FLAT_END = 72.0;
 
 const vertexShader = `
   varying vec2 vUv;
@@ -58,20 +58,20 @@ const fragmentShader = `
     float dist = length(vWorldPos.xz);
     float angle = atan(vWorldPos.z, vWorldPos.x);
 
-    // 1. Zone piétinée campement (0 -> 4u)
-    float trampled = 1.0 - smoothstep(3.5, 5.5, dist);
+    // 1. Zone piétinée campement (fondu doux jusqu'a 8u)
+    float trampled = (1.0 - smoothstep(3.5, 8.0, dist)) * 0.7;
 
-    // 2. Prairie centrale (0 -> 22u)
-    float prairie = 1.0 - smoothstep(18.0, 26.0, dist);
+    // 2. Prairie centrale
+    float prairie = 1.0 - smoothstep(30.0, 45.0, dist);
 
-    // 3. Forêt (Nord + Est)
+    // 3. Forêt (Nord + Est) etendue jusqu'au bord ile
     float forestAngleMask = smoothstep(-0.9, -0.4, angle) * smoothstep(2.5, 2.0, angle);
-    float forestDist = smoothstep(24.0, 32.0, dist) * (1.0 - smoothstep(38.0, 48.0, dist));
+    float forestDist = smoothstep(32.0, 45.0, dist) * (1.0 - smoothstep(60.0, 75.0, dist));
     float forest = forestAngleMask * forestDist;
 
-    // 4. Plage/dunes (Sud + Ouest)
+    // 4. Plage/dunes (Sud + Ouest) etendue
     float beachAngleMask = 1.0 - forestAngleMask;
-    float beachDist = smoothstep(22.0, 30.0, dist) * (1.0 - smoothstep(38.0, 48.0, dist));
+    float beachDist = smoothstep(28.0, 42.0, dist) * (1.0 - smoothstep(58.0, 75.0, dist));
     float beach = beachAngleMask * beachDist;
 
     // Variation naturelle mousse dans la prairie
@@ -84,8 +84,8 @@ const fragmentShader = `
     base = mix(base, beachColor, beach);
     base = mix(base, trampledColor, trampled);
 
-    // Fade edge net a 42-48u pour couper avec la mer
-    float edgeFade = 1.0 - smoothstep(42.0, 50.0, dist);
+    // Fade edge doux vers la mer (transition ile -> ocean)
+    float edgeFade = 1.0 - smoothstep(72.0, 85.0, dist);
 
     gl_FragColor = vec4(base, edgeFade);
   }
