@@ -21,6 +21,7 @@ import { Goat } from "../entities/Goat";
 import { Dog } from "../entities/Dog";
 import { Aurochs } from "../entities/Aurochs";
 import { VannBasket } from "../entities/VannBasket";
+import { ForestBackdrop } from "./ForestBackdrop";
 import type { VoiceId } from "../audio/vocalizations";
 import type { DayPhase } from "../palette";
 
@@ -39,7 +40,7 @@ const COMPANION_APPROACH: [number, number, number] = [3, 0, 3];
 const SECOND_STONE_POSITION: [number, number, number] = [3, 0, 3];
 
 const WIDE_TARGET: [number, number, number] = [0, 0, 0];
-const WIDE_ZOOM = 12;
+const WIDE_ZOOM = 28;
 const CLIMAX_TARGET: [number, number, number] = [4, 1.5, 3];
 const CLIMAX_ZOOM = 7;
 
@@ -119,9 +120,15 @@ export function Scene({
           <Goat position={[-4.6, 0, 2.6]} rotation={-0.6} scale={1.8} idleSeed={1.2} />
           <Dog position={[2.2, 0, -0.4]} rotation={2.3} scale={1.6} idleSeed={0.7} />
           <VannBasket position={[3.6, 0, -3.1]} rotation={0.4} />
-          <Aurochs position={[-14, 0, -8]} rotation={0.7} scale={1.15} />
+          {/* Troupeau d'aurochs sauvages, bien loin dans la lande */}
+          <Aurochs position={[-58, 0, -42]} rotation={0.9} scale={1.2} />
+          <Aurochs position={[-64, 0, -38]} rotation={0.5} scale={1.05} />
+          <Aurochs position={[-52, 0, -48]} rotation={1.2} scale={1.15} />
+          <Aurochs position={[-46, 0, -55]} rotation={0.3} scale={1.1} />
         </>
       )}
+
+      <ForestBackdrop />
 
       {showCampVillagers && (
         <ProximityGreeting

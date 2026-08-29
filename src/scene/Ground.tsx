@@ -7,31 +7,73 @@ interface GroundProps {
   onMoveTarget: (x: number, z: number) => void;
 }
 
+const GROUND_SIZE = 200;
+
 const vertexShader = `
   varying vec2 vUv;
+  varying vec3 vWorldPos;
   void main() {
     vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vWorldPos = worldPos.xyz;
+    gl_Position = projectionMatrix * viewMatrix * worldPos;
   }
 `;
 
+/**
+ * Ground multi-zones :
+ * · Campement (rayon ~4u autour origin) : trampledEarth ochre
+ * · Prairie centrale (rayon ~20u) : grassMeadow vert
+ * · Forêt (rayon 20-60u, Nord/Est) : mossDamp vert sombre
+ * · Plage (rayon 30-50u, Sud/Ouest) : ochreWarm sable clair
+ * · Bord fade doux
+ */
 const fragmentShader = `
-  uniform vec3 meadowColor;
-  uniform vec3 mossColor;
   uniform vec3 trampledColor;
+  uniform vec3 meadowColor;
+  uniform vec3 forestFloor;
+  uniform vec3 beachColor;
+  uniform float mapSize;
   varying vec2 vUv;
+  varying vec3 vWorldPos;
+
   void main() {
-    float dx = vUv.x - 0.5;
-    float dy = vUv.y - 0.5;
-    float dist = sqrt(dx * dx + dy * dy) * 2.0;
-    float alpha = 1.0 - smoothstep(0.7, 1.0, dist);
-    // Zone piétinée au centre (rayon ~0.12 en UV = ~4.3u sur plane 36u)
-    float trampled = 1.0 - smoothstep(0.08, 0.16, dist);
-    // Variation naturelle prairie / mousse
-    float mossMix = smoothstep(0.15, 0.5, dist) * (0.4 + 0.6 * sin(vUv.x * 18.0) * sin(vUv.y * 15.0));
-    vec3 groundBase = mix(meadowColor, mossColor, clamp(mossMix, 0.0, 0.6));
-    vec3 color = mix(groundBase, trampledColor, trampled);
-    gl_FragColor = vec4(color, alpha);
+    // Distance depuis origin en unites monde
+    float dist = length(vWorldPos.xz);
+
+    // Angle pour zones directionnelles
+    float angle = atan(vWorldPos.z, vWorldPos.x);
+
+    // 1. Zone piétinée campement (0 -> 4u)
+    float trampled = 1.0 - smoothstep(3.5, 5.5, dist);
+
+    // 2. Prairie centrale (0 -> 22u)
+    float prairie = 1.0 - smoothstep(18.0, 26.0, dist);
+
+    // 3. Forêt (Nord + Est, plus loin qu'avant, dist 35-90)
+    float forestAngleMask = smoothstep(-0.9, -0.4, angle) * smoothstep(2.5, 2.0, angle);
+    float forestDist = smoothstep(32.0, 45.0, dist) * (1.0 - smoothstep(80.0, 95.0, dist));
+    float forest = forestAngleMask * forestDist;
+
+    // 4. Plage/dunes (Sud + Ouest, dist 30-70)
+    float beachAngleMask = 1.0 - forestAngleMask;
+    float beachDist = smoothstep(28.0, 40.0, dist) * (1.0 - smoothstep(65.0, 85.0, dist));
+    float beach = beachAngleMask * beachDist;
+
+    // Variation naturelle mousse dans la prairie
+    float mossNoise = sin(vWorldPos.x * 0.4) * sin(vWorldPos.z * 0.3);
+    vec3 prairieMossy = mix(meadowColor, forestFloor, clamp(mossNoise * 0.3 + 0.3, 0.0, 0.4));
+
+    // Composition finale
+    vec3 base = prairieMossy;
+    base = mix(base, forestFloor, forest);
+    base = mix(base, beachColor, beach);
+    base = mix(base, trampledColor, trampled);
+
+    // Fade edge global (distance / mapSize/2)
+    float edgeFade = 1.0 - smoothstep(mapSize * 0.35, mapSize * 0.48, dist);
+
+    gl_FragColor = vec4(base, edgeFade);
   }
 `;
 
@@ -44,9 +86,11 @@ export function Ground({ onMoveTarget }: GroundProps) {
   const material = useMemo(() => {
     return new ShaderMaterial({
       uniforms: {
-        meadowColor: { value: new Color(palette.flora.grassMeadow) },
-        mossColor: { value: new Color(palette.flora.mossDamp) },
         trampledColor: { value: new Color(palette.flora.trampledEarth) },
+        meadowColor: { value: new Color(palette.flora.grassMeadow) },
+        forestFloor: { value: new Color(palette.flora.mossDamp) },
+        beachColor: { value: new Color(palette.warm.ochreWarm) },
+        mapSize: { value: GROUND_SIZE },
       },
       vertexShader,
       fragmentShader,
@@ -63,7 +107,7 @@ export function Ground({ onMoveTarget }: GroundProps) {
       onClick={handleClick}
       material={material}
     >
-      <planeGeometry args={[36, 36, 1, 1]} />
+      <planeGeometry args={[GROUND_SIZE, GROUND_SIZE, 1, 1]} />
     </mesh>
   );
 }
