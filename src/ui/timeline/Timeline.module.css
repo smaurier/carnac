@@ -1,7 +1,7 @@
 .timeline {
   position: relative;
   width: 100%;
-  height: var(--sp-80);
+  height: var(--sp-120);
   padding: 0 var(--sp-96);
   box-sizing: border-box;
   font-family: var(--font-serif);
@@ -11,19 +11,19 @@
   position: absolute;
   left: var(--sp-96);
   right: var(--sp-96);
-  top: 0;
+  top: var(--sp-14);
   height: 1px;
   background: var(--color-granit-mid);
 }
 
 .epoch {
   position: absolute;
-  top: -7px;
+  top: 0;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-12);
+  gap: var(--sp-8);
   pointer-events: none;
 }
 
@@ -34,12 +34,30 @@
 }
 
 .epochLabel {
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   color: var(--color-granit-mid);
   white-space: nowrap;
   transition: color var(--trans-normal);
+  transform: rotate(35deg);
+  transform-origin: left top;
+  padding-left: var(--sp-4);
+}
+
+.epochLabel[data-hide-desktop="true"] {
+  display: none;
+}
+
+.epochLabel[data-align="start"] {
+  transform: translateX(50%);
+  padding-left: var(--sp-8);
+}
+
+.epochLabel[data-align="end"] {
+  transform: translateX(-100%);
+  padding-left: 0;
+  padding-right: var(--sp-8);
 }
 
 .epochLabel[data-active="true"] {
@@ -48,7 +66,7 @@
 
 .cursor {
   position: absolute;
-  top: 0;
+  top: var(--sp-14);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -77,13 +95,17 @@
 
 .cursorYear {
   position: absolute;
-  top: -46px;
+  top: -50px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-4);
+  background: rgba(20, 15, 12, 0.65);
+  padding: var(--sp-4) var(--sp-10);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(2px);
 }
 
 .cursorYearNumber {
@@ -98,4 +120,43 @@
   text-transform: uppercase;
   color: var(--color-ochre-warm);
   white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .timeline {
+    height: var(--sp-80);
+    padding: 0 var(--sp-16);
+  }
+
+  .line {
+    left: var(--sp-16);
+    right: var(--sp-16);
+  }
+
+  .epochLabel {
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-tight);
+    transform: rotate(38deg);
+  }
+
+  .epochLabel[data-hide-mobile="true"] {
+    display: none;
+  }
+
+  .epochLabel[data-active="true"] {
+    display: none;
+  }
+
+  .cursorYear {
+    top: -42px;
+    padding: var(--sp-2) var(--sp-8);
+  }
+
+  .cursorYearNumber {
+    font-size: var(--fs-base);
+  }
+
+  .cursorYearLabel {
+    display: none;
+  }
 }

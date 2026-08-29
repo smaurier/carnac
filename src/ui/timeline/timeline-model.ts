@@ -43,7 +43,7 @@ export const defaultCarnacTimeline: Timeline = {
     { id: "neo-early", label: "Néolithique ancien", startYear: -5500 },
     { id: "neo-mid", label: "Néolithique moyen", startYear: -4500 },
     { id: "bronze", label: "Âge du Bronze", startYear: -2200 },
-    { id: "iron", label: "Âge du Fer", startYear: -800 },
+    { id: "iron", label: "Celtes", startYear: -800 },
     { id: "roman", label: "Antiquité romaine", startYear: -50 },
     { id: "medieval", label: "Moyen Âge", startYear: 500 },
     { id: "modern", label: "Époque moderne", startYear: 1500 },

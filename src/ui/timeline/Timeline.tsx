@@ -1,4 +1,4 @@
-import type { Timeline as TimelineData } from "./timeline-model";
+import type { Timeline as TimelineData, Epoch } from "./timeline-model";
 import { yearToPosition, getEpochAtYear } from "./timeline-model";
 import styles from "./Timeline.module.css";
 
@@ -10,6 +10,34 @@ interface TimelineProps {
 function formatYear(year: number): string {
   if (year < 0) return `−${Math.abs(year)}`;
   return `${year}`;
+}
+
+const DESKTOP_HIDDEN_EPOCH_IDS: readonly string[] = [
+  "bronze",
+  "roman",
+  "medieval",
+  "modern",
+];
+
+const MOBILE_HIDDEN_EPOCH_IDS: readonly string[] = [
+  ...DESKTOP_HIDDEN_EPOCH_IDS,
+  "meso",
+  "neo-early",
+  "iron",
+];
+
+function isHiddenOnMobile(epoch: Epoch): boolean {
+  return MOBILE_HIDDEN_EPOCH_IDS.includes(epoch.id);
+}
+
+function isHiddenOnDesktop(epoch: Epoch): boolean {
+  return DESKTOP_HIDDEN_EPOCH_IDS.includes(epoch.id);
+}
+
+function labelAlignFor(position: number): "start" | "center" | "end" {
+  if (position < 8) return "start";
+  if (position > 95) return "end";
+  return "center";
 }
 
 export function Timeline({ timeline, cursorYear }: TimelineProps) {
@@ -36,6 +64,9 @@ export function Timeline({ timeline, cursorYear }: TimelineProps) {
             <div
               className={styles.epochLabel}
               data-active={isActive ? "true" : "false"}
+              data-hide-mobile={isHiddenOnMobile(epoch) ? "true" : "false"}
+              data-hide-desktop={isHiddenOnDesktop(epoch) ? "true" : "false"}
+              data-align={labelAlignFor(position)}
             >
               {epoch.label}
             </div>

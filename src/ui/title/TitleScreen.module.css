@@ -86,3 +86,37 @@
   background: var(--color-dusk-gold);
   width: 60px;
 }
+
+@media (max-width: 720px) {
+  .header {
+    padding-top: 14vh;
+    gap: var(--sp-14);
+    padding-left: var(--sp-16);
+    padding-right: var(--sp-16);
+  }
+
+  .logo {
+    font-size: 40px;
+    letter-spacing: var(--ls-widest);
+    text-indent: var(--ls-widest);
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: var(--fs-md);
+    letter-spacing: var(--ls-wide);
+    text-align: center;
+  }
+
+  .timelineWrapper {
+    margin-top: 8vh;
+  }
+
+  .footer {
+    bottom: 6vh;
+  }
+
+  .startButton {
+    font-size: var(--fs-xl);
+  }
+}

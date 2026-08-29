@@ -78,7 +78,7 @@ canvas {
 .act-hint {
   position: fixed;
   left: 50%;
-  bottom: var(--sp-120);
+  bottom: calc(var(--sp-120) + var(--sp-48));
   transform: translateX(-50%);
   z-index: var(--z-act-hint);
   color: var(--color-halo-blue);
@@ -87,4 +87,27 @@ canvas {
   font-style: italic;
   letter-spacing: var(--ls-wide);
   opacity: 0.75;
+  text-align: center;
+  padding: 0 var(--sp-16);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 720px) {
+  .act-hint {
+    bottom: calc(var(--sp-96) + var(--sp-48));
+    font-size: var(--fs-sm);
+  }
+
+  .hud small {
+    display: none;
+  }
+
+  .timeline-overlay {
+    bottom: var(--sp-16);
+  }
+
+  .fresque-continue {
+    bottom: var(--sp-24);
+  }
 }
