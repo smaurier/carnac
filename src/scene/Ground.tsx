@@ -20,10 +20,11 @@ const vertexShader = `
   varying vec3 vWorldPos;
 
   float hillHeight(vec2 p) {
+    // abs() = toujours positif = ile monte au-dessus mer, jamais dessous
     float h = 0.0;
-    h += sin(p.x * 0.14 + 1.3) * cos(p.y * 0.13 - 0.7) * 0.8;
-    h += sin(p.x * 0.07 + 2.9) * cos(p.y * 0.09 - 1.7) * 1.2;
-    h += sin(p.x * 0.24 - 0.4) * cos(p.y * 0.21 + 2.1) * 0.4;
+    h += abs(sin(p.x * 0.09 + 1.3) * cos(p.y * 0.08 - 0.7)) * 1.2;
+    h += abs(sin(p.x * 0.05 + 2.9) * cos(p.y * 0.06 - 1.7)) * 1.6;
+    h += abs(sin(p.x * 0.22 - 0.4) * cos(p.y * 0.19 + 2.1)) * 0.4;
     return h;
   }
 
@@ -32,10 +33,10 @@ const vertexShader = `
     vec3 localPos = position;
     vec2 worldXZ = vec2(localPos.x, -localPos.y);
     float distFromCamp = length(worldXZ);
-    // Bosses uniquement dans un anneau proche (bocage), plates ailleurs
     float campMask = smoothstep(${CAMP_FLAT_RADIUS.toFixed(1)}, ${CAMP_FLAT_FADE.toFixed(1)}, distFromCamp);
     float farMask = 1.0 - smoothstep(${FAR_FLAT_START.toFixed(1)}, ${FAR_FLAT_END.toFixed(1)}, distFromCamp);
     float bump = hillHeight(worldXZ) * campMask * farMask;
+    // Bumps abs = toujours >= 0 : sol jamais sous mer (y=-0.5)
     localPos.z += bump;
 
     vec4 worldPos = modelMatrix * vec4(localPos, 1.0);

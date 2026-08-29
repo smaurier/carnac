@@ -68,7 +68,7 @@ export function SeaHorizon({ phase }: SeaHorizonProps) {
     <mesh
       ref={meshRef}
       rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -0.15, 0]}
+      position={[0, -0.5, 0]}
       material={material}
     >
       <planeGeometry args={[SEA_SIZE, SEA_SIZE, 1, 1]} />
