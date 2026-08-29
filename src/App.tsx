@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
+import { KeyboardControls } from "@react-three/drei";
+import { Physics } from "@react-three/rapier";
 import { Scene } from "./scene/Scene";
 import { Timeline } from "./ui/timeline/Timeline";
 import { defaultCarnacTimeline } from "./ui/timeline/timeline-model";
@@ -45,6 +47,15 @@ declare global {
     };
   }
 }
+
+const keyboardMap = [
+  { name: "forward", keys: ["ArrowUp", "KeyW", "KeyZ"] },
+  { name: "backward", keys: ["ArrowDown", "KeyS"] },
+  { name: "leftward", keys: ["ArrowLeft", "KeyA", "KeyQ"] },
+  { name: "rightward", keys: ["ArrowRight", "KeyD"] },
+  { name: "jump", keys: ["Space"] },
+  { name: "run", keys: ["Shift"] },
+];
 
 export function App() {
   const { state, flags, dispatch, setFlag } = useNarrativeState();
@@ -98,14 +109,18 @@ export function App() {
   return (
     <>
       <Canvas dpr={[1, 2]} shadows={false}>
-        <Scene
-          phase={phase}
-          showStandingStone={state === "act3"}
-          standingStonePlaced={stonePlaced}
-          onPlaceStone={() => setFlag("stone-placed", true)}
-          onWitnessArrived={() => setFlag("witness-arrived", true)}
-          showCampVillagers={state === "act1" || state === "act2"}
-        />
+        <KeyboardControls map={keyboardMap}>
+          <Physics timeStep="vary" gravity={[0, -9.81, 0]}>
+            <Scene
+              phase={phase}
+              showStandingStone={state === "act3"}
+              standingStonePlaced={stonePlaced}
+              onPlaceStone={() => setFlag("stone-placed", true)}
+              onWitnessArrived={() => setFlag("witness-arrived", true)}
+              showCampVillagers={state === "act1" || state === "act2"}
+            />
+          </Physics>
+        </KeyboardControls>
       </Canvas>
 
       {isInGame && showTimeline && (
