@@ -11,6 +11,7 @@ import { useAudio } from "./audio/useAudio";
 import { getAudioEngine } from "./audio/audio-engine";
 import { voiceProfileFor, type VoiceId } from "./audio/vocalizations";
 import { useNarrativeState } from "./narrative/useNarrativeState";
+import { useAct1Schedule } from "./narrative/useAct1Schedule";
 import type { NarrativeState } from "./narrative/narrative-state";
 import type { DayPhase } from "./palette";
 
@@ -62,6 +63,12 @@ export function App() {
   const isInGame = state === "act1" || state === "act2" || state === "act3";
   const interludeText = interludeTexts[state];
   const stonePlaced = flags["stone-placed"] === true;
+
+  const { hint: act1Hint } = useAct1Schedule({
+    active: state === "act1",
+    onPhaseChange: setPhase,
+    onComplete: () => dispatch("advance"),
+  });
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -116,6 +123,12 @@ export function App() {
           <small>
             clic Kel · T phase ({phase}) · F frise · N acte suivant · 1-4 voix
           </small>
+        </div>
+      )}
+
+      {state === "act1" && act1Hint && (
+        <div className="act-hint">
+          {act1Hint}
         </div>
       )}
 
