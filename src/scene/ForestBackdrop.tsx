@@ -36,8 +36,9 @@ function generateTrees(count: number, seed: number): TreeInstance[] {
     palette.flora.grass,
   ];
   for (let i = 0; i < count; i += 1) {
-    const angle = -0.9 + rand() * 3.4;
-    const dist = 40 + rand() * 45;
+    // Contenir dans le quadrant Nord/Est de l'ile (angle -0.6 a 2.4)
+    const angle = -0.6 + rand() * 3.0;
+    const dist = 28 + rand() * 14;
     const x = Math.cos(angle) * dist;
     const z = Math.sin(angle) * dist;
     const height = 3.5 + rand() * 3.5;
@@ -59,7 +60,7 @@ interface ForestBackdropProps {
 }
 
 export function ForestBackdrop({
-  count = 40,
+  count = 22,
   seed = 4321,
 }: ForestBackdropProps) {
   const trees = useMemo(() => generateTrees(count, seed), [count, seed]);

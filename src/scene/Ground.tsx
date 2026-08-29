@@ -8,44 +8,54 @@ interface GroundProps {
   onMoveTarget: (x: number, z: number) => void;
 }
 
-const GROUND_SIZE = 200;
+const GROUND_SIZE = 120;
+const GROUND_SEGMENTS = 128;
+const CAMP_FLAT_RADIUS = 8.0;
+const CAMP_FLAT_FADE = 14.0;
+const FAR_FLAT_START = 34.0;
+const FAR_FLAT_END = 48.0;
 
 const vertexShader = `
   varying vec2 vUv;
   varying vec3 vWorldPos;
+
+  float hillHeight(vec2 p) {
+    float h = 0.0;
+    h += sin(p.x * 0.14 + 1.3) * cos(p.y * 0.13 - 0.7) * 0.8;
+    h += sin(p.x * 0.07 + 2.9) * cos(p.y * 0.09 - 1.7) * 1.2;
+    h += sin(p.x * 0.24 - 0.4) * cos(p.y * 0.21 + 2.1) * 0.4;
+    return h;
+  }
+
   void main() {
     vUv = uv;
-    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vec3 localPos = position;
+    vec2 worldXZ = vec2(localPos.x, -localPos.y);
+    float distFromCamp = length(worldXZ);
+    // Bosses uniquement dans un anneau proche (bocage), plates ailleurs
+    float campMask = smoothstep(${CAMP_FLAT_RADIUS.toFixed(1)}, ${CAMP_FLAT_FADE.toFixed(1)}, distFromCamp);
+    float farMask = 1.0 - smoothstep(${FAR_FLAT_START.toFixed(1)}, ${FAR_FLAT_END.toFixed(1)}, distFromCamp);
+    float bump = hillHeight(worldXZ) * campMask * farMask;
+    localPos.z += bump;
+
+    vec4 worldPos = modelMatrix * vec4(localPos, 1.0);
     vWorldPos = worldPos.xyz;
     gl_Position = projectionMatrix * viewMatrix * worldPos;
   }
 `;
 
-/**
- * Ground multi-zones :
- * · Campement (rayon ~4u autour origin) : trampledEarth ochre
- * · Prairie centrale (rayon ~20u) : grassMeadow vert
- * · Forêt (rayon 20-60u, Nord/Est) : mossDamp vert sombre
- * · Plage (rayon 30-50u, Sud/Ouest) : ochreWarm sable clair
- * · Bord fade doux
- */
 const fragmentShader = `
   uniform vec3 trampledColor;
   uniform vec3 meadowColor;
   uniform vec3 forestFloor;
   uniform vec3 beachColor;
-  uniform vec3 seaColor;
-  uniform vec3 seaFoam;
   uniform float mapSize;
   uniform float time;
   varying vec2 vUv;
   varying vec3 vWorldPos;
 
   void main() {
-    // Distance depuis origin en unites monde
     float dist = length(vWorldPos.xz);
-
-    // Angle pour zones directionnelles
     float angle = atan(vWorldPos.z, vWorldPos.x);
 
     // 1. Zone piétinée campement (0 -> 4u)
@@ -54,22 +64,15 @@ const fragmentShader = `
     // 2. Prairie centrale (0 -> 22u)
     float prairie = 1.0 - smoothstep(18.0, 26.0, dist);
 
-    // 3. Forêt (Nord + Est, dist 32-58, plus etroite pour laisser place mer)
+    // 3. Forêt (Nord + Est)
     float forestAngleMask = smoothstep(-0.9, -0.4, angle) * smoothstep(2.5, 2.0, angle);
-    float forestDist = smoothstep(32.0, 42.0, dist) * (1.0 - smoothstep(52.0, 62.0, dist));
+    float forestDist = smoothstep(24.0, 32.0, dist) * (1.0 - smoothstep(38.0, 48.0, dist));
     float forest = forestAngleMask * forestDist;
 
-    // 4. Plage/dunes (Sud + Ouest, dist 28-55, bordure sable avant la mer)
+    // 4. Plage/dunes (Sud + Ouest)
     float beachAngleMask = 1.0 - forestAngleMask;
-    float beachDist = smoothstep(28.0, 38.0, dist) * (1.0 - smoothstep(48.0, 60.0, dist));
+    float beachDist = smoothstep(22.0, 30.0, dist) * (1.0 - smoothstep(38.0, 48.0, dist));
     float beach = beachAngleMask * beachDist;
-
-    // 5. Mer d'ardoise lointaine (au-dela de plage/foret, dist > 55)
-    float sea = smoothstep(55.0, 72.0, dist);
-    // Petites vagues sinusoidales sur la mer
-    float wave = sin(vWorldPos.x * 0.35 + time * 0.5)
-               * cos(vWorldPos.z * 0.28 - time * 0.35);
-    vec3 seaWithFoam = mix(seaColor, seaFoam, smoothstep(0.6, 0.95, wave) * 0.28);
 
     // Variation naturelle mousse dans la prairie
     float mossNoise = sin(vWorldPos.x * 0.4) * sin(vWorldPos.z * 0.3);
@@ -79,11 +82,10 @@ const fragmentShader = `
     vec3 base = prairieMossy;
     base = mix(base, forestFloor, forest);
     base = mix(base, beachColor, beach);
-    base = mix(base, seaWithFoam, sea);
     base = mix(base, trampledColor, trampled);
 
-    // Fade edge tres doux tout au bord (juste pour eviter arete dure)
-    float edgeFade = 1.0 - smoothstep(mapSize * 0.44, mapSize * 0.49, dist);
+    // Fade edge net a 42-48u pour couper avec la mer
+    float edgeFade = 1.0 - smoothstep(42.0, 50.0, dist);
 
     gl_FragColor = vec4(base, edgeFade);
   }
@@ -102,8 +104,6 @@ export function Ground({ onMoveTarget }: GroundProps) {
         meadowColor: { value: new Color(palette.flora.grassMeadow) },
         forestFloor: { value: new Color(palette.flora.mossDamp) },
         beachColor: { value: new Color(palette.warm.ochreWarm) },
-        seaColor: { value: new Color(palette.cool.slateSea) },
-        seaFoam: { value: new Color(palette.cool.haloBlue) },
         mapSize: { value: GROUND_SIZE },
         time: { value: 0 },
       },
@@ -127,7 +127,7 @@ export function Ground({ onMoveTarget }: GroundProps) {
       onClick={handleClick}
       material={material}
     >
-      <planeGeometry args={[GROUND_SIZE, GROUND_SIZE, 1, 1]} />
+      <planeGeometry args={[GROUND_SIZE, GROUND_SIZE, GROUND_SEGMENTS, GROUND_SEGMENTS]} />
     </mesh>
   );
 }
