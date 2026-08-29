@@ -26,10 +26,27 @@ const interludeTexts: Record<NarrativeState, string | undefined> = {
 };
 
 
+declare global {
+  interface Window {
+    __carnacDev?: {
+      dispatch: (event: "start" | "advance" | "restart") => void;
+      setFlag: (name: string, value: boolean) => void;
+    };
+  }
+}
+
 export function App() {
   const { state, flags, dispatch, setFlag } = useNarrativeState();
   const [phase, setPhase] = useState<DayPhase>("dusk");
   const [showTimeline, setShowTimeline] = useState(true);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    window.__carnacDev = { dispatch, setFlag };
+    return () => {
+      delete window.__carnacDev;
+    };
+  }, [dispatch, setFlag]);
 
   const isInGame = state === "act1" || state === "act2" || state === "act3";
   const interludeText = interludeTexts[state];
