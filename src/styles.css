@@ -42,6 +42,31 @@ canvas {
   margin-top: var(--sp-4);
 }
 
+.audio-toggle {
+  position: fixed;
+  top: var(--sp-12);
+  right: var(--sp-16);
+  z-index: var(--z-screen);
+  background: transparent;
+  border: 1px solid rgba(232, 223, 200, 0.2);
+  color: var(--color-granit-light);
+  font-family: var(--font-serif);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: var(--sp-4) var(--sp-10);
+  border-radius: var(--radius-sm);
+  transition: color var(--trans-normal), border-color var(--trans-normal);
+  outline: none;
+}
+
+.audio-toggle:hover,
+.audio-toggle:focus-visible {
+  color: var(--color-bone-white);
+  border-color: rgba(232, 223, 200, 0.5);
+}
+
 .timeline-overlay {
   position: fixed;
   left: 0;

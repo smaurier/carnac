@@ -7,6 +7,7 @@ import { TitleScreen } from "./ui/title/TitleScreen";
 import { Interlude } from "./ui/interlude/Interlude";
 import { EndScreen } from "./ui/end/EndScreen";
 import { EpilogueSequence } from "./ui/epilogue/EpilogueSequence";
+import { useAudio } from "./audio/useAudio";
 import { useNarrativeState } from "./narrative/useNarrativeState";
 import type { NarrativeState } from "./narrative/narrative-state";
 import type { DayPhase } from "./palette";
@@ -37,6 +38,7 @@ declare global {
 
 export function App() {
   const { state, flags, dispatch, setFlag } = useNarrativeState();
+  const { muted, toggleMute } = useAudio(state);
   const [phase, setPhase] = useState<DayPhase>("dusk");
   const [showTimeline, setShowTimeline] = useState(true);
 
@@ -125,6 +127,16 @@ export function App() {
       {state === "title" && (
         <TitleScreen onStart={() => dispatch("start")} />
       )}
+
+      <button
+        type="button"
+        className="audio-toggle"
+        onClick={toggleMute}
+        aria-label={muted ? "Activer le son" : "Couper le son"}
+        title={muted ? "Activer le son" : "Couper le son"}
+      >
+        {muted ? "♪ off" : "♪ on"}
+      </button>
 
       {interludeText && (
         <Interlude
