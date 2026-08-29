@@ -1,11 +1,12 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
-import type { Mesh } from "three";
+import type { Group } from "three";
 import { Vector3 } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
 import { outlineThickness } from "../design/outlines";
+import { GroundShadow } from "./GroundShadow";
 
 interface PlayerProps {
   target: [number, number];
@@ -15,24 +16,27 @@ interface PlayerProps {
 const tmp = new Vector3();
 
 export function Player({ target, speed = 4 }: PlayerProps) {
-  const ref = useRef<Mesh>(null);
+  const groupRef = useRef<Group>(null);
 
   useFrame((_, delta) => {
-    const mesh = ref.current;
-    if (!mesh) return;
-    tmp.set(target[0], mesh.position.y, target[1]);
-    const distance = mesh.position.distanceTo(tmp);
+    const group = groupRef.current;
+    if (!group) return;
+    tmp.set(target[0], group.position.y, target[1]);
+    const distance = group.position.distanceTo(tmp);
     if (distance < 0.05) return;
-    tmp.sub(mesh.position);
+    tmp.sub(group.position);
     tmp.normalize().multiplyScalar(Math.min(speed * delta, distance));
-    mesh.position.add(tmp);
+    group.position.add(tmp);
   });
 
   return (
-    <mesh ref={ref} position={[0, 0.9, 0]} castShadow={false}>
-      <capsuleGeometry args={[0.35, 1.0, 4, 12]} />
-      <meshToonMaterial color={palette.skin.b} gradientMap={getToonGradient(3)} />
-      <Outlines thickness={outlineThickness.sm} color={palette.neutrals.charcoal} />
-    </mesh>
+    <group ref={groupRef} position={[0, 0, 0]}>
+      <GroundShadow radius={0.5} opacity={0.45} />
+      <mesh position={[0, 0.9, 0]}>
+        <capsuleGeometry args={[0.35, 1.0, 4, 12]} />
+        <meshToonMaterial color={palette.skin.b} gradientMap={getToonGradient(3)} />
+        <Outlines thickness={outlineThickness.sm} color={palette.neutrals.charcoal} />
+      </mesh>
+    </group>
   );
 }

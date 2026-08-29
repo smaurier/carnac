@@ -5,6 +5,7 @@ import { MathUtils, type Group, type PointLight } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
 import { outlineThickness } from "../design/outlines";
+import { GroundShadow } from "./GroundShadow";
 
 interface StandingStoneProps {
   position: [number, number, number];
@@ -78,36 +79,41 @@ export function StandingStone({
   };
 
   return (
-    <group
-      ref={groupRef}
-      position={[position[0], yLying, position[2]]}
-      rotation={[TILT_LYING, 0, 0]}
-    >
-      <mesh
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
+    <>
+      <group position={[position[0], 0, position[2]]}>
+        <GroundShadow radius={radius * 1.8} opacity={0.5} />
+      </group>
+      <group
+        ref={groupRef}
+        position={[position[0], yLying, position[2]]}
+        rotation={[TILT_LYING, 0, 0]}
       >
-        <cylinderGeometry args={[radius, radius * 1.1, height, 12]} />
-        <meshToonMaterial
-          color={palette.neutrals.granitMid}
-          emissive={palette.cool.haloBlue}
-          emissiveIntensity={hovered && !placed ? 0.12 : 0}
-          gradientMap={getToonGradient(3)}
+        <mesh
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          <cylinderGeometry args={[radius, radius * 1.1, height, 12]} />
+          <meshToonMaterial
+            color={palette.neutrals.granitMid}
+            emissive={palette.cool.haloBlue}
+            emissiveIntensity={hovered && !placed ? 0.12 : 0}
+            gradientMap={getToonGradient(3)}
+          />
+          <Outlines
+            thickness={outlineThickness.lg * scale}
+            color={palette.neutrals.charcoal}
+          />
+        </mesh>
+        <pointLight
+          ref={haloRef}
+          color={palette.cool.haloBlue}
+          distance={6 * scale}
+          decay={2}
+          intensity={0.25}
+          position={[0, height / 2, 0]}
         />
-        <Outlines
-          thickness={outlineThickness.lg * scale}
-          color={palette.neutrals.charcoal}
-        />
-      </mesh>
-      <pointLight
-        ref={haloRef}
-        color={palette.cool.haloBlue}
-        distance={6 * scale}
-        decay={2}
-        intensity={0.25}
-        position={[0, height / 2, 0]}
-      />
-    </group>
+      </group>
+    </>
   );
 }
