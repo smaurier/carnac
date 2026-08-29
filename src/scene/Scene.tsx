@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Outlines } from "@react-three/drei";
 import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
@@ -15,9 +14,8 @@ import { RitualCompanion } from "../entities/RitualCompanion";
 import { TribeWitnesses } from "../entities/TribeWitnesses";
 import { StoneEmbers } from "../entities/StoneEmbers";
 import { CampVillagers } from "../entities/CampVillagers";
-import { palette } from "../palette";
-import { getToonGradient } from "../shaders/toon-gradient";
-import { outlineThickness } from "../design/outlines";
+import { Hut } from "../entities/Hut";
+import { GraniteBlock } from "../entities/GraniteBlock";
 import type { DayPhase } from "../palette";
 
 interface SceneProps {
@@ -71,23 +69,11 @@ export function Scene({
 
       <Firepit position={[0, 0, 0]} />
 
-      {[
-        [-4, -3],
-        [3, -4],
-        [-3, 3],
-      ].map(([x, z], i) => (
-        <mesh key={i} position={[x, 0.4, z]}>
-          <dodecahedronGeometry args={[0.6, 0]} />
-          <meshToonMaterial color={palette.neutrals.granitMid} gradientMap={getToonGradient(3)} />
-          <Outlines thickness={outlineThickness.md} color={palette.neutrals.charcoal} />
-        </mesh>
-      ))}
+      <GraniteBlock position={[-4, 0, -3]} seed={11} scale={0.9} />
+      <GraniteBlock position={[3, 0, -4]} seed={23} scale={1.1} />
+      <GraniteBlock position={[-3, 0, 3]} seed={37} scale={0.8} />
 
-      <mesh position={[6, 1.5, -6]}>
-        <coneGeometry args={[1.8, 3, 6]} />
-        <meshToonMaterial color={palette.warm.ochreDeep} gradientMap={getToonGradient(3)} />
-        <Outlines thickness={outlineThickness.xl} color={palette.neutrals.charcoal} />
-      </mesh>
+      <Hut position={[6, 0, -6]} rotation={-Math.PI / 6} scale={0.95} />
 
       {showStandingStone && (
         <>

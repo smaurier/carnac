@@ -49,22 +49,77 @@ export const Villager = forwardRef<Group, VillagerProps>(function Villager(
     inner.rotation.z = Math.sin(t * SWAY_SPEED * 0.6 + seed) * SWAY_AMPLITUDE_ROT;
   });
 
+  const outline = <Outlines thickness={outlineThickness.xs} color={palette.neutrals.charcoal} />;
+
   return (
     <group ref={ref} position={position} scale={scale}>
       <GroundShadow radius={0.55} opacity={0.4} />
       <group ref={innerRef}>
-        <mesh position={[0, 0.9, 0]}>
-          <capsuleGeometry args={[0.35, 1.0, 4, 12]} />
+        {/* Jambes */}
+        <mesh position={[-0.14, 0.32, 0]}>
+          <cylinderGeometry args={[0.11, 0.13, 0.64, 8]} />
+          <meshToonMaterial color={skinColor} gradientMap={gradient} />
+          {outline}
+        </mesh>
+        <mesh position={[0.14, 0.32, 0]}>
+          <cylinderGeometry args={[0.11, 0.13, 0.64, 8]} />
+          <meshToonMaterial color={skinColor} gradientMap={gradient} />
+          {outline}
+        </mesh>
+
+        {/* Torse conique (large aux hanches, resserré aux épaules) */}
+        <mesh position={[0, 0.95, 0]}>
+          <cylinderGeometry args={[0.28, 0.34, 0.68, 10]} />
           <meshToonMaterial color={bodyColor} gradientMap={gradient} />
           <Outlines thickness={outlineThickness.sm} color={palette.neutrals.charcoal} />
         </mesh>
-        <mesh position={[0, 1.9, 0]}>
-          <sphereGeometry args={[0.32, 16, 12]} />
+
+        {/* Ceinture torsadée */}
+        <mesh position={[0, 0.66, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.32, 0.04, 6, 16]} />
+          <meshToonMaterial color={palette.warm.ochreWarm} gradientMap={gradient} />
+        </mesh>
+
+        {/* Épaules (sphères) */}
+        <mesh position={[-0.29, 1.18, 0]}>
+          <sphereGeometry args={[0.11, 10, 8]} />
+          <meshToonMaterial color={bodyColor} gradientMap={gradient} />
+          {outline}
+        </mesh>
+        <mesh position={[0.29, 1.18, 0]}>
+          <sphereGeometry args={[0.11, 10, 8]} />
+          <meshToonMaterial color={bodyColor} gradientMap={gradient} />
+          {outline}
+        </mesh>
+
+        {/* Bras */}
+        <mesh position={[-0.31, 0.9, 0]}>
+          <cylinderGeometry args={[0.08, 0.09, 0.5, 8]} />
+          <meshToonMaterial color={skinColor} gradientMap={gradient} />
+          {outline}
+        </mesh>
+        <mesh position={[0.31, 0.9, 0]}>
+          <cylinderGeometry args={[0.08, 0.09, 0.5, 8]} />
+          <meshToonMaterial color={skinColor} gradientMap={gradient} />
+          {outline}
+        </mesh>
+
+        {/* Cou */}
+        <mesh position={[0, 1.34, 0]}>
+          <cylinderGeometry args={[0.08, 0.09, 0.12, 8]} />
+          <meshToonMaterial color={skinColor} gradientMap={gradient} />
+        </mesh>
+
+        {/* Tête */}
+        <mesh position={[0, 1.5, 0]}>
+          <sphereGeometry args={[0.19, 14, 12]} />
           <meshToonMaterial color={skinColor} gradientMap={gradient} />
           <Outlines thickness={outlineThickness.xs} color={palette.neutrals.charcoal} />
         </mesh>
-        <mesh position={[0, 2.05, 0]}>
-          <sphereGeometry args={[0.34, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />
+
+        {/* Cheveux (calotte) */}
+        <mesh position={[0, 1.55, 0]}>
+          <sphereGeometry args={[0.21, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2.4]} />
           <meshToonMaterial color={hairColor} gradientMap={gradient} />
         </mesh>
       </group>
