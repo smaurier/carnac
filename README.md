@@ -211,6 +211,7 @@ Pour les contributions techniques :
 - **Reich Lab (Harvard)** pour les données d'archéogénétique
 - **Natural History Museum Londres** pour la reconstitution du Cheddar Man
 - **Thatgamecompany**, **Shedworks**, **Cardboard Computer** pour les références esthétiques (*Journey*, *Sable*, *Kentucky Route Zero*)
+- **Kenney Vleugels** ([Kenney.nl](https://kenney.nl)) pour les assets 3D low-poly CC0
 - Les bâtisseurs anonymes du Néolithique moyen armoricain
 
 ---
