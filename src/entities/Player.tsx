@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useImperativeHandle, forwardRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
 import type { Group, Mesh } from "three";
@@ -27,8 +27,12 @@ function shortestAngleDiff(from: number, to: number): number {
   return diff;
 }
 
-export function Player({ target, speed = 4 }: PlayerProps) {
+export const Player = forwardRef<Group, PlayerProps>(function Player(
+  { target, speed = 4 },
+  externalRef,
+) {
   const groupRef = useRef<Group>(null);
+  useImperativeHandle(externalRef, () => groupRef.current as Group);
   const leftLegRef = useRef<Mesh>(null);
   const rightLegRef = useRef<Mesh>(null);
   const leftArmRef = useRef<Mesh>(null);
@@ -132,4 +136,4 @@ export function Player({ target, speed = 4 }: PlayerProps) {
       </mesh>
     </group>
   );
-}
+});

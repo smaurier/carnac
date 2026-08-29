@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { IsoCamera } from "./IsoCamera";
+import { useRef, useState } from "react";
+import type { Group } from "three";
+import { ThirdPersonCamera } from "./ThirdPersonCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
 import { LandFoliage } from "./LandFoliage";
@@ -38,11 +39,6 @@ const COMPANION_RESTING: [number, number, number] = [-5, 0, 4];
 const COMPANION_APPROACH: [number, number, number] = [3, 0, 3];
 const SECOND_STONE_POSITION: [number, number, number] = [3, 0, 3];
 
-const WIDE_TARGET: [number, number, number] = [0, 0, 0];
-const WIDE_ZOOM = 18;
-const CLIMAX_TARGET: [number, number, number] = [4, 1.5, 3];
-const CLIMAX_ZOOM = 7;
-
 const villagerVoiceBindings: readonly {
   readonly voice: VoiceId;
   readonly position: [number, number, number];
@@ -61,17 +57,18 @@ export function Scene({
   showCampVillagers,
 }: SceneProps) {
   const [target, setTarget] = useState<[number, number]>([0, 4]);
-  const cameraTarget = standingStonePlaced ? CLIMAX_TARGET : WIDE_TARGET;
-  const cameraZoom = standingStonePlaced ? CLIMAX_ZOOM : WIDE_ZOOM;
+  const playerRef = useRef<Group>(null);
+  const cameraDistance = standingStonePlaced ? 5 : 7;
+  const cameraHeight = standingStonePlaced ? 2.4 : 3.2;
 
   return (
     <>
-      <IsoCamera
-        target={cameraTarget}
-        zoom={cameraZoom}
-        azimuthDeg={45}
-        elevationDeg={62}
-        distance={60}
+      <ThirdPersonCamera
+        target={playerRef}
+        distance={cameraDistance}
+        height={cameraHeight}
+        lookHeight={1.4}
+        fov={55}
       />
       <Sky phase={phase} />
       <DayNightCycle phase={phase} />
@@ -135,7 +132,7 @@ export function Scene({
         />
       )}
 
-      <Player target={target} />
+      <Player ref={playerRef} target={target} />
     </>
   );
 }
