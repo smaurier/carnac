@@ -9,6 +9,7 @@ import { StandingStone } from "../entities/StandingStone";
 import { RitualCompanion } from "../entities/RitualCompanion";
 import { TribeWitnesses } from "../entities/TribeWitnesses";
 import { StoneEmbers } from "../entities/StoneEmbers";
+import { CampVillagers } from "../entities/CampVillagers";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
 import { outlineThickness } from "../design/outlines";
@@ -20,6 +21,7 @@ interface SceneProps {
   standingStonePlaced: boolean;
   onPlaceStone: () => void;
   onWitnessArrived: () => void;
+  showCampVillagers: boolean;
 }
 
 const STONE_POSITION: [number, number, number] = [4, 0, 3];
@@ -38,6 +40,7 @@ export function Scene({
   standingStonePlaced,
   onPlaceStone,
   onWitnessArrived,
+  showCampVillagers,
 }: SceneProps) {
   const [target, setTarget] = useState<[number, number]>([0, 4]);
   const cameraTarget = standingStonePlaced ? CLIMAX_TARGET : WIDE_TARGET;
@@ -97,6 +100,8 @@ export function Scene({
           />
         </>
       )}
+
+      <CampVillagers visible={showCampVillagers} />
 
       <Player target={target} />
     </>

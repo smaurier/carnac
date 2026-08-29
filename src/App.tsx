@@ -82,6 +82,7 @@ export function App() {
           standingStonePlaced={stonePlaced}
           onPlaceStone={() => setFlag("stone-placed", true)}
           onWitnessArrived={() => setFlag("witness-arrived", true)}
+          showCampVillagers={state === "act1" || state === "act2"}
         />
       </Canvas>
 
