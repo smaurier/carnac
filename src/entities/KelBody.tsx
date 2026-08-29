@@ -1,14 +1,30 @@
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
+import { useGame } from "ecctrl";
+import type { Mesh } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
 import { outlineThickness } from "../design/outlines";
 
 /**
- * Meshes composant Kel sans logique de mouvement.
- * Utilise a l'interieur d'un Ecctrl qui gere physique + camera.
- * Origine locale = centre inferieur du corps (les pieds a y=0).
+ * Meshes composant Kel + animation walk/idle basee sur
+ * useGame().curAnimation d'Ecctrl.
+ * Position pieds a y=0 dans le groupe local, decalage
+ * -CAPSULE_OFFSET fait dans Player pour poser sur le sol.
  */
+const WALK_FREQ = 7;
+const WALK_LEG_AMP = 0.55;
+const WALK_ARM_AMP = 0.45;
+
 export function KelBody() {
+  const leftLegRef = useRef<Mesh>(null);
+  const rightLegRef = useRef<Mesh>(null);
+  const leftArmRef = useRef<Mesh>(null);
+  const rightArmRef = useRef<Mesh>(null);
+  const walkPhaseRef = useRef(0);
+  const curAnimation = useGame((s) => s.curAnimation);
+
   const gradient = getToonGradient(3);
   const bodyColor = palette.warm.ochreWarm;
   const skinColor = palette.skin.b;
@@ -17,14 +33,26 @@ export function KelBody() {
     <Outlines thickness={outlineThickness.xs} color={palette.neutrals.charcoal} />
   );
 
+  useFrame((_, delta) => {
+    const moving = curAnimation === "walk" || curAnimation === "run";
+    const speedMult = curAnimation === "run" ? 1.6 : 1;
+    if (moving) walkPhaseRef.current += delta * WALK_FREQ * speedMult;
+    const swing = moving ? Math.sin(walkPhaseRef.current) : 0;
+    const swingOpp = moving ? Math.sin(walkPhaseRef.current + Math.PI) : 0;
+    if (leftLegRef.current) leftLegRef.current.rotation.x = swing * WALK_LEG_AMP;
+    if (rightLegRef.current) rightLegRef.current.rotation.x = swingOpp * WALK_LEG_AMP;
+    if (leftArmRef.current) leftArmRef.current.rotation.x = swingOpp * WALK_ARM_AMP;
+    if (rightArmRef.current) rightArmRef.current.rotation.x = swing * WALK_ARM_AMP;
+  });
+
   return (
     <group>
-      <mesh position={[-0.14, 0.32, 0]}>
+      <mesh ref={leftLegRef} position={[-0.14, 0.32, 0]}>
         <cylinderGeometry args={[0.11, 0.13, 0.64, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
       </mesh>
-      <mesh position={[0.14, 0.32, 0]}>
+      <mesh ref={rightLegRef} position={[0.14, 0.32, 0]}>
         <cylinderGeometry args={[0.11, 0.13, 0.64, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
@@ -48,12 +76,12 @@ export function KelBody() {
         <meshToonMaterial color={bodyColor} gradientMap={gradient} />
         {outline}
       </mesh>
-      <mesh position={[-0.31, 0.9, 0]}>
+      <mesh ref={leftArmRef} position={[-0.31, 0.9, 0]}>
         <cylinderGeometry args={[0.08, 0.09, 0.5, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
       </mesh>
-      <mesh position={[0.31, 0.9, 0]}>
+      <mesh ref={rightArmRef} position={[0.31, 0.9, 0]}>
         <cylinderGeometry args={[0.08, 0.09, 0.5, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
