@@ -147,6 +147,62 @@ Les URL pointent vers des sources fiables (Wikipedia, pages officielles de jeux,
 
 **Ce qu'on prend :** végétation basse, granit exposé, mer d'ardoise, ciels dramatiques changeants, ajoncs jaunes en tapis, herbes hautes ondulantes.
 
+### Approfondissements géographiques et paysagers (priorité absolue DA)
+
+**Site archéologique de Carnac lui-même**
+
+- Alignements du Ménec (le plus vaste, 1099 menhirs sur 1165 m) : https://fr.wikipedia.org/wiki/Alignements_de_Carnac
+- Alignements de Kermario (982 menhirs, dolmen intégré) : queries `Kermario alignement dolmen photos`, `Kermario aube brume`
+- Alignements de Kerlescan (555 menhirs, plus arboré) : queries `Kerlescan lande photos`
+- Tumulus Saint-Michel (colline surmontée d'une chapelle, vue panoramique) : queries `Tumulus Saint-Michel Carnac vue`
+- Le géant du Manio (menhir isolé de 6,5 m parmi arbres) : queries `Géant du Manio Carnac photos`
+
+**Cartes postales visuelles cibles**
+
+- Menhirs alignés à contre-jour au lever/coucher du soleil, silhouettes verticales sur horizon bas
+- Brume matinale ras du sol qui noie la base des pierres
+- Ajoncs jaunes en floraison (avril-juin) formant tapis
+- Bruyère mauve (août-septembre)
+- Granit humide brillant après pluie
+- Mer d'ardoise vue depuis la lande (Quiberon, Belle-Île, Golfe du Morbihan)
+
+**Paysages alentours du Morbihan (contexte élargi)**
+
+- Presqu'île de Quiberon (côte sauvage à falaises granitiques, mer battante) : https://fr.wikipedia.org/wiki/Presqu%27%C3%AEle_de_Quiberon
+- Belle-Île-en-Mer (falaises, pointe des Poulains, port sauvage) : https://fr.wikipedia.org/wiki/Belle-%C3%8Ele-en-Mer
+- Golfe du Morbihan (petite mer intérieure semée d'îles, marais) : https://fr.wikipedia.org/wiki/Golfe_du_Morbihan
+- Lande de Cojoux (Saint-Just, mégalithes moins connus, lande pure) : queries `Lande de Cojoux Saint-Just`
+- Presqu'île de Rhuys (côtière, mer d'ardoise) : queries `Presqu'île Rhuys photos`
+- Cairn de Barnenez (Nord-Finistère mais essentiel comme monument) : https://www.cairn-barnenez.fr/
+
+**Palette visuelle bretonne (à respecter dans toutes les décisions DA)**
+
+| Élément | Couleurs types | Notes |
+|---------|---------------|-------|
+| Granit affleurant | Gris-brun moucheté (`#7C7873`, `#5A554E`) | Rugueux, arêtes vives, blocs erratiques |
+| Ajoncs en fleur | Jaune vif intense (`#E8A952`, `#F0C868`) | Avril à juin, tapis dense épineux |
+| Bruyère | Mauve saturé (`#8C5B8C`, `#B87BB8`) | Août à septembre, tapis bas |
+| Herbes rêches | Vert-jaune poussiéreux (`#8C9260`, `#B5A868`) | Court, ondulant sous vent |
+| Mer d'ardoise | Gris-bleu profond (`#3D4A55`, `#4A5C6E`) | Souvent contre-jour, miroitant blanc-or |
+| Ciel bas breton | Gris blanc (`#B5B0A8`), parfois or (`#E8A952`) au couchant | Souvent brumeux |
+| Brume matinale | Blanc-bleu translucide (`#D8D2C0` alpha 0.6) | Ras du sol, monte lentement |
+| Menhir contre-jour | Silhouette charcoal (`#2A1E1A`) | Sur ciel or ou gris pâle |
+
+**Photographes / créateurs de référence**
+
+- Query : `Yann Arthus-Bertrand Carnac aerien`
+- Query : `Ronan Follic photographe Bretagne`
+- Query : `Bretagne noir et blanc paysage`
+- Compte Instagram Office Tourisme Baie de Quiberon : https://www.baiedequiberon.bzh/
+
+**Ce que ces refs NE contiennent pas (interdits DA)**
+
+- Sable de plage doré étendu (pas de désert)
+- Palmiers, olivier, cyprès (pas de méditerranéen)
+- Roches rouges (pas de désert américain)
+- Herbes hautes vertes uniforme (pas de prairie normande grasse)
+- Ciel bleu franc sans brume (pas de Provence)
+
 ## 5. Personnages et culture matérielle néolithique
 
 ### Cheddar Man (référence pigmentation)

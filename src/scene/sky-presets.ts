@@ -12,25 +12,25 @@ const presets: Record<DayPhase, SkyPreset> = {
   dawn: {
     topColor: palette.cool.nightBlue,
     horizonColor: palette.warm.duskGold,
-    bottomColor: palette.neutrals.granitDark,
+    bottomColor: palette.cool.slateSea,
     exponent: 0.7,
   },
   noon: {
     topColor: palette.cool.haloBlue,
     horizonColor: palette.neutrals.boneWhite,
-    bottomColor: palette.neutrals.granitLight,
+    bottomColor: palette.cool.slateSea,
     exponent: 0.85,
   },
   dusk: {
-    topColor: palette.warm.ochreDeep,
+    topColor: palette.cool.deepBlue,
     horizonColor: palette.warm.fire,
-    bottomColor: palette.neutrals.charcoal,
+    bottomColor: palette.cool.slateSea,
     exponent: 0.6,
   },
   night: {
     topColor: palette.cool.deepBlue,
     horizonColor: palette.cool.nightBlue,
-    bottomColor: palette.cool.deepBlue,
+    bottomColor: palette.cool.nightBlue,
     exponent: 1,
   },
 };

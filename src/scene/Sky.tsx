@@ -1,5 +1,6 @@
-import { useMemo, useRef, useEffect } from "react";
-import { BackSide, Color, ShaderMaterial } from "three";
+import { useEffect, useMemo } from "react";
+import { CanvasTexture, LinearFilter } from "three";
+import { useThree } from "@react-three/fiber";
 import { skyPresetFor } from "./sky-presets";
 import type { DayPhase } from "../palette";
 
@@ -7,69 +8,61 @@ interface SkyProps {
   phase: DayPhase;
 }
 
-const vertexShader = `
-  varying vec3 vWorldPosition;
-  void main() {
-    vec4 worldPos = modelMatrix * vec4(position, 1.0);
-    vWorldPosition = worldPos.xyz;
-    gl_Position = projectionMatrix * viewMatrix * worldPos;
-  }
-`;
-
-const fragmentShader = `
-  uniform vec3 topColor;
-  uniform vec3 horizonColor;
-  uniform vec3 bottomColor;
-  uniform float exponent;
-  varying vec3 vWorldPosition;
-
-  void main() {
-    float h = normalize(vWorldPosition).y;
-    if (h >= 0.0) {
-      float t = pow(h, exponent);
-      gl_FragColor = vec4(mix(horizonColor, topColor, t), 1.0);
-    } else {
-      float t = pow(-h, exponent);
-      gl_FragColor = vec4(mix(horizonColor, bottomColor, t), 1.0);
-    }
-  }
-`;
+function createGradientTexture(
+  topColor: string,
+  horizonColor: string,
+  bottomColor: string,
+  exponent: number,
+): CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 2;
+  canvas.height = 512;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("2d context unavailable");
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  const horizonStop = 0.55;
+  grad.addColorStop(0, topColor);
+  const mid = Math.pow(0.5, exponent);
+  grad.addColorStop(Math.max(0.01, horizonStop - mid * 0.35), topColor);
+  grad.addColorStop(horizonStop, horizonColor);
+  grad.addColorStop(Math.min(0.99, horizonStop + 0.05), horizonColor);
+  grad.addColorStop(1, bottomColor);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const texture = new CanvasTexture(canvas);
+  texture.minFilter = LinearFilter;
+  texture.magFilter = LinearFilter;
+  texture.needsUpdate = true;
+  return texture;
+}
 
 export function Sky({ phase }: SkyProps) {
-  const materialRef = useRef<ShaderMaterial>(null);
+  const { scene } = useThree();
   const preset = skyPresetFor(phase);
 
-  const uniforms = useMemo(
-    () => ({
-      topColor: { value: new Color(preset.topColor) },
-      horizonColor: { value: new Color(preset.horizonColor) },
-      bottomColor: { value: new Color(preset.bottomColor) },
-      exponent: { value: preset.exponent },
-    }),
-    [],
+  const texture = useMemo(
+    () =>
+      createGradientTexture(
+        preset.topColor,
+        preset.horizonColor,
+        preset.bottomColor,
+        preset.exponent,
+      ),
+    [preset.topColor, preset.horizonColor, preset.bottomColor, preset.exponent],
   );
 
   useEffect(() => {
-    if (!materialRef.current) return;
-    const u = materialRef.current.uniforms;
-    (u.topColor.value as Color).set(preset.topColor);
-    (u.horizonColor.value as Color).set(preset.horizonColor);
-    (u.bottomColor.value as Color).set(preset.bottomColor);
-    u.exponent.value = preset.exponent;
-  }, [preset.topColor, preset.horizonColor, preset.bottomColor, preset.exponent]);
+    scene.background = texture;
+    return () => {
+      scene.background = null;
+    };
+  }, [scene, texture]);
 
-  return (
-    <mesh scale={[200, 200, 200]} frustumCulled={false} renderOrder={-1}>
-      <sphereGeometry args={[1, 32, 15]} />
-      <shaderMaterial
-        ref={materialRef}
-        side={BackSide}
-        depthWrite={false}
-        depthTest={false}
-        uniforms={uniforms}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-      />
-    </mesh>
-  );
+  useEffect(() => {
+    return () => {
+      texture.dispose();
+    };
+  }, [texture]);
+
+  return null;
 }

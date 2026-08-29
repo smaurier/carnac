@@ -34,6 +34,19 @@ Références secondaires :
 
 **⛔ Pas de PBR, pas de matériaux métalliques, pas de post-process lourd.** Cohérent avec le Néolithique et avec le style low-poly cel-shaded. Détail : `docs/direction-artistique.md` section 12.
 
+**⛔ Identité bretonne d'abord.** Toute décision de direction artistique passe par le filtre "est-ce que ça évoque la Bretagne réelle (Morbihan, presqu'île de Quiberon, lande de Carnac, Golfe du Morbihan) ?". Les références Sable / Journey / KRZ nourrissent la forme mais n'inspirent JAMAIS le fond. Le fond, c'est le paysage réel autour du site de Carnac. Éléments non-négociables :
+
+- **Granit affleurant** (gris-brun moucheté, blocs erratiques, arêtes vives)
+- **Lande basse** (ajoncs jaunes intenses, bruyère mauve, herbes rêches)
+- **Mer d'ardoise** (gris-bleu profond, souvent en contre-jour miroitant)
+- **Ciel breton** (souvent bas, brumeux, parfois spectaculaire au coucher)
+- **Brumes matinales** ras du sol
+- **Silhouettes iconiques des menhirs** en contre-jour
+
+Refs primaires (dans `docs/moodboard.md` section 4) : alignements réels (Kermario, Ménec, Kerlescan), presqu'île de Quiberon, Golfe du Morbihan, cairn de Barnenez, îles de Téviec et Hoëdic, Belle-Île, lande de Cojoux.
+
+Filtre à chaque nouvel élément visuel : "ça pourrait être ailleurs qu'en Bretagne ?" Si oui → repenser. Un désert Journey n'est pas breton. Un dôme grec n'est pas breton. Un buisson d'olivier n'est pas breton. Un dolmen, un menhir, une lande jaune-mauve, une mer d'ardoise, une brume matinale : ça, c'est breton.
+
 **⛔ Priorité perso concurrente : certification RGAA (23/10/2026).** Carnac est un projet soir/weekend, respiration. Si une session Claude Code sur Carnac déborde et menace de manger du temps RGAA, l'expliciter au dev et proposer d'arrêter.
 
 **⛔ Pas d'écriture ou de dialogue français in-game.** Choix acté : langue inventée non traduite, style *Journey*. Vocalises et intonations sans traduction. Pas de sous-titres, pas de bulles de dialogue.
