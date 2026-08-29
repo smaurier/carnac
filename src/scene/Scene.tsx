@@ -4,6 +4,7 @@ import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
 import { BretonFog } from "./BretonFog";
+import { LandFoliage } from "./LandFoliage";
 import { Ground } from "./Ground";
 import { Player } from "../entities/Player";
 import { Firepit } from "../entities/Firepit";
@@ -62,6 +63,7 @@ export function Scene({
       <DayNightCycle phase={phase} />
 
       <Ground onMoveTarget={(x, z) => setTarget([x, z])} />
+      <LandFoliage />
 
       <Firepit position={[0, 0, 0]} />
 

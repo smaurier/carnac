@@ -19,6 +19,13 @@ export const palette = {
     deepBlue: "#0E1520",
     haloBlue: "#6D8FA8",
   },
+  flora: {
+    heather: "#8C5B8C",
+    heatherPale: "#B87BB8",
+    grass: "#8C9260",
+    grassDry: "#B5A868",
+    gorse: "#F0C868",
+  },
   skin: {
     a: "#8C6650",
     b: "#6B4A38",
