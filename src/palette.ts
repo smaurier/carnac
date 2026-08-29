@@ -35,40 +35,55 @@ export interface LightPreset {
   directionalColor: string;
   directionalIntensity: number;
   directionalPosition: [number, number, number];
+  rimColor: string;
+  rimIntensity: number;
+  rimPosition: [number, number, number];
   backgroundColor: string;
 }
 
 export const dayNightPresets: Record<DayPhase, LightPreset> = {
   dawn: {
     ambientColor: palette.cool.haloBlue,
-    ambientIntensity: 0.55,
+    ambientIntensity: 0.45,
     directionalColor: palette.warm.duskGold,
-    directionalIntensity: 0.9,
-    directionalPosition: [-8, 4, 6],
+    directionalIntensity: 1.1,
+    directionalPosition: [-14, 2.5, 6],
+    rimColor: palette.cool.haloBlue,
+    rimIntensity: 0.4,
+    rimPosition: [12, 4, -8],
     backgroundColor: "#3a4658",
   },
   noon: {
     ambientColor: palette.neutrals.boneWhite,
-    ambientIntensity: 0.7,
+    ambientIntensity: 0.65,
     directionalColor: palette.neutrals.boneWhite,
-    directionalIntensity: 1.0,
+    directionalIntensity: 1.05,
     directionalPosition: [4, 12, 4],
+    rimColor: palette.cool.haloBlue,
+    rimIntensity: 0.25,
+    rimPosition: [-8, 6, -10],
     backgroundColor: "#8ca2b2",
   },
   dusk: {
     ambientColor: palette.warm.duskGold,
-    ambientIntensity: 0.6,
-    directionalColor: palette.warm.earthRed,
-    directionalIntensity: 0.95,
-    directionalPosition: [10, 3, -4],
+    ambientIntensity: 0.4,
+    directionalColor: palette.warm.fire,
+    directionalIntensity: 1.35,
+    directionalPosition: [14, 1.8, -4],
+    rimColor: palette.warm.duskGold,
+    rimIntensity: 0.55,
+    rimPosition: [-12, 4, 6],
     backgroundColor: "#c07547",
   },
   night: {
     ambientColor: palette.cool.nightBlue,
-    ambientIntensity: 0.35,
+    ambientIntensity: 0.3,
     directionalColor: palette.cool.haloBlue,
-    directionalIntensity: 0.5,
-    directionalPosition: [-4, 8, -4],
+    directionalIntensity: 0.65,
+    directionalPosition: [-6, 4, -8],
+    rimColor: palette.cool.haloBlue,
+    rimIntensity: 0.35,
+    rimPosition: [8, 3, 6],
     backgroundColor: palette.cool.deepBlue,
   },
 };

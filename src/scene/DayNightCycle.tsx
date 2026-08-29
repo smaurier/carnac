@@ -18,6 +18,11 @@ export function DayNightCycle({ phase }: DayNightCycleProps) {
         intensity={preset.directionalIntensity}
         position={preset.directionalPosition}
       />
+      <directionalLight
+        color={preset.rimColor}
+        intensity={preset.rimIntensity}
+        position={preset.rimPosition}
+      />
     </>
   );
 }
