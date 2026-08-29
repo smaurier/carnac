@@ -17,6 +17,8 @@ import { CampVillagers } from "../entities/CampVillagers";
 import { Hut } from "../entities/Hut";
 import { GraniteBlock } from "../entities/GraniteBlock";
 import { ProximityGreeting } from "../entities/ProximityGreeting";
+import { Goat } from "../entities/Goat";
+import { Dog } from "../entities/Dog";
 import type { VoiceId } from "../audio/vocalizations";
 import type { DayPhase } from "../palette";
 
@@ -109,6 +111,13 @@ export function Scene({
       )}
 
       <CampVillagers visible={showCampVillagers} />
+
+      {showCampVillagers && (
+        <>
+          <Goat position={[-4.6, 0, 2.6]} rotation={-0.6} scale={1.8} idleSeed={1.2} />
+          <Dog position={[2.2, 0, -0.4]} rotation={2.3} scale={1.6} idleSeed={0.7} />
+        </>
+      )}
 
       {showCampVillagers && (
         <ProximityGreeting
