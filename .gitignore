@@ -16,3 +16,4 @@ coverage/
 .idea/
 carnac-*.png
 out-*.png
+analyze-*.png
