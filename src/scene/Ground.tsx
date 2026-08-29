@@ -16,25 +16,9 @@ const vertexShader = `
   varying vec2 vUv;
   varying vec3 vWorldPos;
 
-  float hillHeight(vec2 p) {
-    float h = 0.0;
-    h += abs(sin(p.x * 0.09 + 1.3) * cos(p.y * 0.08 - 0.7)) * 1.2;
-    h += abs(sin(p.x * 0.05 + 2.9) * cos(p.y * 0.06 - 1.7)) * 1.6;
-    h += abs(sin(p.x * 0.22 - 0.4) * cos(p.y * 0.19 + 2.1)) * 0.4;
-    return h;
-  }
-
   void main() {
     vUv = uv;
-    vec3 localPos = position;
-    vec2 worldXZ = vec2(localPos.x, -localPos.y);
-    float distFromCamp = length(worldXZ);
-    float campMask = smoothstep(8.0, 14.0, distFromCamp);
-    float farMask = 1.0 - smoothstep(55.0, 72.0, distFromCamp);
-    float bump = hillHeight(worldXZ) * campMask * farMask;
-    localPos.z += bump;
-
-    vec4 worldPos = modelMatrix * vec4(localPos, 1.0);
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
     vWorldPos = worldPos.xyz;
     gl_Position = projectionMatrix * viewMatrix * worldPos;
   }

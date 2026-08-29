@@ -1,5 +1,6 @@
 declare module "ecctrl" {
-  import type { ReactNode, ComponentType } from "react";
+  import type { ReactNode, ForwardRefExoticComponent, RefAttributes } from "react";
+  import type { RapierRigidBody } from "@react-three/rapier";
   export interface EcctrlProps {
     children?: ReactNode;
     position?: [number, number, number] | number[];
@@ -17,7 +18,7 @@ declare module "ecctrl" {
     debug?: boolean;
     [key: string]: unknown;
   }
-  const Ecctrl: ComponentType<EcctrlProps>;
+  const Ecctrl: ForwardRefExoticComponent<EcctrlProps & RefAttributes<RapierRigidBody>>;
   export default Ecctrl;
-  export const EcctrlAnimation: ComponentType<{ children?: ReactNode; animationSet?: unknown; characterURL?: string }>;
+  export const EcctrlAnimation: ForwardRefExoticComponent<{ children?: ReactNode; animationSet?: unknown; characterURL?: string }>;
 }

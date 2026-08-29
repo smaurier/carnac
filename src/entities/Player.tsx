@@ -1,4 +1,6 @@
+import { forwardRef } from "react";
 import Ecctrl from "ecctrl";
+import type { RapierRigidBody } from "@react-three/rapier";
 import { KelBody } from "./KelBody";
 
 interface PlayerProps {
@@ -6,25 +8,26 @@ interface PlayerProps {
 }
 
 /**
- * Player = Ecctrl (physique + character controller + follow cam)
- * enveloppant les meshes visuels de Kel (KelBody).
- * Gere : deplacement WASD, saut espace, run shift, camera 3e
- * personne, collisions rigid bodies, gravite.
+ * Player = Ecctrl (physique + controle) + KelBody (meshes).
+ * Follow cam Ecctrl desactive : la camera iso est geree
+ * separement par IsoCamera qui suit ce ref (RigidBody).
  */
-export function Player({ initialPosition = [0, 2, 5] }: PlayerProps) {
+export const Player = forwardRef<RapierRigidBody, PlayerProps>(function Player(
+  { initialPosition = [0, 2, 5] },
+  ref,
+) {
   return (
     <Ecctrl
+      ref={ref}
       position={initialPosition}
       capsuleHalfHeight={0.55}
       capsuleRadius={0.28}
       floatHeight={0.25}
-      maxVelLimit={3.5}
+      maxVelLimit={4}
       jumpVel={4.5}
-      camInitDis={-4.5}
-      camMinDis={-2}
-      camMaxDis={-8}
+      disableFollowCam
     >
       <KelBody />
     </Ecctrl>
   );
-}
+});

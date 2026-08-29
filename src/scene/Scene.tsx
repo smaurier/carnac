@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import type { RapierRigidBody } from "@react-three/rapier";
+import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
 import { LandFoliage } from "./LandFoliage";
@@ -42,8 +45,16 @@ export function Scene({
   onWitnessArrived,
   showCampVillagers,
 }: SceneProps) {
+  const playerRef = useRef<RapierRigidBody>(null);
   return (
     <>
+      <IsoCamera
+        target={playerRef}
+        zoom={10}
+        azimuthDeg={45}
+        elevationDeg={35}
+        distance={40}
+      />
       <Sky phase={phase} />
       <DayNightCycle phase={phase} />
 
@@ -98,7 +109,7 @@ export function Scene({
 
       <ForestBackdrop />
 
-      <Player initialPosition={[0, 2, 5]} />
+      <Player ref={playerRef} initialPosition={[0, 2, 5]} />
     </>
   );
 }
