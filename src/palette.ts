@@ -24,7 +24,10 @@ export const palette = {
     heatherPale: "#B87BB8",
     grass: "#8C9260",
     grassDry: "#B5A868",
+    grassMeadow: "#6D8646",
+    mossDamp: "#5A7038",
     gorse: "#F0C868",
+    trampledEarth: "#8C6543",
   },
   skin: {
     a: "#8C6650",
