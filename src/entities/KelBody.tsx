@@ -1,29 +1,27 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
-import { useGame } from "ecctrl";
 import type { Mesh } from "three";
+import type { RapierRigidBody } from "@react-three/rapier";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
 import { outlineThickness } from "../design/outlines";
 
-/**
- * Meshes composant Kel + animation walk/idle basee sur
- * useGame().curAnimation d'Ecctrl.
- * Position pieds a y=0 dans le groupe local, decalage
- * -CAPSULE_OFFSET fait dans Player pour poser sur le sol.
- */
+interface KelBodyProps {
+  playerRef: React.RefObject<RapierRigidBody | null>;
+}
+
 const WALK_FREQ = 7;
 const WALK_LEG_AMP = 0.55;
 const WALK_ARM_AMP = 0.45;
+const MOVING_THRESHOLD = 0.3;
 
-export function KelBody() {
+export function KelBody({ playerRef }: KelBodyProps) {
   const leftLegRef = useRef<Mesh>(null);
   const rightLegRef = useRef<Mesh>(null);
   const leftArmRef = useRef<Mesh>(null);
   const rightArmRef = useRef<Mesh>(null);
   const walkPhaseRef = useRef(0);
-  const curAnimation = useGame((s) => s.curAnimation);
 
   const gradient = getToonGradient(3);
   const bodyColor = palette.warm.ochreWarm;
@@ -34,8 +32,12 @@ export function KelBody() {
   );
 
   useFrame((_, delta) => {
-    const moving = curAnimation === "walk" || curAnimation === "run";
-    const speedMult = curAnimation === "run" ? 1.6 : 1;
+    const rb = playerRef.current;
+    if (!rb) return;
+    const v = rb.linvel();
+    const speed = Math.sqrt(v.x * v.x + v.z * v.z);
+    const moving = speed > MOVING_THRESHOLD;
+    const speedMult = Math.min(1 + speed * 0.15, 2);
     if (moving) walkPhaseRef.current += delta * WALK_FREQ * speedMult;
     const swing = moving ? Math.sin(walkPhaseRef.current) : 0;
     const swingOpp = moving ? Math.sin(walkPhaseRef.current + Math.PI) : 0;

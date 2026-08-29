@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import Ecctrl from "ecctrl";
 import type { RapierRigidBody } from "@react-three/rapier";
 import { KelBody } from "./KelBody";
@@ -19,9 +19,11 @@ export const Player = forwardRef<RapierRigidBody, PlayerProps>(function Player(
   { initialPosition = [0, 2, 0] },
   ref,
 ) {
+  const localRef = useRef<RapierRigidBody>(null);
+  useImperativeHandle(ref, () => localRef.current as RapierRigidBody);
   return (
     <Ecctrl
-      ref={ref}
+      ref={localRef}
       position={initialPosition}
       capsuleHalfHeight={CAPSULE_HALF_HEIGHT}
       capsuleRadius={CAPSULE_RADIUS}
@@ -32,7 +34,7 @@ export const Player = forwardRef<RapierRigidBody, PlayerProps>(function Player(
       mode="PointToMove"
     >
       <group position={[0, BODY_Y_OFFSET, 0]}>
-        <KelBody />
+        <KelBody playerRef={localRef} />
       </group>
     </Ecctrl>
   );
