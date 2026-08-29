@@ -46,6 +46,17 @@ Le jeu s'adresse aussi bien aux joueurs adultes qu'aux enfants. Il rappelle une 
   <img alt="Épilogue mobile" src="docs/assets/screenshots/09-epilogue-mobile.png" width="240">
 </p>
 
+## Fondements du projet
+
+Quatre principes précèdent toute décision (narrative, technique, artistique, gameplay). Détaillés dans [`CLAUDE.md`](CLAUDE.md) section 0.
+
+1. **Identité bretonne d'abord** · lande morbihannaise réelle autour de Carnac, pas de Bretagne fantasmée, pas de décor préhistorique générique
+2. **Zéro anachronisme visuel** · tout ce qui est affiché doit être strictement néolithique moyen armoricain (~4500 av. J.-C.), sauf l'épilogue qui traverse explicitement les millénaires
+3. **Exactitude géographique stricte** · granit atlantique, ajoncs, bruyère, mer d'ardoise, brumes basses, climat océanique tempéré. Pas de Méditerranée, pas de désert, pas de tropicale
+4. **Vérifiabilité factuelle** · aucune affirmation historique/géo/archéo sans source. Hypothèses fictionnelles marquées comme telles avec citation source
+
+Ces 4 principes ne se négocient pas. Ils précèdent les préférences esthétiques, les contraintes techniques, les urgences de livraison.
+
 ## Ce que le jeu propose déjà (état actuel, jouable end-to-end)
 
 - Écran-titre avec **frise du temps profond** interactive, curseur posé sur -4500 av. J.-C.

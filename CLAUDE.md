@@ -2,6 +2,30 @@
 
 Ce document est lu au démarrage de chaque session Claude Code dans ce repo. Il contient le contexte, les conventions et les garde-fous à respecter avant toute action.
 
+## 0. Fondements du projet (non-négociables)
+
+Les 4 principes qui suivent sont les **fondements** du projet Carnac. Ils précèdent toute décision : narrative, technique, artistique, gameplay. Aucun ajout de code, aucun asset, aucune modification de doc, aucune image publiée ne doit les enfreindre. Ils sont détaillés en section 3 (garde-fous) avec exemples et interdits.
+
+### F1 · Identité bretonne d'abord
+
+Le jeu se situe dans la lande morbihannaise autour de Carnac, pas dans une Bretagne fantasmée ni dans un décor "préhistorique générique". Chaque élément visuel, sonore, textuel doit évoquer la Bretagne réelle. Références Sable / Journey / KRZ nourrissent la forme, jamais le fond.
+
+### F2 · Zéro anachronisme dans les visuels présentés
+
+Toute image, modèle 3D, décor, personnage, objet, screenshot commité ou hébergé doit être strictement cohérent avec le Néolithique moyen armoricain (~4500 av. J.-C.). Les seules exceptions autorisées sont les vignettes de l'épilogue qui traversent explicitement les millénaires jusqu'à aujourd'hui. Cette règle s'applique même aux fichiers de démonstration et samples de test.
+
+### F3 · Exactitude géographique stricte
+
+Le paysage, la géologie, la végétation, la faune, le climat sont ceux du **Morbihan réel actuel** et de sa reconstitution paléoenvironnementale néolithique. Pas de Méditerranée, pas de désert, pas de plaine grasse normande, pas de forêt tropicale. Granit atlantique, lande d'ajoncs et de bruyère, mer d'ardoise, brumes basses, ciels bas.
+
+### F4 · Tout doit être vérifiable factuellement
+
+Aucune affirmation historique, géographique, biologique, archéologique dans le jeu (textes, dessins pariétaux, hints, dialogues gestuels transcrits, notes, screenshots) ne doit être inventée sans source. Les hypothèses fictionnelles sont autorisées uniquement si explicitement marquées comme telles avec citation de la source qui inspire la spéculation.
+
+**Cascade** : F1 découle de F3 (Bretagne = géo réelle). F2 découle de F4 (pas d'anachronisme = pas d'affirmation historique fausse). F3 et F4 sont autonomes et absolus.
+
+Ces 4 fondements ne se négocient pas au fil des sprints. Ils **précèdent** les préférences esthétiques, les contraintes techniques, les urgences de livraison. Si un choix les enfreint, on ne fait pas ce choix.
+
 ## 1. Contexte du projet en 30 secondes
 
 **Carnac** est un jeu-poème pédagogique web (React + Three.js via `@react-three/fiber`) sur la naissance du rite mégalithique dans la Bretagne du Néolithique moyen (~4500 av. J.-C.). MVP = un chapitre autonome de 20-30 minutes, dont le climax est le geste de la joueuse posant la première pierre debout après un deuil.
