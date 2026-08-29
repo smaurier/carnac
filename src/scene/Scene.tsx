@@ -19,6 +19,8 @@ import { GraniteBlock } from "../entities/GraniteBlock";
 import { ProximityGreeting } from "../entities/ProximityGreeting";
 import { Goat } from "../entities/Goat";
 import { Dog } from "../entities/Dog";
+import { Aurochs } from "../entities/Aurochs";
+import { VannBasket } from "../entities/VannBasket";
 import type { VoiceId } from "../audio/vocalizations";
 import type { DayPhase } from "../palette";
 
@@ -116,6 +118,8 @@ export function Scene({
         <>
           <Goat position={[-4.6, 0, 2.6]} rotation={-0.6} scale={1.8} idleSeed={1.2} />
           <Dog position={[2.2, 0, -0.4]} rotation={2.3} scale={1.6} idleSeed={0.7} />
+          <VannBasket position={[3.6, 0, -3.1]} rotation={0.4} />
+          <Aurochs position={[-14, 0, -8]} rotation={0.7} scale={1.15} />
         </>
       )}
 

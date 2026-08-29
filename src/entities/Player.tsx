@@ -18,6 +18,14 @@ const WALK_FREQ = 6;
 const WALK_LEG_AMP = 0.5;
 const WALK_ARM_AMP = 0.4;
 const MOVE_THRESHOLD = 0.02;
+const TURN_STIFFNESS = 6;
+
+function shortestAngleDiff(from: number, to: number): number {
+  let diff = to - from;
+  while (diff > Math.PI) diff -= Math.PI * 2;
+  while (diff < -Math.PI) diff += Math.PI * 2;
+  return diff;
+}
 
 export function Player({ target, speed = 4 }: PlayerProps) {
   const groupRef = useRef<Group>(null);
@@ -43,6 +51,13 @@ export function Player({ target, speed = 4 }: PlayerProps) {
     let moving = false;
     if (distance >= 0.05) {
       moving = true;
+      const dx = target[0] - group.position.x;
+      const dz = target[1] - group.position.z;
+      const desiredYaw = Math.atan2(dx, dz);
+      const yawDiff = shortestAngleDiff(group.rotation.y, desiredYaw);
+      const turnAlpha = 1 - Math.exp(-TURN_STIFFNESS * delta);
+      group.rotation.y += yawDiff * turnAlpha;
+
       tmp.sub(group.position);
       const step = Math.min(speed * delta, distance);
       tmp.normalize().multiplyScalar(step);
