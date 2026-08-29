@@ -22,6 +22,8 @@ Le paysage, la géologie, la végétation, la faune, le climat sont ceux du **Mo
 
 Aucune affirmation historique, géographique, biologique, archéologique dans le jeu (textes, dessins pariétaux, hints, dialogues gestuels transcrits, notes, screenshots) ne doit être inventée sans source. Les hypothèses fictionnelles sont autorisées uniquement si explicitement marquées comme telles avec citation de la source qui inspire la spéculation.
 
+**Référentiel de vérification** : `docs/climat-flore-faune-epoques.md` liste les conditions climatiques, la flore et la faune probables pour chaque époque traversée par le jeu (Néolithique moyen jusqu'à aujourd'hui), avec sources académiques. Toute décision de contenu visuel ou textuel qui touche à la nature ou au climat doit être vérifiée contre ce document.
+
 **Cascade** : F1 découle de F3 (Bretagne = géo réelle). F2 découle de F4 (pas d'anachronisme = pas d'affirmation historique fausse). F3 et F4 sont autonomes et absolus.
 
 Ces 4 fondements ne se négocient pas au fil des sprints. Ils **précèdent** les préférences esthétiques, les contraintes techniques, les urgences de livraison. Si un choix les enfreint, on ne fait pas ce choix.
@@ -45,6 +47,8 @@ Références secondaires :
 - `docs/roadmap.md` · vision longue et extensions possibles
 - `docs/moodboard.md` · références visuelles fiables
 - `docs/mockups/README.md` + `docs/mockups/ui/README.md` · cibles visuelles validées
+- `docs/climat-flore-faune-epoques.md` · référentiel factuel par époque (F4)
+- `docs/asset-pipeline-kenney.md` + `docs/asset-cdn-sources.md` · pipeline assets 3D
 
 ## 3. Garde-fous absolus (à ne jamais franchir)
 
