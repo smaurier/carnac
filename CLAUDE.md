@@ -218,6 +218,33 @@ Avant chaque commit non trivial, se poser :
 4. Un dev qui découvre ce diff comprend-il le pourquoi ?
 5. Est-ce que je respecte SOLID / KISS / DRY / Clean Code ?
 
+### Vérification visuelle Playwright · **RÈGLE STRICTE**
+
+Tout changement qui touche à un composant visuel (UI, CSS, r3f, styles.css, tokens.css, .module.css, drawings SVG, mockups, layout) déclenche un cycle de vérification Playwright **avant commit**.
+
+Cycle imposé :
+
+1. Vérifier que le dev server tourne (`npm run dev`, port 5173/74/75 auto).
+2. `browser_resize` desktop **1440×900** puis `browser_take_screenshot` sur chaque écran affecté.
+3. `browser_resize` mobile **375×812** puis `browser_take_screenshot` sur les mêmes écrans.
+4. Inspecter chaque screenshot : chevauchement de texte, débordement, tronqué, contraste, hiérarchie visuelle, HUD collision, boutons cliquables.
+5. Si problème détecté, corriger + retour à l'étape 2.
+6. Une fois desktop + mobile propres sur toutes les vues affectées, commiter.
+
+**Écrans clés à vérifier systématiquement** :
+- Title (écran-titre + timeline)
+- Interlude (bleu nuit + phrase)
+- Act 1/2/3 (scène 3D + HUD + timeline + hint contextuel)
+- Fresque (dessin pariétal + caption)
+- Épilogue (fresque en séquence + curseur qui glisse)
+- End (phrase small caps + menhirs silhouettes)
+
+**Pourquoi cette règle** : un audit a révélé 7 bugs de layout que typecheck et tests unitaires n'attrapaient pas (chevauchements de labels, débordements mobile, `act-hint` empiétant timeline). Le dev ne veut plus voir ces régressions.
+
+**Ce que Playwright vérifie** : le **rendu réel** dans un navigateur, à un viewport donné, avec le vrai CSS appliqué. Complète les tests React/Vitest qui restent au niveau logique/DOM sans layout réel.
+
+**Ce que Playwright ne vérifie pas** : le ressenti (animations, timing, feeling), l'audio, les cas d'interaction longs. Ceux-là restent au playtest manuel du dev.
+
 ## 5. Méthode de travail avec le dev
 
 ### Poser des questions avant d'agir
