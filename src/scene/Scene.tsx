@@ -2,9 +2,6 @@ import { useState } from "react";
 import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
-import { Skydome } from "./Skydome";
-import { NightStars } from "./NightStars";
-import { BretonFog } from "./BretonFog";
 import { LandFoliage } from "./LandFoliage";
 import { BackgroundAlignment } from "./BackgroundAlignment";
 import { Ground } from "./Ground";
@@ -73,13 +70,10 @@ export function Scene({
         target={cameraTarget}
         zoom={cameraZoom}
         azimuthDeg={45}
-        elevationDeg={40}
-        distance={50}
+        elevationDeg={62}
+        distance={60}
       />
       <Sky phase={phase} />
-      <Skydome phase={phase} />
-      <NightStars phase={phase} />
-      <BretonFog phase={phase} />
       <DayNightCycle phase={phase} />
 
       <Ground onMoveTarget={(x, z) => setTarget([x, z])} />
