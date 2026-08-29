@@ -11,6 +11,7 @@ import { TribeWitnesses } from "../entities/TribeWitnesses";
 import { StoneEmbers } from "../entities/StoneEmbers";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
+import { outlineThickness } from "../design/outlines";
 import type { DayPhase } from "../palette";
 
 interface SceneProps {
@@ -65,14 +66,14 @@ export function Scene({
         <mesh key={i} position={[x, 0.4, z]}>
           <dodecahedronGeometry args={[0.6, 0]} />
           <meshToonMaterial color={palette.neutrals.granitMid} gradientMap={getToonGradient(3)} />
-          <Outlines thickness={0.045} color={palette.neutrals.charcoal} />
+          <Outlines thickness={outlineThickness.md} color={palette.neutrals.charcoal} />
         </mesh>
       ))}
 
       <mesh position={[6, 1.5, -6]}>
         <coneGeometry args={[1.8, 3, 6]} />
         <meshToonMaterial color={palette.warm.ochreDeep} gradientMap={getToonGradient(3)} />
-        <Outlines thickness={0.06} color={palette.neutrals.charcoal} />
+        <Outlines thickness={outlineThickness.xl} color={palette.neutrals.charcoal} />
       </mesh>
 
       {showStandingStone && (

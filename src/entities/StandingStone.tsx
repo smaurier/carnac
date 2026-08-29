@@ -4,6 +4,7 @@ import { Outlines } from "@react-three/drei";
 import { MathUtils, type Group, type PointLight } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
+import { outlineThickness } from "../design/outlines";
 
 interface StandingStoneProps {
   position: [number, number, number];
@@ -95,7 +96,7 @@ export function StandingStone({
           gradientMap={getToonGradient(3)}
         />
         <Outlines
-          thickness={0.05 * scale}
+          thickness={outlineThickness.lg * scale}
           color={palette.neutrals.charcoal}
         />
       </mesh>

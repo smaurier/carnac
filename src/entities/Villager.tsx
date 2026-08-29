@@ -3,6 +3,7 @@ import { Outlines } from "@react-three/drei";
 import type { Group } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
+import { outlineThickness } from "../design/outlines";
 
 type SkinTone = "a" | "b" | "c" | "d";
 
@@ -32,12 +33,12 @@ export const Villager = forwardRef<Group, VillagerProps>(function Villager(
       <mesh position={[0, 0.9, 0]}>
         <capsuleGeometry args={[0.35, 1.0, 4, 12]} />
         <meshToonMaterial color={bodyColor} gradientMap={gradient} />
-        <Outlines thickness={0.04} color={palette.neutrals.charcoal} />
+        <Outlines thickness={outlineThickness.sm} color={palette.neutrals.charcoal} />
       </mesh>
       <mesh position={[0, 1.9, 0]}>
         <sphereGeometry args={[0.32, 16, 12]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
-        <Outlines thickness={0.035} color={palette.neutrals.charcoal} />
+        <Outlines thickness={outlineThickness.xs} color={palette.neutrals.charcoal} />
       </mesh>
       <mesh position={[0, 2.05, 0]}>
         <sphereGeometry args={[0.34, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />

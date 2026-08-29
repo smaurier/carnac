@@ -5,6 +5,7 @@ import type { Mesh } from "three";
 import { Vector3 } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
+import { outlineThickness } from "../design/outlines";
 
 interface PlayerProps {
   target: [number, number];
@@ -31,7 +32,7 @@ export function Player({ target, speed = 4 }: PlayerProps) {
     <mesh ref={ref} position={[0, 0.9, 0]} castShadow={false}>
       <capsuleGeometry args={[0.35, 1.0, 4, 12]} />
       <meshToonMaterial color={palette.skin.b} gradientMap={getToonGradient(3)} />
-      <Outlines thickness={0.04} color={palette.neutrals.charcoal} />
+      <Outlines thickness={outlineThickness.sm} color={palette.neutrals.charcoal} />
     </mesh>
   );
 }
