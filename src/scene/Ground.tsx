@@ -3,6 +3,7 @@ import type { ThreeEvent } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
 import { Color, ShaderMaterial, DoubleSide } from "three";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
+import { useGame } from "ecctrl";
 import { palette } from "../palette";
 
 interface GroundProps {
@@ -55,10 +56,11 @@ const fragmentShader = `
 `;
 
 export function Ground({ onMoveTarget }: GroundProps) {
+  const setMoveToPoint = useGame((s) => s.setMoveToPoint);
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
-    if (!onMoveTarget) return;
     event.stopPropagation();
-    onMoveTarget(event.point.x, event.point.z);
+    setMoveToPoint({ x: event.point.x, y: 0, z: event.point.z });
+    if (onMoveTarget) onMoveTarget(event.point.x, event.point.z);
   };
 
   const material = useMemo(() => {

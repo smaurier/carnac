@@ -8,12 +8,13 @@ interface PlayerProps {
 }
 
 /**
- * Player = Ecctrl (physique + controle) + KelBody (meshes).
- * Follow cam Ecctrl desactive : la camera iso est geree
- * separement par IsoCamera qui suit ce ref (RigidBody).
+ * Player = Ecctrl mode PointToMove (click-to-move).
+ * Camera iso externe (disableFollowCam=true, IsoCamera suit ref).
+ * Le mouvement se fait via useGame().setMoveToPoint(vec3) depuis
+ * Scene sur click Ground.
  */
 export const Player = forwardRef<RapierRigidBody, PlayerProps>(function Player(
-  { initialPosition = [0, 2, 5] },
+  { initialPosition = [0, 2, 0] },
   ref,
 ) {
   return (
@@ -23,9 +24,10 @@ export const Player = forwardRef<RapierRigidBody, PlayerProps>(function Player(
       capsuleHalfHeight={0.55}
       capsuleRadius={0.28}
       floatHeight={0.25}
-      maxVelLimit={4}
+      maxVelLimit={3.5}
       jumpVel={4.5}
       disableFollowCam
+      mode="PointToMove"
     >
       <KelBody />
     </Ecctrl>
