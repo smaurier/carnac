@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
+import { GroundShadow } from "../entities/GroundShadow";
 
 type FoliageKind = "gorse" | "heather" | "grass" | "rock";
 
@@ -46,6 +47,7 @@ interface GorseProps {
 function Gorse({ scale }: GorseProps) {
   return (
     <group>
+      <GroundShadow radius={0.22 * scale} opacity={0.35} />
       <mesh position={[0, 0.15 * scale, 0]} scale={scale}>
         <coneGeometry args={[0.22, 0.4, 5]} />
         <meshToonMaterial color={palette.warm.ochreDeep} gradientMap={getToonGradient(3)} />
@@ -60,28 +62,37 @@ function Gorse({ scale }: GorseProps) {
 
 function Heather({ scale }: { scale: number }) {
   return (
-    <mesh position={[0, 0.1 * scale, 0]} scale={scale}>
-      <dodecahedronGeometry args={[0.18, 0]} />
-      <meshToonMaterial color={palette.flora.heather} gradientMap={getToonGradient(3)} />
-    </mesh>
+    <group>
+      <GroundShadow radius={0.22 * scale} opacity={0.3} />
+      <mesh position={[0, 0.1 * scale, 0]} scale={scale}>
+        <dodecahedronGeometry args={[0.18, 0]} />
+        <meshToonMaterial color={palette.flora.heather} gradientMap={getToonGradient(3)} />
+      </mesh>
+    </group>
   );
 }
 
 function GrassTuft({ scale }: { scale: number }) {
   return (
-    <mesh position={[0, 0.12 * scale, 0]} scale={scale}>
-      <coneGeometry args={[0.1, 0.28, 4]} />
-      <meshToonMaterial color={palette.flora.grassDry} gradientMap={getToonGradient(3)} />
-    </mesh>
+    <group>
+      <GroundShadow radius={0.14 * scale} opacity={0.25} />
+      <mesh position={[0, 0.12 * scale, 0]} scale={scale}>
+        <coneGeometry args={[0.1, 0.28, 4]} />
+        <meshToonMaterial color={palette.flora.grassDry} gradientMap={getToonGradient(3)} />
+      </mesh>
+    </group>
   );
 }
 
 function SmallRock({ scale }: { scale: number }) {
   return (
-    <mesh position={[0, 0.14 * scale, 0]} scale={scale}>
-      <dodecahedronGeometry args={[0.22, 0]} />
-      <meshToonMaterial color={palette.neutrals.granitMid} gradientMap={getToonGradient(3)} />
-    </mesh>
+    <group>
+      <GroundShadow radius={0.26 * scale} opacity={0.4} />
+      <mesh position={[0, 0.14 * scale, 0]} scale={scale}>
+        <dodecahedronGeometry args={[0.22, 0]} />
+        <meshToonMaterial color={palette.neutrals.granitMid} gradientMap={getToonGradient(3)} />
+      </mesh>
+    </group>
   );
 }
 

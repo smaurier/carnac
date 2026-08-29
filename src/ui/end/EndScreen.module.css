@@ -1,7 +1,13 @@
 .screen {
   position: fixed;
   inset: 0;
-  background: var(--color-deep-blue);
+  background:
+    radial-gradient(
+      ellipse at 50% 30%,
+      rgba(232, 169, 82, 0.05) 0%,
+      transparent 55%
+    ),
+    var(--color-deep-blue);
   color: var(--color-bone-white);
   display: flex;
   flex-direction: column;
@@ -11,6 +17,43 @@
   font-family: var(--font-serif);
   z-index: var(--z-screen);
   overflow: hidden;
+}
+
+.screen::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  top: 15%;
+  left: 30%;
+  border-radius: 50%;
+  background: var(--color-bone-white);
+  opacity: 0.7;
+  box-shadow:
+    10vw 3vh 0 -0.5px var(--color-halo-blue),
+    -8vw 8vh 0 -0.5px var(--color-bone-white),
+    24vw -4vh 0 -0.5px var(--color-dusk-gold),
+    16vw 12vh 0 -0.5px var(--color-bone-white),
+    -20vw 6vh 0 -0.5px var(--color-halo-blue),
+    32vw 8vh 0 -0.5px var(--color-bone-white),
+    5vw 18vh 0 -0.5px var(--color-halo-blue);
+  pointer-events: none;
+  animation: endStarTwinkle 5s ease-in-out infinite alternate;
+}
+
+@keyframes endStarTwinkle {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen::before {
+    animation: none;
+  }
 }
 
 .text {

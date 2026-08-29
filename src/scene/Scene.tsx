@@ -3,6 +3,7 @@ import { Outlines } from "@react-three/drei";
 import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
+import { NightStars } from "./NightStars";
 import { BretonFog } from "./BretonFog";
 import { LandFoliage } from "./LandFoliage";
 import { BackgroundAlignment } from "./BackgroundAlignment";
@@ -60,6 +61,7 @@ export function Scene({
         distance={40}
       />
       <Sky phase={phase} />
+      <NightStars phase={phase} />
       <BretonFog phase={phase} />
       <DayNightCycle phase={phase} />
 

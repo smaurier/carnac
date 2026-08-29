@@ -13,6 +13,11 @@ interface AlignmentInstance {
   readonly scale: number;
 }
 
+function pseudoRand(seed: number): number {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 function buildAlignment(
   rowCount: number,
   spacing: number,
@@ -21,10 +26,13 @@ function buildAlignment(
 ): readonly AlignmentInstance[] {
   const instances: AlignmentInstance[] = [];
   for (let i = 0; i < rowCount; i += 1) {
-    const x = offsetX + (i - (rowCount - 1) / 2) * spacing;
-    const jitter = ((i * 137) % 7) / 7;
-    const scale = 0.75 + jitter * 0.45;
-    instances.push({ position: [x, 0, baseZ], scale });
+    const jitterX = (pseudoRand(i + 1) - 0.5) * spacing * 0.35;
+    const jitterZ = (pseudoRand(i + 42) - 0.5) * 2.4;
+    const x = offsetX + (i - (rowCount - 1) / 2) * spacing + jitterX;
+    const z = baseZ + jitterZ;
+    const scaleJitter = pseudoRand(i + 99);
+    const scale = 0.7 + scaleJitter * 0.55;
+    instances.push({ position: [x, 0, z], scale });
   }
   return instances;
 }
