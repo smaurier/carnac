@@ -1,6 +1,3 @@
-import { useMemo } from "react";
-import { Color } from "three";
-import { useThree } from "@react-three/fiber";
 import { dayNightPresets, type DayPhase } from "../palette";
 
 interface DayNightCycleProps {
@@ -9,11 +6,6 @@ interface DayNightCycleProps {
 
 export function DayNightCycle({ phase }: DayNightCycleProps) {
   const preset = dayNightPresets[phase];
-  const { scene } = useThree();
-
-  useMemo(() => {
-    scene.background = new Color(preset.backgroundColor);
-  }, [scene, preset.backgroundColor]);
 
   return (
     <>

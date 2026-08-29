@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlines } from "@react-three/drei";
 import { IsoCamera } from "./IsoCamera";
 import { DayNightCycle } from "./DayNightCycle";
+import { Sky } from "./Sky";
 import { Ground } from "./Ground";
 import { Player } from "../entities/Player";
 import { Firepit } from "../entities/Firepit";
@@ -52,9 +53,10 @@ export function Scene({
         target={cameraTarget}
         zoom={cameraZoom}
         azimuthDeg={45}
-        elevationDeg={30}
+        elevationDeg={18}
         distance={40}
       />
+      <Sky phase={phase} />
       <DayNightCycle phase={phase} />
 
       <Ground onMoveTarget={(x, z) => setTarget([x, z])} />

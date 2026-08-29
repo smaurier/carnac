@@ -18,7 +18,7 @@ export function Ground({ onMoveTarget }: GroundProps) {
       position={[0, 0, 0]}
       onClick={handleClick}
     >
-      <planeGeometry args={[80, 80]} />
+      <planeGeometry args={[30, 30]} />
       <meshToonMaterial color={palette.warm.ochreWarm} gradientMap={getToonGradient(3)} />
     </mesh>
   );
