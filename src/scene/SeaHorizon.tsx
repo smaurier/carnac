@@ -37,7 +37,7 @@ const seaPresets: Record<DayPhase, SeaPreset> = {
   },
 };
 
-const SEA_SIZE = 400;
+const SEA_SIZE = 900;
 
 const vertexShader = `
   varying vec3 vWorldPos;
