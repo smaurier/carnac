@@ -5,6 +5,7 @@ import { DayNightCycle } from "./DayNightCycle";
 import { Sky } from "./Sky";
 import { BretonFog } from "./BretonFog";
 import { LandFoliage } from "./LandFoliage";
+import { BackgroundAlignment } from "./BackgroundAlignment";
 import { Ground } from "./Ground";
 import { Player } from "../entities/Player";
 import { Firepit } from "../entities/Firepit";
@@ -64,6 +65,7 @@ export function Scene({
 
       <Ground onMoveTarget={(x, z) => setTarget([x, z])} />
       <LandFoliage />
+      <BackgroundAlignment />
 
       <Firepit position={[0, 0, 0]} />
 
