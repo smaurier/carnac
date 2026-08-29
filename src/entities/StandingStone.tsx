@@ -13,6 +13,12 @@ interface StandingStoneProps {
   onPlace: () => void;
   scale?: number;
   interactive?: boolean;
+  seed?: number;
+}
+
+function pseudoRand(seed: number, offset: number): number {
+  const x = Math.sin((seed + offset) * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
 }
 
 const BASE_RADIUS = 0.4;
@@ -27,6 +33,7 @@ export function StandingStone({
   onPlace,
   scale = 1,
   interactive = true,
+  seed = 7,
 }: StandingStoneProps) {
   const groupRef = useRef<Group>(null);
   const haloRef = useRef<PointLight>(null);
@@ -93,7 +100,9 @@ export function StandingStone({
           onPointerOver={handlePointerOver}
           onPointerOut={handlePointerOut}
         >
-          <cylinderGeometry args={[radius, radius * 1.1, height, 12]} />
+          <cylinderGeometry
+            args={[radius * (0.78 + pseudoRand(seed, 0) * 0.22), radius * 1.15, height, 7]}
+          />
           <meshToonMaterial
             color={palette.neutrals.granitMid}
             emissive={palette.cool.haloBlue}
@@ -102,6 +111,25 @@ export function StandingStone({
           />
           <Outlines
             thickness={outlineThickness.lg * scale}
+            color={palette.neutrals.charcoal}
+          />
+        </mesh>
+        <mesh
+          position={[
+            (pseudoRand(seed, 1) - 0.5) * radius * 0.6,
+            height * (pseudoRand(seed, 2) - 0.3),
+            (pseudoRand(seed, 3) - 0.5) * radius * 0.4,
+          ]}
+          rotation={[
+            (pseudoRand(seed, 4) - 0.5) * 0.5,
+            pseudoRand(seed, 5) * Math.PI * 2,
+            (pseudoRand(seed, 6) - 0.5) * 0.5,
+          ]}
+        >
+          <dodecahedronGeometry args={[radius * 0.42, 0]} />
+          <meshToonMaterial color={palette.neutrals.granitDark} gradientMap={getToonGradient(3)} />
+          <Outlines
+            thickness={outlineThickness.md * scale}
             color={palette.neutrals.charcoal}
           />
         </mesh>

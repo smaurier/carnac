@@ -60,6 +60,7 @@ export function BackgroundAlignment({
           scale={inst.scale}
           interactive={false}
           onPlace={noop}
+          seed={i * 17 + 3}
         />
       ))}
     </>

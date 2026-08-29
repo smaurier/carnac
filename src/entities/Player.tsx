@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
-import type { Group } from "three";
+import type { Group, Mesh } from "three";
 import { Vector3 } from "three";
 import { palette } from "../palette";
 import { getToonGradient } from "../shaders/toon-gradient";
@@ -14,9 +14,18 @@ interface PlayerProps {
 }
 
 const tmp = new Vector3();
+const WALK_FREQ = 6;
+const WALK_LEG_AMP = 0.5;
+const WALK_ARM_AMP = 0.4;
+const MOVE_THRESHOLD = 0.02;
 
 export function Player({ target, speed = 4 }: PlayerProps) {
   const groupRef = useRef<Group>(null);
+  const leftLegRef = useRef<Mesh>(null);
+  const rightLegRef = useRef<Mesh>(null);
+  const leftArmRef = useRef<Mesh>(null);
+  const rightArmRef = useRef<Mesh>(null);
+  const walkPhaseRef = useRef(0);
   const gradient = getToonGradient(3);
   const bodyColor = palette.warm.ochreWarm;
   const skinColor = palette.skin.b;
@@ -30,21 +39,36 @@ export function Player({ target, speed = 4 }: PlayerProps) {
     if (!group) return;
     tmp.set(target[0], group.position.y, target[1]);
     const distance = group.position.distanceTo(tmp);
-    if (distance < 0.05) return;
-    tmp.sub(group.position);
-    tmp.normalize().multiplyScalar(Math.min(speed * delta, distance));
-    group.position.add(tmp);
+
+    let moving = false;
+    if (distance >= 0.05) {
+      moving = true;
+      tmp.sub(group.position);
+      const step = Math.min(speed * delta, distance);
+      tmp.normalize().multiplyScalar(step);
+      group.position.add(tmp);
+      if (step > MOVE_THRESHOLD) {
+        walkPhaseRef.current += delta * WALK_FREQ;
+      }
+    }
+
+    const swing = moving ? Math.sin(walkPhaseRef.current) : 0;
+    const swingOpposite = moving ? Math.sin(walkPhaseRef.current + Math.PI) : 0;
+    if (leftLegRef.current) leftLegRef.current.rotation.x = swing * WALK_LEG_AMP;
+    if (rightLegRef.current) rightLegRef.current.rotation.x = swingOpposite * WALK_LEG_AMP;
+    if (leftArmRef.current) leftArmRef.current.rotation.x = swingOpposite * WALK_ARM_AMP;
+    if (rightArmRef.current) rightArmRef.current.rotation.x = swing * WALK_ARM_AMP;
   });
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       <GroundShadow radius={0.5} opacity={0.45} />
-      <mesh position={[-0.14, 0.32, 0]}>
+      <mesh ref={leftLegRef} position={[-0.14, 0.32, 0]}>
         <cylinderGeometry args={[0.11, 0.13, 0.64, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
       </mesh>
-      <mesh position={[0.14, 0.32, 0]}>
+      <mesh ref={rightLegRef} position={[0.14, 0.32, 0]}>
         <cylinderGeometry args={[0.11, 0.13, 0.64, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
@@ -68,12 +92,12 @@ export function Player({ target, speed = 4 }: PlayerProps) {
         <meshToonMaterial color={bodyColor} gradientMap={gradient} />
         {outline}
       </mesh>
-      <mesh position={[-0.31, 0.9, 0]}>
+      <mesh ref={leftArmRef} position={[-0.31, 0.9, 0]}>
         <cylinderGeometry args={[0.08, 0.09, 0.5, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
       </mesh>
-      <mesh position={[0.31, 0.9, 0]}>
+      <mesh ref={rightArmRef} position={[0.31, 0.9, 0]}>
         <cylinderGeometry args={[0.08, 0.09, 0.5, 8]} />
         <meshToonMaterial color={skinColor} gradientMap={gradient} />
         {outline}
