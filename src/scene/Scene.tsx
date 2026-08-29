@@ -22,6 +22,7 @@ import { Dog } from "../entities/Dog";
 import { Aurochs } from "../entities/Aurochs";
 import { VannBasket } from "../entities/VannBasket";
 import { ForestBackdrop } from "./ForestBackdrop";
+import { SeaHorizon } from "./SeaHorizon";
 import type { VoiceId } from "../audio/vocalizations";
 import type { DayPhase } from "../palette";
 
@@ -80,6 +81,7 @@ export function Scene({
       <DayNightCycle phase={phase} />
 
       <Ground onMoveTarget={(x, z) => setTarget([x, z])} />
+      <SeaHorizon phase={phase} />
       <LandFoliage />
       <BackgroundAlignment />
 

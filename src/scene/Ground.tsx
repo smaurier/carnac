@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import type { ThreeEvent } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Color, ShaderMaterial, DoubleSide } from "three";
 import { palette } from "../palette";
 
@@ -33,7 +34,10 @@ const fragmentShader = `
   uniform vec3 meadowColor;
   uniform vec3 forestFloor;
   uniform vec3 beachColor;
+  uniform vec3 seaColor;
+  uniform vec3 seaFoam;
   uniform float mapSize;
+  uniform float time;
   varying vec2 vUv;
   varying vec3 vWorldPos;
 
@@ -50,15 +54,22 @@ const fragmentShader = `
     // 2. Prairie centrale (0 -> 22u)
     float prairie = 1.0 - smoothstep(18.0, 26.0, dist);
 
-    // 3. Forêt (Nord + Est, plus loin qu'avant, dist 35-90)
+    // 3. Forêt (Nord + Est, dist 32-58, plus etroite pour laisser place mer)
     float forestAngleMask = smoothstep(-0.9, -0.4, angle) * smoothstep(2.5, 2.0, angle);
-    float forestDist = smoothstep(32.0, 45.0, dist) * (1.0 - smoothstep(80.0, 95.0, dist));
+    float forestDist = smoothstep(32.0, 42.0, dist) * (1.0 - smoothstep(52.0, 62.0, dist));
     float forest = forestAngleMask * forestDist;
 
-    // 4. Plage/dunes (Sud + Ouest, dist 30-70)
+    // 4. Plage/dunes (Sud + Ouest, dist 28-55, bordure sable avant la mer)
     float beachAngleMask = 1.0 - forestAngleMask;
-    float beachDist = smoothstep(28.0, 40.0, dist) * (1.0 - smoothstep(65.0, 85.0, dist));
+    float beachDist = smoothstep(28.0, 38.0, dist) * (1.0 - smoothstep(48.0, 60.0, dist));
     float beach = beachAngleMask * beachDist;
+
+    // 5. Mer d'ardoise lointaine (au-dela de plage/foret, dist > 55)
+    float sea = smoothstep(55.0, 72.0, dist);
+    // Petites vagues sinusoidales sur la mer
+    float wave = sin(vWorldPos.x * 0.35 + time * 0.5)
+               * cos(vWorldPos.z * 0.28 - time * 0.35);
+    vec3 seaWithFoam = mix(seaColor, seaFoam, smoothstep(0.6, 0.95, wave) * 0.28);
 
     // Variation naturelle mousse dans la prairie
     float mossNoise = sin(vWorldPos.x * 0.4) * sin(vWorldPos.z * 0.3);
@@ -68,10 +79,11 @@ const fragmentShader = `
     vec3 base = prairieMossy;
     base = mix(base, forestFloor, forest);
     base = mix(base, beachColor, beach);
+    base = mix(base, seaWithFoam, sea);
     base = mix(base, trampledColor, trampled);
 
-    // Fade edge global (distance / mapSize/2)
-    float edgeFade = 1.0 - smoothstep(mapSize * 0.35, mapSize * 0.48, dist);
+    // Fade edge tres doux tout au bord (juste pour eviter arete dure)
+    float edgeFade = 1.0 - smoothstep(mapSize * 0.44, mapSize * 0.49, dist);
 
     gl_FragColor = vec4(base, edgeFade);
   }
@@ -90,7 +102,10 @@ export function Ground({ onMoveTarget }: GroundProps) {
         meadowColor: { value: new Color(palette.flora.grassMeadow) },
         forestFloor: { value: new Color(palette.flora.mossDamp) },
         beachColor: { value: new Color(palette.warm.ochreWarm) },
+        seaColor: { value: new Color(palette.cool.slateSea) },
+        seaFoam: { value: new Color(palette.cool.haloBlue) },
         mapSize: { value: GROUND_SIZE },
+        time: { value: 0 },
       },
       vertexShader,
       fragmentShader,
@@ -99,6 +114,11 @@ export function Ground({ onMoveTarget }: GroundProps) {
       side: DoubleSide,
     });
   }, []);
+
+  const materialRef = useRef(material);
+  useFrame((state) => {
+    materialRef.current.uniforms.time.value = state.clock.elapsedTime;
+  });
 
   return (
     <mesh
