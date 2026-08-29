@@ -8,12 +8,21 @@ import { Interlude } from "./ui/interlude/Interlude";
 import { EndScreen } from "./ui/end/EndScreen";
 import { EpilogueSequence } from "./ui/epilogue/EpilogueSequence";
 import { useAudio } from "./audio/useAudio";
+import { getAudioEngine } from "./audio/audio-engine";
+import { voiceProfileFor, type VoiceId } from "./audio/vocalizations";
 import { useNarrativeState } from "./narrative/useNarrativeState";
 import type { NarrativeState } from "./narrative/narrative-state";
 import type { DayPhase } from "./palette";
 
 const phaseOrder: DayPhase[] = ["dawn", "noon", "dusk", "night"];
 const GAME_START_YEAR = -4500;
+
+const voiceByKey: Record<string, VoiceId> = {
+  "1": "athro",
+  "2": "vann",
+  "3": "kel",
+  "4": "nia",
+};
 
 const interludeTexts: Record<NarrativeState, string | undefined> = {
   title: undefined,
@@ -70,6 +79,10 @@ export function App() {
       if (key === "n") {
         dispatch("advance");
       }
+      const voice = voiceByKey[key];
+      if (voice) {
+        getAudioEngine().playVocal(voiceProfileFor(voice));
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -101,7 +114,7 @@ export function App() {
         <div className="hud">
           Carnac · {state}
           <small>
-            clic pour deplacer Kel · T phase ({phase}) · F frise · N acte suivant
+            clic Kel · T phase ({phase}) · F frise · N acte suivant · 1-4 voix
           </small>
         </div>
       )}

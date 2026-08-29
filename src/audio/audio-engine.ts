@@ -1,4 +1,5 @@
 import type { DronePreset } from "./drone-presets";
+import type { VoiceProfile } from "./vocalizations";
 
 interface Voice {
   oscillator: OscillatorNode;
@@ -8,6 +9,9 @@ interface Voice {
 
 const FADE_TIME_SEC = 0.4;
 const DETUNE_CENTS_JITTER = 6;
+const VOCAL_PEAK_GAIN = 0.18;
+const VOCAL_FORMANT_Q = 8;
+const VOCAL_DETUNE_CENTS = 20;
 
 export class AudioEngine {
   private ctx: AudioContext | null = null;
@@ -44,6 +48,44 @@ export class AudioEngine {
 
     this.stopExtraVoices(preset.freqs.length, now);
     this.reconcileVoices(preset.freqs, now);
+  }
+
+  playVocal(profile: VoiceProfile): void {
+    if (this.muted) return;
+    if (!this.ensureContext() || !this.ctx || !this.master) return;
+    const ctx = this.ctx;
+    const master = this.master;
+    const now = ctx.currentTime;
+    const attack = profile.attackMs / 1000;
+    const release = profile.releaseMs / 1000;
+    const duration = profile.durationMs / 1000;
+    const totalDuration = Math.max(duration, attack + release);
+
+    const osc = ctx.createOscillator();
+    osc.type = "sawtooth";
+    osc.frequency.value = profile.fundamentalHz;
+    osc.detune.value = (Math.random() - 0.5) * VOCAL_DETUNE_CENTS * 2;
+
+    const envelope = ctx.createGain();
+    envelope.gain.setValueAtTime(0, now);
+    envelope.gain.linearRampToValueAtTime(VOCAL_PEAK_GAIN, now + attack);
+    envelope.gain.setValueAtTime(VOCAL_PEAK_GAIN, now + Math.max(attack, totalDuration - release));
+    envelope.gain.linearRampToValueAtTime(0, now + totalDuration);
+
+    let previous: AudioNode = osc;
+    for (const formantHz of profile.formantsHz) {
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.value = formantHz;
+      filter.Q.value = VOCAL_FORMANT_Q;
+      previous.connect(filter);
+      previous = filter;
+    }
+    previous.connect(envelope);
+    envelope.connect(master);
+
+    osc.start(now);
+    osc.stop(now + totalDuration + 0.05);
   }
 
   setMuted(muted: boolean): void {
